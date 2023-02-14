@@ -1,4 +1,9 @@
 package com.example.projettupreferes.presenters
 
-class MainActivityPresenter {
+import com.example.projettupreferes.MainActivity
+
+class MainActivityPresenter(main_activity: MainActivity){
+
+    val mainActivity = main_activity;
+
 }
