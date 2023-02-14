@@ -12,7 +12,7 @@
         android:id="@+id/imageButton"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/bakc"
+        app:srcCompat="@drawable/icon_back"
         android:backgroundTint="@color/main_background"/>
 
     <TextView
@@ -66,7 +66,7 @@
             android:layout_height="36dp"
             android:layout_marginLeft="50dp"
             android:background="@drawable/input_text"
-            android:drawableLeft="@drawable/home"
+            android:drawableLeft="@drawable/icon_help"
             android:text="Image" />
     </LinearLayout>
 
@@ -80,7 +80,7 @@
         android:layout_width="220dp"
         android:layout_height="38dp"
         android:background="@drawable/input_text"
-        android:drawableLeft="@drawable/home"
+        android:drawableLeft="@drawable/icon_help"
         android:text="Valider" />
     </LinearLayout>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="0dip"
+    android:layout_height="80dp"
     android:layout_weight="1"
     android:gravity="center|bottom"
     android:orientation="vertical">
@@ -23,36 +23,36 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dip"
+            android:layout_height="75dp"
             android:layout_weight="1"
             android:gravity="center|bottom">
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_height="75dp"
                 android:layout_weight="2"
                 android:backgroundTint="@color/main_background"
-                android:drawableTop="@drawable/home"
+                android:drawableTop="@drawable/icon_home"
+                style="?android:attr/borderlessButtonStyle"
                 android:text="Accueil" />
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_height="75dp"
                 android:layout_weight="2"
                 android:backgroundTint="@color/main_background"
-                android:drawableTop="@drawable/home"
-                android:text="Stats" />
+                android:drawableTop="@drawable/icon_stats"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="Statistiques" />
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_height="75dp"
                 android:layout_weight="2"
                 android:backgroundTint="@color/main_background"
-                android:drawableTop="@drawable/home"
-                android:text="Retour" />
+                android:drawableTop="@drawable/icon_help"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="Aide" />
 
         </LinearLayout>
 
