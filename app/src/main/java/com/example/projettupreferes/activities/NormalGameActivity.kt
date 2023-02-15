@@ -1,5 +1,6 @@
 package com.example.projettupreferes.activities
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,5 +12,9 @@ class NormalGameActivity : AppCompatActivity(), INormalGameActivity{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_normal_game)
         Log.d("NormalGameActivity", "NormalGameActivity");
+    }
+
+    override fun getContext(): Context {
+        return this.applicationContext
     }
 }

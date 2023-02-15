@@ -12,7 +12,7 @@
         android:theme="@style/Theme.ProjetTuPreferes"
         tools:targetApi="31">
         <activity
-            android:name=".NormalGameActivity"
+            android:name=".activities.NormalGameActivity"
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"
