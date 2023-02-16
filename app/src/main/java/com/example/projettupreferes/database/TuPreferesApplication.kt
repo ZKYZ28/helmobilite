@@ -1,4 +1,4 @@
-package com.example.projettupreferes.activities
+package com.example.projettupreferes.database
 
 import android.app.Application
 import android.util.Log
