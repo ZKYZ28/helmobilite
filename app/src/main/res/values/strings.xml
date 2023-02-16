@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">projetTuPreferes</string>
+    <string name="title_header">Tu préfères ?</string>
 </resources>
