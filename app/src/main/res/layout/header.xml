@@ -12,7 +12,6 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="63dp"
-        android:layout_marginBottom="2dp"
         android:gravity="center"
         android:text="@string/title_header"
         android:textAlignment="center"

@@ -2,5 +2,6 @@
     <string name="app_name">projetTuPreferes</string>
     <string name="title_header">Tu préfères ?</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="stats_fragment">Statistiques fragment</string>
+    <string name="help_fragment">Help fragment</string>
 </resources>

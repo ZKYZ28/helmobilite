@@ -15,7 +15,7 @@ import com.example.projettupreferes.presenters.MainActivityPresenter
 import com.example.projettupreferes.presenters.MainFragmentPresenter
 import com.example.projettupreferes.presenters.PersonnelPresenter
 import com.example.projettupreferes.presenters.activitiesInterface.IMainActivity
-import com.example.projettupreferes.presenters.activitiesInterface.IViews
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), IMainActivity {
 
@@ -39,6 +39,9 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         val createCategory = create_category.newInstance();
         mapFragments["CreateCategory"] = createCategory;
 
+        val helpFragment = Help.newInstance();
+        mapFragments["Help"] = helpFragment;
+
         //Ajout des presenters
         val mainPresenter = MainActivityPresenter(this)
         val mainFragmentPresenter = MainFragmentPresenter(fragmentMain, mainPresenter)
@@ -51,6 +54,31 @@ class MainActivity : AppCompatActivity(), IMainActivity {
             .commit()
 
         mainPresenter.addPlace();
+
+        //Réagir au clic sur le menu
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+
+        bottomNavigationView.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.home -> {
+                    // Appeler la méthode "goTo" de votre présentateur avec le nom du fragment "Main"
+                    mainPresenter.requestSwitchView("Main")
+                    true
+                }
+                R.id.stats -> {
+                    // Appeler la méthode "goTo" de votre présentateur avec le nom du fragment "NormalGame"
+                    mainPresenter.requestSwitchView("NormalGame")
+                    true
+                }
+                R.id.aide -> {
+                    mainPresenter.requestSwitchView("Help")
+                    true
+                }
+                else -> false
+            }
+        }
+
+
     }
 
     fun goTo(desiredFragment: String) {

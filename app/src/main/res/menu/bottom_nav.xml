@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/main_background">
+
+
+    <item android:title="Accueil"
+        android:id="@+id/home"
+        android:icon="@drawable/baseline_home_24"/>
+    <item android:title="Statistiques"
+        android:id="@+id/stats"
+        android:icon="@drawable/baseline_insert_chart_24"/>
+    <item android:title="Aide"
+        android:id="@+id/aide"
+        android:icon="@drawable/baseline_question_mark_24"/>
+</menu>
