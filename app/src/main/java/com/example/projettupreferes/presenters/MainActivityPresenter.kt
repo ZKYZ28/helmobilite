@@ -7,8 +7,8 @@ import com.example.projettupreferes.models.Place
 import java.util.*
 
 class MainActivityPresenter(private val mainActivity: MainActivity) : IPresenters {
-    fun requestSwitchView(currentActivity: String, desireView: Class<out AppCompatActivity>) {
-        mainActivity.goTo(currentActivity, desireView)
+    fun requestSwitchView(desiredGragment: String) {
+        mainActivity.goTo(desiredGragment)
     }
 
     fun addPlace(): UUID? {

@@ -3,45 +3,58 @@ package com.example.projettupreferes.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
 import com.example.projettupreferes.database.TuPreferesDataBase
+import com.example.projettupreferes.main
+import com.example.projettupreferes.normal_game
 import com.example.projettupreferes.presenters.MainActivityPresenter
+import com.example.projettupreferes.presenters.MainFragmentPresenter
 import com.example.projettupreferes.presenters.activitiesInterface.IMainActivity
 import com.example.projettupreferes.presenters.activitiesInterface.IViews
 
 class MainActivity : AppCompatActivity(), IMainActivity {
 
-    val mapViews = mutableMapOf<String, IViews>()
+    private val mapFragments = mutableMapOf<String, Fragment>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //Démarrage + initlialisation de la première vue
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Ajout des vues
-        val normalGameActivity = NormalGameActivity()
-        mapViews["NormalGame"] = normalGameActivity
-        mapViews["Main"] = this
+        //Ajout des Fragments
+        val fragmentMain = main.newInstance();
+        mapFragments["Main"] = fragmentMain;
+
+        val fragmentNormalGame = normal_game.newInstance();
+        mapFragments["NormalGame"] = fragmentNormalGame;
 
         //Ajout des presenters
         val mainPresenter = MainActivityPresenter(this)
+        val mainFragmentPresenter = MainFragmentPresenter(fragmentMain, mainPresenter)
 
-        //Récupération du clic sur le bouton
-        val normalGame = findViewById<LinearLayout>(R.id.normalGame)
-        normalGame.setOnClickListener {
-            // Code à exécuter lorsque le LinearLayout est cliqué
-            val desireView = Class.forName("com.example.projettupreferes.activities.NormalGameActivity")
-            mainPresenter.requestSwitchView("Main", desireView as Class<out AppCompatActivity>)
-        }
+        //Ajout du fragment de base
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragmentContainer, fragmentMain)
+            .commit()
 
         mainPresenter.addPlace();
     }
 
-    fun goTo(currentActivity: String, desireView : Class<out AppCompatActivity>) {
-        val intent = Intent(mapViews[currentActivity]!!.getContext(), desireView)
-        startActivity(intent)
+    fun goTo(desiredFragment: String) {
+        val fragmentManager = supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        val fragmentToDisplay = mapFragments[desiredFragment]
+
+        if (fragmentToDisplay != null) {
+            transaction.replace(R.id.fragmentContainer, fragmentToDisplay)
+        }
+
+        transaction.commit()
     }
 
     override fun getContext() : Context {
