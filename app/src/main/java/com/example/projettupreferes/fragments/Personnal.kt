@@ -1,4 +1,4 @@
-package com.example.projettupreferes
+package com.example.projettupreferes.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.projettupreferes.presenters.MainFragmentPresenter
+import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.PersonnelPresenter
 
-class personnel : Fragment() {
+class Personnal : Fragment() {
 
     lateinit var presenter: PersonnelPresenter;
 
@@ -36,7 +35,7 @@ class personnel : Fragment() {
 
     companion object {
         fun newInstance() =
-            personnel().apply {
+            Personnal().apply {
                 arguments = Bundle().apply {
                 }
             }

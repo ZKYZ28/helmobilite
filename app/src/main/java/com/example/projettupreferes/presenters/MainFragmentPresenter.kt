@@ -1,10 +1,10 @@
 package com.example.projettupreferes.presenters
 
-import com.example.projettupreferes.main
+import com.example.projettupreferes.fragments.Home
 
-class MainFragmentPresenter(private val mainFragment: main, private val mainPresenter : MainActivityPresenter) {
+class MainFragmentPresenter(private val homeFragment: Home, private val mainPresenter : MainActivityPresenter) {
     init {
-        mainFragment.presenter = this;
+        homeFragment.presenter = this;
     }
 
     fun goToNormalGame(desiredFragment: String) {

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
-import com.example.projettupreferes.main
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,14 +26,12 @@ class Help : Fragment() {
         arguments?.let {
 
         }
-        Log.d("HELP", "OnCreate")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("HELP", "Vue help créée")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_help, container, false)
     }

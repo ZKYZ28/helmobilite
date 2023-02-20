@@ -1,4 +1,4 @@
-package com.example.projettupreferes
+package com.example.projettupreferes.fragments
 
 import android.net.Uri
 import android.os.Bundle
@@ -12,10 +12,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.CreateCategoryPresenter
 
 
-class create_category : Fragment() {
+class CreateCategory : Fragment() {
 
     lateinit var presenter: CreateCategoryPresenter;
 
@@ -81,7 +82,7 @@ class create_category : Fragment() {
     companion object {
         const val PICK_IMAGE_REQUEST = 1
         fun newInstance() =
-            create_category().apply {
+            CreateCategory().apply {
                 arguments = Bundle().apply {
                 }
             }

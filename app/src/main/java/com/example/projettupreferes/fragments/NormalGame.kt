@@ -1,22 +1,18 @@
-package com.example.projettupreferes
+package com.example.projettupreferes.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import androidx.fragment.app.Fragment
+import com.example.projettupreferes.R
 
 /**
  * A simple [Fragment] subclass.
  * Use the [normal_game.newInstance] factory method to
  * create an instance of this fragment.
  */
-class normal_game : Fragment() {
+class NormalGame : Fragment() {
     // TODO: Rename and change types of parameters
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +32,7 @@ class normal_game : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            normal_game().apply {
+            NormalGame().apply {
                 arguments = Bundle().apply {
                 }
             }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">projetTuPreferes</string>
+    <string name="app_name">Tu préfères ?</string>
     <string name="title_header">Tu préfères ?</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="stats_fragment">Statistiques fragment</string>

@@ -5,11 +5,11 @@
 
     <item android:title="Accueil"
         android:id="@+id/home"
-        android:icon="@drawable/baseline_home_24"/>
+        android:icon="@drawable/icon_home"/>
     <item android:title="Statistiques"
         android:id="@+id/stats"
-        android:icon="@drawable/baseline_insert_chart_24"/>
+        android:icon="@drawable/icon_chart"/>
     <item android:title="Aide"
         android:id="@+id/aide"
-        android:icon="@drawable/baseline_question_mark_24"/>
+        android:icon="@drawable/icon_mark"/>
 </menu>

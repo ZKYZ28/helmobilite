@@ -1,9 +1,8 @@
 package com.example.projettupreferes.presenters
 
-import android.util.Log
-import com.example.projettupreferes.create_category
+import com.example.projettupreferes.fragments.CreateCategory
 
-class CreateCategoryPresenter(private val createCategory: create_category, private val mainPresenter : MainActivityPresenter) {
+class CreateCategoryPresenter(private val createCategory: CreateCategory, private val mainPresenter : MainActivityPresenter) {
     init {
         createCategory.presenter = this;
     }

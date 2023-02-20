@@ -1,20 +1,16 @@
 package com.example.projettupreferes.activities
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.*
-import com.example.projettupreferes.database.TuPreferesDataBase
+import com.example.projettupreferes.fragments.*
 import com.example.projettupreferes.presenters.CreateCategoryPresenter
 import com.example.projettupreferes.presenters.MainActivityPresenter
 import com.example.projettupreferes.presenters.MainFragmentPresenter
 import com.example.projettupreferes.presenters.PersonnelPresenter
-import com.example.projettupreferes.presenters.activitiesInterface.IMainActivity
+import com.example.projettupreferes.presenters.viewsInterface.activity.IMainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), IMainActivity {
@@ -27,16 +23,16 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         setContentView(R.layout.activity_main)
 
         //Ajout des Fragments
-        val fragmentMain = main.newInstance();
-        mapFragments["Main"] = fragmentMain;
+        val fragmentHome = Home.newInstance();
+        mapFragments["Main"] = fragmentHome;
 
-        val fragmentNormalGame = normal_game.newInstance();
+        val fragmentNormalGame = NormalGame.newInstance();
         mapFragments["NormalGame"] = fragmentNormalGame;
 
-        val personnelFragment = personnel.newInstance();
+        val personnelFragment = Personnal.newInstance();
         mapFragments["Personnel"] = personnelFragment;
 
-        val createCategory = create_category.newInstance();
+        val createCategory = CreateCategory.newInstance();
         mapFragments["CreateCategory"] = createCategory;
 
         val helpFragment = Help.newInstance();
@@ -44,7 +40,7 @@ class MainActivity : AppCompatActivity(), IMainActivity {
 
         //Ajout des presenters
         val mainPresenter = MainActivityPresenter(this)
-        val mainFragmentPresenter = MainFragmentPresenter(fragmentMain, mainPresenter)
+        val mainFragmentPresenter = MainFragmentPresenter(fragmentHome, mainPresenter)
         val PersonnelPresenter = PersonnelPresenter(personnelFragment, mainPresenter)
         val createCategoryPresenter = CreateCategoryPresenter(createCategory, mainPresenter)
 

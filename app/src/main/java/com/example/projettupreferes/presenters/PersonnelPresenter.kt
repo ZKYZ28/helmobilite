@@ -1,8 +1,8 @@
 package com.example.projettupreferes.presenters
 
-import com.example.projettupreferes.personnel
+import com.example.projettupreferes.fragments.Personnal
 
-class PersonnelPresenter(private val personnel: personnel, private val mainPresenter : MainActivityPresenter) {
+class PersonnelPresenter(private val personnel: Personnal, private val mainPresenter : MainActivityPresenter) {
     init {
         personnel.presenter = this;
     }
