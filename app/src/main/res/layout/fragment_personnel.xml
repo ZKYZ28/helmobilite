@@ -9,24 +9,22 @@
 
 
     <Button
-        android:id="@+id/buttonImage"
-        android:layout_width="144dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="228dp"
-        android:layout_marginTop="76dp"
+        android:id="@+id/CreateCategory"
+        android:layout_width="139dp"
+        android:layout_height="39dp"
         android:background="@drawable/input_text"
         android:drawableLeft="@drawable/icon_add"
         android:text="Ajouter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.941"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.076" />
 
     <GridLayout
-        android:layout_width="342dp"
-        android:layout_height="442dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="163dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="102dp"
+        android:layout_width="341dp"
+        android:layout_height="428dp"
         android:background="#3F51B5"
         android:backgroundTint="@color/main_background"
         android:columnCount="3"
@@ -35,6 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.617"
         tools:context=".MainActivity">
 
         <ImageView
@@ -137,5 +136,17 @@
 
 
     </GridLayout>
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="127dp"
+        android:layout_height="37dp"
+        android:text="Catégories"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

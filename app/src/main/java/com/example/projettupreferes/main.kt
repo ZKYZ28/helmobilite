@@ -34,6 +34,14 @@ class main : Fragment() {
             presenter.goToNormalGame("NormalGame");
         }
 
+        // Trouver le bouton dans la vue
+        val personnelButton = view.findViewById<ConstraintLayout>(R.id.personnel)
+
+        // Ajouter un écouteur de clic au bouton
+        personnelButton.setOnClickListener {
+            presenter.goToNormalGame("Personnel");
+        }
+
         return view
     }
 
