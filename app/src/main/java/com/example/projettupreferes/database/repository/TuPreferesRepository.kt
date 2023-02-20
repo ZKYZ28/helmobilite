@@ -9,7 +9,6 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class TuPreferesRepository {
-    var instance: TuPreferesRepository? = null
     val tuPreferesDao: TuPreferesDao? = TuPreferesDataBase.getInstance()?.tuPreferesDao()
     val executor: ExecutorService = Executors.newSingleThreadExecutor()
 
@@ -30,9 +29,14 @@ class TuPreferesRepository {
         executor.execute(Runnable { tuPreferesDao!!.update(place!!) })
     }
 
-    fun getTuPreferesRepositoryInstance(): TuPreferesRepository? {
-        if (instance == null) instance = TuPreferesRepository()
-        return instance
+    companion object {
+        private var instance: TuPreferesRepository? = null
+
+        @JvmStatic //Permet de dire que c'est Static
+        fun getInstance(): TuPreferesRepository? {
+            if (instance == null) instance = TuPreferesRepository()
+            return instance
+        }
     }
 
 }
