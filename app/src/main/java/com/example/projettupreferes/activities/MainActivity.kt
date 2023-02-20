@@ -49,8 +49,6 @@ class MainActivity : AppCompatActivity(), IMainActivity {
             .add(R.id.fragmentContainer, createCategory)
             .commit()
 
-        mainPresenter.addPlace();
-
         //Réagir au clic sur le menu
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 

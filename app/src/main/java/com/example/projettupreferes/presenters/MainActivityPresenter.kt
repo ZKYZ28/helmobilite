@@ -10,10 +10,4 @@ class MainActivityPresenter(private val mainActivity: MainActivity) : IPresenter
     fun requestSwitchView(desiredFragment: String) {
         mainActivity.goTo(desiredFragment)
     }
-
-    fun addPlace(): UUID? {
-        val place = Place()
-        TuPreferesRepository().getTuPreferesRepositoryInstance()!!.insertPlace(place)
-        return place.getId()
-    }
 }
