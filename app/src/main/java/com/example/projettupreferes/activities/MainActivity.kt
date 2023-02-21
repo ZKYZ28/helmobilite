@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.*
 import com.example.projettupreferes.fragments.*
-import com.example.projettupreferes.presenters.*
+import com.example.projettupreferes.presenters.CreateCategoryPresenter
+import com.example.projettupreferes.presenters.MainActivityPresenter
+import com.example.projettupreferes.presenters.MainFragmentPresenter
+import com.example.projettupreferes.presenters.PersonnelPresenter
 import com.example.projettupreferes.presenters.viewsInterface.activity.IMainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 

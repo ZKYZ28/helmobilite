@@ -12,26 +12,8 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class TuPreferesRepository {
-    val tuPreferesDao: TuPreferesDao? = TuPreferesDataBase.getInstance()?.tuPreferesDao()
     val categoryDao : CategoryDao? = TuPreferesDataBase.getInstance()?.categoryDao()
     val executor: ExecutorService = Executors.newSingleThreadExecutor()
-
-
-    fun getPlaces(): LiveData<List<Place>> {
-        return tuPreferesDao!!.getPlaces()
-    }
-
-    fun getPlace(uuid: UUID?): LiveData<Place> {
-        return tuPreferesDao!!.getPlace(uuid)
-    }
-
-    fun insertPlace(place: Place?) {
-        executor.execute(Runnable { tuPreferesDao!!.insert(place!!) })
-    }
-
-    fun updatePlace(place: Place?) {
-        executor.execute(Runnable { tuPreferesDao!!.update(place!!) })
-    }
 
     fun insertCategory(category: Category) {
         executor.execute { categoryDao?.insert(category) }
@@ -40,6 +22,7 @@ class TuPreferesRepository {
    fun getCategories(): LiveData<List<Category>> {
         return categoryDao!!.getCategories()
     }
+
 
     companion object {
         private var instance: TuPreferesRepository? = null
