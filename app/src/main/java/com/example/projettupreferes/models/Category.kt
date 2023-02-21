@@ -8,6 +8,7 @@ import java.util.*
 
 @Entity(tableName = "category")
 class Category(
-    @PrimaryKey @NonNull val id: UUID,
-    val categoryName : String
+    @PrimaryKey @NonNull val id: UUID = UUID.randomUUID(),
+    val categoryName : String,
+    val image : Image
 )
