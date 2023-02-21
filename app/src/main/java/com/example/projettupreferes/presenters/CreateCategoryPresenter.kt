@@ -1,72 +1,47 @@
 package com.example.projettupreferes.presenters
 
 import ImageFileManager
+import android.content.Context
 import android.net.Uri
-import androidx.activity.result.contract.ActivityResultContracts
+import android.util.Log
+import androidx.fragment.app.Fragment
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CreateCategory
 import com.example.projettupreferes.models.Category
+import com.example.projettupreferes.models.ImageManager
+import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategory
 
-//TODO mettre l'interface ICreateCategory
 class CreateCategoryPresenter(private val createCategory: CreateCategory) {
     init {
-        createCategory.categoryPresenter = this;
+        createCategory.categoryPresenter = this
     }
 
 
-    private val imageFileManager = createCategory.context?.let { ImageFileManager(it) }
-
-    fun validateCreation(categoryName: String, uri: Uri?) {
+    fun validateCreation(categoryName: String, selectedImageUri: Uri?) {
         if (categoryName.isEmpty()) {
             createCategory.showErrorMessage("Le nom de la catégorie ne peut pas être vide")
+        } else if (selectedImageUri == null) {
+            createCategory.showErrorMessage("Vous devez sélectionner une image")
         } else {
-            val pickImage =
-                createCategory.registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-                    if (uri != null) {
-                        createCategory.showImage(uri)
-                        createCategory(categoryName, uri)
-                    } else {
-                        createCategory.showErrorMessage("Vous devez sélectionner une image")
-                    }
-                }
-            pickImage.launch("image/*")
+            createCategory(categoryName, selectedImageUri)
         }
     }
 
-
-    fun createCategory(name: String, uri: Uri?) {
-        if (name.isEmpty()) {
-            createCategory.showErrorMessage("Le nom d'une catégorie ne peut être vide !")
-            return
-        }
-
-        if (uri == null) {
-            createCategory.showErrorMessage("Une image est requise !")
-            return
-        }
-
-        // Enregistrer l'image dans le dossier privé
-        val imageFileManager = createCategory.context?.let { ImageFileManager(it) }
-        val imagePath = imageFileManager?.saveImageToInternalStorage(uri)
-
+    private fun createCategory(categoryName: String, selectedImageUri: Uri) {
+        val imagePath = ImageManager.saveImage(createCategory.requireContext(), selectedImageUri)
         if (imagePath == null) {
             createCategory.showErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'image.")
             return
         }
+        //Todo : retirer (vérfication du chemin d'enregistrmeent)
+        Log.d("IMAGE_SAVED_TO", imagePath.toString())
 
-        //Création de l'objet catégorie
-        val category = Category(categoryName = name, pathImage = imagePath);
-        //Insertion de la catégorie en bd
+        val category = Category(categoryName = categoryName, pathImage = imagePath.toString())
         TuPreferesRepository.getInstance()?.insertCategory(category)
         createCategory.close()
     }
 
-    fun pickImage() {
-        imageFileManager?.pickImage(createCategory) { uri ->
-            if (uri != null) {
-                createCategory.showImage(uri)
-            }
-        }
+    fun temporarySelectedImageUri(context: Context, uri: Uri) {
+        createCategory.showSelectedImage(uri)
     }
-
 }

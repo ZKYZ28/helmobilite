@@ -6,7 +6,7 @@ import android.net.Uri
 interface ICreateCategory {
 
         fun showErrorMessage(message: String)
-        fun showImage(imageUri: Uri?)
         fun close()
+        fun showSelectedImage(selectedImageUri: Uri)
 
 }

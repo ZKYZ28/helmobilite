@@ -19,10 +19,6 @@ class TuPreferesRepository {
         executor.execute { categoryDao?.insert(category) }
     }
 
-   fun getCategories(): LiveData<List<Category>> {
-        return categoryDao!!.getCategories()
-    }
-
 
     companion object {
         private var instance: TuPreferesRepository? = null
