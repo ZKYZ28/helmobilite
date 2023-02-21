@@ -11,7 +11,7 @@ import com.example.projettupreferes.models.Category
 import com.example.projettupreferes.models.ImageManager
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategory
 
-class CreateCategoryPresenter(private val createCategory: CreateCategory) {
+class CreateCategoryPresenter(private val createCategory: CreateCategory, private val mainPresenter : MainActivityPresenter) {
     init {
         createCategory.categoryPresenter = this
     }
