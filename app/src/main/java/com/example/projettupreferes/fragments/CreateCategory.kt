@@ -16,16 +16,7 @@ import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateC
 
 class CreateCategory : Fragment(), ICreateCategory {
 
-    lateinit var categoryPresenter: CreateCategoryPresenter
-    private lateinit var confirmCreationButton: Button
-    private lateinit var imageCategoryButton: Button
-    private lateinit var nameCategory: EditText
-    private lateinit var imageSelectedCategory: ImageView
-    private lateinit var errorMessage: TextView
-
-    class CreateCategory : Fragment(), ICreateCategory {
-
-        private lateinit var categoryPresenter: CreateCategoryPresenter
+        lateinit var categoryPresenter: CreateCategoryPresenter
         private lateinit var confirmCreationButton: Button
         private lateinit var imageCategoryButton: Button
         private lateinit var nameCategory: EditText
@@ -42,8 +33,6 @@ class CreateCategory : Fragment(), ICreateCategory {
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val view = inflater.inflate(R.layout.fragment_create_category, container, false)
-
-            categoryPresenter = CreateCategoryPresenter(this)
 
             confirmCreationButton = view.findViewById(R.id.ConfirmCreation)
             errorMessage = view.findViewById(R.id.ErrorMessage)
@@ -74,9 +63,16 @@ class CreateCategory : Fragment(), ICreateCategory {
         }
 
 
-    companion object {
-        fun newInstance() = CreateCategory()
-    }
+        companion object {
+            @JvmStatic
+            fun newInstance() =
+                CreateCategory().apply {
+                    arguments = Bundle().apply {
+
+                    }
+                }
+        }
+
 
     /**
      * Méthode qui permet d'afficher un message d'erreur
@@ -90,5 +86,7 @@ class CreateCategory : Fragment(), ICreateCategory {
             errorMessage.visibility = View.INVISIBLE
         }, 3000)
     }
+
 }
+
 

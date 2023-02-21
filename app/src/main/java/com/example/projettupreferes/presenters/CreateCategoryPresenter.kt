@@ -8,7 +8,7 @@ import com.example.projettupreferes.fragments.CreateCategory
 import com.example.projettupreferes.models.Category
 
 //TODO mettre l'interface ICreateCategory
-class CreateCategoryPresenter(private val createCategory: CreateCategory) {
+class CreateCategoryPresenter(private val createCategory: CreateCategory, private val mainPresenter: MainActivityPresenter) {
     init {
         createCategory.categoryPresenter = this;
     }

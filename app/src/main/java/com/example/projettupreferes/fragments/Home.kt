@@ -39,7 +39,7 @@ class Home : Fragment() {
 
         // Ajouter un écouteur de clic au bouton
         personnelButton.setOnClickListener {
-            presenter.goToNormalGame("Personnel");
+            presenter.goToPersonnal("Personnel");
         }
 
         return view
