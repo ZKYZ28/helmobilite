@@ -1,10 +1,9 @@
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.example.projettupreferes.models.Image
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -27,28 +26,22 @@ class ImageFileManager(private val context: Context) {
     }
 
     // Cette méthode permet de sélectionner une image depuis la galerie
-    fun pickImage(fragment: Fragment, onImagePicked: (Image?) -> Unit) {
+    fun pickImage(fragment: Fragment, onImagePicked: (Uri?) -> Unit) {
         val pickImage = fragment.registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            if (uri != null) {
-                val image = saveImageToInternalStorage(uri)
-                onImagePicked(image)
-            } else {
-                onImagePicked(null)
-            }
+            onImagePicked(uri)
         }
         pickImage.launch("image/*")
     }
 
     // Cette méthode permet de sauvegarder l'image sélectionnée dans le dossier privé de l'application
-    fun saveImageToInternalStorage(uri: Uri): Image? {
+    fun saveImageToInternalStorage(uri: Uri): String {
         val imageName = "category_${UUID.randomUUID()}.jpg"
         val imageFile = File(context.filesDir, imageName)
 
         val outputStream = FileOutputStream(imageFile)
         context.contentResolver.openInputStream(uri)?.copyTo(outputStream)
-
-        val imagePath = imageFile.absolutePath
-        return Image(imageName, imagePath)
+        Log.d("ImageFileManager", "Saved image to $imageFile.absolutePath")
+        return imageFile.absolutePath
     }
 
     companion object {

@@ -10,5 +10,5 @@ import java.util.*
 class Category(
     @PrimaryKey @NonNull val id: UUID = UUID.randomUUID(),
     val categoryName : String,
-    val image : Image
+    val pathImage : String
 )

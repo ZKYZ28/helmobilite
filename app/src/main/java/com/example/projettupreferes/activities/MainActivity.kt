@@ -42,7 +42,8 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         val mainPresenter = MainActivityPresenter(this)
         val mainFragmentPresenter = MainFragmentPresenter(fragmentHome, mainPresenter)
         val PersonnelPresenter = PersonnelPresenter(personnelFragment, mainPresenter)
-        val createCategoryPresenter = CreateCategoryPresenter(createCategory, mainPresenter)
+        //TODO : remettre mainPresenter
+        val createCategoryPresenter = CreateCategoryPresenter(createCategory)
 
         //Ajout du fragment de base
         supportFragmentManager.beginTransaction()

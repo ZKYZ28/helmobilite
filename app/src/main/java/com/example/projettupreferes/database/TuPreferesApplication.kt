@@ -8,7 +8,6 @@ class TuPreferesApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.d("BD", "onCreate pour la BD")
         TuPreferesDataBase.initDatabase(baseContext)
     }
 
