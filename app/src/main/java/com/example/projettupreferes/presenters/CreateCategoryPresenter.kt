@@ -26,7 +26,7 @@ class CreateCategoryPresenter(private val createCategory: CreateCategory, privat
             createCategory.showErrorMessage("Vous devez sélectionner une image")
         } else {
             val category = createCategory(categoryName, selectedImageUri)
-            gameManager.categoriesMap[categoryName] = category
+            gameManager.categoriesList.add(category)
             mainPresenter.requestSwitchView("Personnel")
         }
     }

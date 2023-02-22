@@ -14,7 +14,7 @@ class MainFragmentPresenter(private val homeFragment: Home, private val mainPres
     }
 
     fun goToPersonnal(desiredFragment: String) {
-        if(gameManager.categoriesMap.size == 0){
+        if(gameManager.categoriesList.size == 0){
             mainPresenter.requestSwitchView("noCategoryFound");
         }else{
             mainPresenter.requestSwitchView(desiredFragment);

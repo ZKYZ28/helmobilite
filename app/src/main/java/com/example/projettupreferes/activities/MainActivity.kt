@@ -17,7 +17,7 @@ import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.models.Category
 import java.util.*
 
-class MainActivity : AppCompatActivity(), IMainActivity {
+class MainActivity : AppCompatActivity(), IMainActivity, Personnal.ISelectCategory {
 
     private val mapFragments = mutableMapOf<String, Fragment>()
     private var categoriesList = mutableListOf<Category>()
@@ -45,13 +45,13 @@ class MainActivity : AppCompatActivity(), IMainActivity {
 //
 
         //Gestionnaire d'objets
-        val statistics =
-            com.example.projettupreferes.models.Statistics(0, 0, 0, 0) // CHANGER L IMPORT
-            val categories = hashMapOf<String, Category>()
-//
-//         categories["Test"] = Category(UUID.fromString("2493123b-5db9-4117-83c3-c3b8a2eaec7a"), "Test", "file:///data/user/0/com.example.projettupreferes/files/category_images/category_image_1677004614898.jpeg")
-//         categories["Test2"] = Category(UUID.fromString("dffe5d7d-3d07-4bc6-8ff7-16b7b9ae42e6"), "Test2", "file:///data/user/0/com.example.projettupreferes/files/category_images/category_image_1677004614898.jpeg")
-            val gameManager = GameManager(statistics, categories)
+        val statistics =  com.example.projettupreferes.models.Statistics(0, 0, 0, 0) // CHANGER L IMPORT
+        // val categories : HashMap<String, Category> = HashMap(TuPreferesRepository.getInstance()?.getCategories())
+
+         val categories = mutableListOf<Category>()
+         categories.add(Category(UUID.fromString("2493123b-5db9-4117-83c3-c3b8a2eaec7a"), "Test", "file:///data/user/0/com.example.projettupreferes/files/category_images/category_image_1677004614898.jpeg"))
+         categories.add(Category(UUID.fromString("dffe5d7d-3d07-4bc6-8ff7-16b7b9ae42e6"), "Test2", "file:///data/user/0/com.example.projettupreferes/files/category_images/category_image_1677004614898.jpeg"))
+        val gameManager = GameManager(statistics, categories)
 
 
             //Ajout des Fragments
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(), IMainActivity {
                 MainFragmentPresenter(fragmentHome, mainPresenter, gameManager)
             val normalGamePresenter =
                 NormalGamePresenter(fragmentNormalGame, mainPresenter, gameManager)
-            val personnelPresenter = PersonnelPresenter(personnelFragment, mainPresenter)
+            val personnelPresenter = PersonnelPresenter(personnelFragment, mainPresenter, gameManager)
 
             val createCategoryPresenter =
                 CreateCategoryPresenter(createCategory, mainPresenter, gameManager)
@@ -133,9 +133,11 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         transaction.commit()
     }
 
-    override fun getContext(): Context {
+    override fun getContext() : Context {
         return this.applicationContext
     }
 
+    override fun onSelectedCategory(categoryId: UUID?) {
+        Log.d("TEST", "JE CHANGE DE VUE")
+    }
 }
-
