@@ -15,7 +15,7 @@ import java.util.HashMap
 
 class CreateCategoryPresenter(private val createCategory: CreateCategory, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
     init {
-        createCategory.categoryPresenter = this
+        createCategory.createCategoryPresenter = this
     }
 
 
