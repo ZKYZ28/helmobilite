@@ -80,6 +80,8 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             mapFragments["EditCategory"] = editCategoryFragment;
 
 
+            val createPairFragment = CreatePairFragment.newInstance()
+            mapFragments["CreatePair"] = createPairFragment
 
 
         //Ajout des presenters Fragments

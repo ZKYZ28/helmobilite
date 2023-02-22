@@ -23,7 +23,6 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
     private lateinit var imageCategoryButton: Button
     private lateinit var nameCategory: EditText
     private lateinit var imageSelectedCategory: ImageView
-    private lateinit var errorMessage: TextView
     private var selectedImageUri: Uri? = null
 
     private val pickImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -45,7 +44,6 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
 
 
         confirmCreationButton = view.findViewById(R.id.ConfirmCreation)
-        errorMessage = view.findViewById(R.id.ErrorMessage)
         imageSelectedCategory = view.findViewById(R.id.ImageSelectedCategory)
         nameCategory = view.findViewById(R.id.NameCategory)
         imageCategoryButton = view.findViewById(R.id.ImageCategory)

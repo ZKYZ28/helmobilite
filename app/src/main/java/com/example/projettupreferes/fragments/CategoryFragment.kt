@@ -57,7 +57,7 @@ class CategoryFragment : Fragment() {
         }
 
         addPaireButton.setOnClickListener {
-
+            categoryPresenter.goToPair()
         }
 
         seePairesButton.setOnClickListener {

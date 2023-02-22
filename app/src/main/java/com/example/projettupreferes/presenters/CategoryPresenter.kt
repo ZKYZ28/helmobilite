@@ -32,5 +32,9 @@ class CategoryPresenter(private val mainPresenter : MainActivityPresenter, priva
         mainPresenter.requestSwitchView("EditCategory")
     }
 
+    fun goToPair() {
+        mainPresenter.requestSwitchView("CreatePair")
+    }
+
 
 }

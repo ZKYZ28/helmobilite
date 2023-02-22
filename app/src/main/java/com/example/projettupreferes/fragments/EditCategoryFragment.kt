@@ -21,7 +21,6 @@ class EditCategoryFragment : Fragment() {
     private lateinit var imageCategoryEdit: Button
     private lateinit var nameCategoryEdit: EditText
     private lateinit var imageSelectedCategoryEdit: ImageView
-    private lateinit var errorMessage: TextView
     private var selectedImageUri: Uri? = null
 
 
@@ -43,7 +42,6 @@ class EditCategoryFragment : Fragment() {
         imageCategoryEdit = view.findViewById(R.id.ImageCategoryEdit)
         nameCategoryEdit = view.findViewById(R.id.NameCategoryEdit)
         imageSelectedCategoryEdit = view.findViewById(R.id.ImageSelectedCategoryEdit)
-        errorMessage = view.findViewById(R.id.ErrorMessage)
 
 
         confirmModification.setOnClickListener {
