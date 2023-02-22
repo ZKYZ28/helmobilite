@@ -6,13 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.recyclerview.widget.RecyclerView
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.PersonnelPresenter
 
 class Personnal : Fragment() {
 
-    lateinit var presenter: PersonnelPresenter;
-
+    lateinit var presenter: PersonnelPresenter
+    lateinit var recycler : RecyclerView
+    lateinit var createCategory: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -25,8 +27,12 @@ class Personnal : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_personnel, container, false);
 
-        val createCategoryButton = view.findViewById<Button>(R.id.CreateCategory)
-        createCategoryButton.setOnClickListener {
+        createCategory = view.findViewById(R.id.CreateCategory)
+        recycler = view.findViewById(R.id.listCategoriesRv)
+
+
+
+        createCategory.setOnClickListener {
             presenter.goToCreateCategory("CreateCategory");
         }
 

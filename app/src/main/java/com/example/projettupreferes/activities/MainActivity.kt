@@ -2,6 +2,7 @@ package com.example.projettupreferes.activities
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.*
@@ -10,17 +11,37 @@ import com.example.projettupreferes.presenters.CreateCategoryPresenter
 import com.example.projettupreferes.presenters.MainActivityPresenter
 import com.example.projettupreferes.presenters.MainFragmentPresenter
 import com.example.projettupreferes.presenters.PersonnelPresenter
+import com.example.projettupreferes.models.Category
+import com.example.projettupreferes.models.GameManager
+import com.example.projettupreferes.presenters.*
 import com.example.projettupreferes.presenters.viewsInterface.activity.IMainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
+import androidx.lifecycle.lifecycleScope
+import com.example.projettupreferes.database.repository.TuPreferesRepository
+import kotlinx.coroutines.GlobalScope
+import java.util.*
 
 class MainActivity : AppCompatActivity(), IMainActivity {
 
     private val mapFragments = mutableMapOf<String, Fragment>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+     override fun onCreate(savedInstanceState: Bundle?) {
         //Démarrage + initlialisation de la première vue
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+        //Gestionnaire d'objets
+        val statistics =  com.example.projettupreferes.models.Statistics(0, 0, 0, 0) // CHANGER L IMPORT
+        // val categories : HashMap<String, Category> = HashMap(TuPreferesRepository.getInstance()?.getCategories())
+
+         val categories = hashMapOf<String, Category>()
+         categories["Test"] = Category(UUID.fromString("2493123b-5db9-4117-83c3-c3b8a2eaec7a"), "Test", "file:///data/user/0/com.example.projettupreferes/files/category_images/category_image_1677004614898.jpeg")
+         categories["Test2"] = Category(UUID.fromString("dffe5d7d-3d07-4bc6-8ff7-16b7b9ae42e6"), "Test2", "file:///data/user/0/com.example.projettupreferes/files/category_images/category_image_1677004614898.jpeg")
+        val gameManager = GameManager(statistics, categories)
+
+
 
         //Ajout des Fragments
         val fragmentHome = Home.newInstance();
@@ -50,11 +71,11 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         val mainPresenter = MainActivityPresenter(this)
 
         //Ajout des presenters Fragments
-        val mainFragmentPresenter = MainFragmentPresenter(fragmentHome, mainPresenter)
-        val normalGamePresenter = NormalGamePresenter(fragmentNormalGame, mainPresenter)
+        val mainFragmentPresenter = MainFragmentPresenter(fragmentHome, mainPresenter, gameManager)
+        val normalGamePresenter = NormalGamePresenter(fragmentNormalGame, mainPresenter, gameManager)
         val personnelPresenter = PersonnelPresenter(personnelFragment, mainPresenter)
 
-        val createCategoryPresenter = CreateCategoryPresenter(createCategory, mainPresenter)
+        val createCategoryPresenter = CreateCategoryPresenter(createCategory, mainPresenter, gameManager)
         val noCategoryFound = NoCategoryFoundPresenter(notCategoryFound, mainPresenter)
 
 

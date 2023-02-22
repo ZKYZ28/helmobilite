@@ -7,4 +7,8 @@ class NoCategoryFoundPresenter(private val noCategoryFound: NoCategoryFound, pri
     init {
         noCategoryFound.presenter = this;
     }
+
+    fun switchToCreateCategory(){
+        mainPresenter.requestSwitchView("CreateCategory")
+    }
 }
