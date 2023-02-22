@@ -1,11 +1,10 @@
 package com.example.projettupreferes.presenters
 
-import com.example.projettupreferes.fragments.NoCategoryFound
-import com.example.projettupreferes.fragments.NormalGame
+import com.example.projettupreferes.fragments.NoCategoryFoundFragment
 
-class NoCategoryFoundPresenter(private val noCategoryFound: NoCategoryFound, private val mainPresenter : MainActivityPresenter) {
+class NoCategoryFoundPresenter(private val noCategoryFoundFragment: NoCategoryFoundFragment, private val mainPresenter : MainActivityPresenter) {
     init {
-        noCategoryFound.presenter = this;
+        noCategoryFoundFragment.presenter = this;
     }
 
     fun switchToCreateCategory(){

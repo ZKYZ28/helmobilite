@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.projettupreferes.R
 
-class Statistics : Fragment() {
+class StatisticsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ class Statistics : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            Statistics().apply {
+            StatisticsFragment().apply {
                 arguments = Bundle().apply {
                 }
             }

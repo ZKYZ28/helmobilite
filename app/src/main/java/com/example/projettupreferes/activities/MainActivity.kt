@@ -17,10 +17,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 import java.util.*
 
-class MainActivity : AppCompatActivity(), IMainActivity, Personnal.ISelectCategory {
+class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISelectCategory {
 
     private val mapFragments = mutableMapOf<String, Fragment>()
     private var categoriesList = mutableListOf<Category>()
+    private lateinit var categoryPresenter : CategoryPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //Démarrage + initlialisation de la première vue
@@ -50,48 +51,52 @@ class MainActivity : AppCompatActivity(), IMainActivity, Personnal.ISelectCatego
 
          val categories = mutableListOf<Category>()
          categories.add(Category(UUID.fromString("2493123b-5db9-4117-83c3-c3b8a2eaec7a"), "SALUT MONSIEUR DEVLEG", "file:///data/user/0/com.example.projettupreferes/files/category_images/category_image_1677004614898.jpeg"))
-        val gameManager = GameManager(statistics, categories)
+        val gameManager = GameManager(statistics, categories, Category(UUID.randomUUID(), "UNKNOW", ""))
 
 
             //Ajout des Fragments
-            val fragmentHome = Home.newInstance();
-            mapFragments["Main"] = fragmentHome;
+            val fragmentHomeFragment = HomeFragment.newInstance();
+            mapFragments["Main"] = fragmentHomeFragment;
 
-            val statisticsFragment = Statistics.newInstance();
+            val statisticsFragment = StatisticsFragment.newInstance();
             mapFragments["Statistics"] = statisticsFragment;
 
-            val helpFragment = Help.newInstance();
+            val helpFragment = HelpFragment.newInstance();
             mapFragments["Help"] = helpFragment;
 
-            val fragmentNormalGame = NormalGame.newInstance();
-            mapFragments["NormalGame"] = fragmentNormalGame;
+            val fragmentNormalGameFragment = NormalGameFragment.newInstance();
+            mapFragments["NormalGame"] = fragmentNormalGameFragment;
 
-            val personnelFragment = Personnal.newInstance();
+            val personnelFragment = PersonnalFragment.newInstance();
             mapFragments["Personnel"] = personnelFragment;
 
-            val notCategoryFound = NoCategoryFound.newInstance();
+            val notCategoryFound = NoCategoryFoundFragment.newInstance();
             mapFragments["noCategoryFound"] = notCategoryFound;
 
-            val createCategory = CreateCategory.newInstance();
-            mapFragments["CreateCategory"] = createCategory;
+            val createCategoryFragment = CreateCategoryFragment.newInstance();
+            mapFragments["CreateCategory"] = createCategoryFragment;
+
+            val editCategoryFragment = EditCategoryFragment.newInstance();
+            mapFragments["EditCategory"] = editCategoryFragment;
 
 
 
-            //Ajout des presenters Fragments
+
+        //Ajout des presenters Fragments
             val mainFragmentPresenter =
-                MainFragmentPresenter(fragmentHome, mainPresenter, gameManager)
+                MainFragmentPresenter(fragmentHomeFragment, mainPresenter, gameManager)
             val normalGamePresenter =
-                NormalGamePresenter(fragmentNormalGame, mainPresenter, gameManager)
+                NormalGamePresenter(fragmentNormalGameFragment, mainPresenter, gameManager)
             val personnelPresenter = PersonnelPresenter(personnelFragment, mainPresenter, gameManager)
 
-            val createCategoryPresenter =
-                CreateCategoryPresenter(createCategory, mainPresenter, gameManager)
+            val createCategoryPresenter = CreateCategoryPresenter(createCategoryFragment, mainPresenter, gameManager)
             val noCategoryFound = NoCategoryFoundPresenter(notCategoryFound, mainPresenter)
-
+            categoryPresenter = CategoryPresenter(mainPresenter, gameManager)
+            val editCategoryPresenter = EditCategoryPresenter(editCategoryFragment, mainPresenter, gameManager)
 
             //Ajout du fragment de base
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainer, fragmentHome)
+                .add(R.id.fragmentContainer, fragmentHomeFragment)
                 .commit()
 
             //Réagir au clic sur le menu
@@ -137,9 +142,8 @@ class MainActivity : AppCompatActivity(), IMainActivity, Personnal.ISelectCatego
     }
 
     override fun onSelectedCategory(categoryId: UUID?) {
-        Log.d("TEST", "JE CHANGE DE VUE")
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, com.example.projettupreferes.fragments.Category.newInstance(categoryId.toString()))
+            .replace(R.id.fragmentContainer, com.example.projettupreferes.fragments.CategoryFragment.newInstance(categoryId.toString(), categoryPresenter))
             .addToBackStack(null).commit()
     }
 }

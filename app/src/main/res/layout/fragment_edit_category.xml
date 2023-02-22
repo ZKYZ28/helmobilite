@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    android:orientation="vertical"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="-16dp">
+
+
+    <TextView
+        android:id="@+id/TitleEditCategory"
+        android:layout_width="243dp"
+        android:layout_height="37dp"
+        android:text="Modifier la catégorie"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="22dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.107" />
+
+
+    <TextView
+        android:id="@+id/ErrorMessage"
+        android:layout_width="304dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="16dp"
+        android:text="Tous les champs sont obligatoires"
+        android:textColor="@color/main_red"
+        android:textSize="20dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleEditCategory" />
+
+    <Button
+        android:id="@+id/ImageCategoryEdit"
+        android:layout_width="320dp"
+        android:layout_height="36dp"
+        android:background="@drawable/component_input_text"
+        android:drawableLeft="@drawable/icon_help"
+        android:text="Image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.483" />
+
+    <TextView
+        android:id="@+id/imageCategory"
+        android:layout_width="67dp"
+        android:layout_height="27dp"
+        android:text="Image *"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.426" />
+
+    <TextView
+        android:id="@+id/imageCategory2"
+        android:layout_width="58dp"
+        android:layout_height="22dp"
+        android:text="Nom *"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.113"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.28" />
+
+    <EditText
+        android:id="@+id/NameCategoryEdit"
+        android:layout_width="320dp"
+        android:layout_height="30dp"
+        android:background="@drawable/component_input_text"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.439"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.336" />
+
+    <ImageView
+        android:id="@+id/ImageSelectedCategoryEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/ConfirmModification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageCategory"/>
+
+    <Button
+        android:id="@+id/ConfirmModification"
+        android:layout_width="220dp"
+        android:layout_height="38dp"
+        android:background="@drawable/component_input_text"
+        android:drawableLeft="@drawable/icon_help"
+        android:text="Modifier"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.815" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

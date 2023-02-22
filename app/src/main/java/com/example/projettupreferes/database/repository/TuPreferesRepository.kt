@@ -1,15 +1,13 @@
 package com.example.projettupreferes.database.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.projettupreferes.database.TuPreferesDataBase
 import com.example.projettupreferes.database.dao.CategoryDao
 import com.example.projettupreferes.models.Category
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
+import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -18,11 +16,22 @@ class TuPreferesRepository {
     val executor: ExecutorService = Executors.newSingleThreadExecutor()
 
     fun insertCategory(category: Category) {
-        executor.execute { categoryDao?.insert(category) }
+        executor.execute { categoryDao?.insertCategory(category) }
     }
+
+    fun updateCategory(category: Category) {
+        executor.execute { categoryDao?.updateCategory(category) }
+    }
+
+    /*fun deleteCategory(uudi: UUID) {
+        executor.execute { categoryDao?.deleteCategory(uudi)}
+    }*/
 
     fun getCategoriesList(): Flow<List<Category>> = categoryDao?.getCategories() ?: flowOf(emptyList())
 
+    fun getCategory(uuid: UUID?): Flow<Category?>? {
+        return categoryDao?.getCategory(uuid)
+    }
 
     companion object {
         private var instance: TuPreferesRepository? = null

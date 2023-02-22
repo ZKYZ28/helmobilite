@@ -23,6 +23,4 @@ interface TuPreferesDao {
     @Update
     fun update(place: Place)
 
-
-
 }

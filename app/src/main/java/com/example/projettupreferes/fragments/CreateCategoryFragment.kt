@@ -16,7 +16,7 @@ import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateC
 import androidx.activity.result.contract.ActivityResultContracts
 
 
-class CreateCategory : Fragment(), ICreateCategory {
+class CreateCategoryFragment : Fragment(), ICreateCategory {
 
     lateinit var createCategoryPresenter: CreateCategoryPresenter
     private lateinit var confirmCreationButton: Button
@@ -67,7 +67,7 @@ class CreateCategory : Fragment(), ICreateCategory {
 
     companion object {
         private val PICK_IMAGE_REQUEST = 1
-        fun newInstance() = CreateCategory()
+        fun newInstance() = CreateCategoryFragment()
     }
 
     /**
@@ -75,7 +75,6 @@ class CreateCategory : Fragment(), ICreateCategory {
      * indiquant que tous les champs sont obligatoires
      */
     override fun showErrorMessage(errorMessage: String) {
-        //displayErrorMessage(errorMessage)
         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
     }
 
@@ -87,18 +86,6 @@ class CreateCategory : Fragment(), ICreateCategory {
 
     override fun showSelectedImage(selectedImageUri: Uri) {
         imageSelectedCategory.setImageURI(selectedImageUri)
-    }
-    /**
-     * Méthode qui permet d'afficher un message d'erreur
-     * indiquant que tous les champs sont obligatoires
-     */
-    fun displayErrorMessage(errorMsg: String) {
-        errorMessage.text = errorMsg
-        errorMessage.visibility = View.VISIBLE;
-
-        errorMessage.postDelayed({
-            errorMessage.visibility = View.INVISIBLE
-        }, 3000)
     }
 }
 

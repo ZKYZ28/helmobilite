@@ -5,14 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.NoCategoryFoundPresenter
-import com.example.projettupreferes.presenters.NormalGamePresenter
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class NoCategoryFound : Fragment() {
+class NoCategoryFoundFragment : Fragment() {
 
     lateinit var presenter: NoCategoryFoundPresenter;
     private lateinit var createCategoryButton: Button
@@ -42,7 +39,7 @@ class NoCategoryFound : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            NoCategoryFound().apply {
+            NoCategoryFoundFragment().apply {
                 arguments = Bundle().apply {
 
                 }

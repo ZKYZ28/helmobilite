@@ -8,13 +8,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projettupreferes.R
-import com.example.projettupreferes.fragments.Personnal
+import com.example.projettupreferes.fragments.PersonnalFragment
 import com.example.projettupreferes.presenters.PersonnelPresenter
 import java.util.*
 
 class CategoriesAdapter(
     private val personnelPresenter: PersonnelPresenter,
-    var callBacks: Personnal.ISelectCategory) :
+    var callBacks: PersonnalFragment.ISelectCategory) :
     RecyclerView.Adapter<CategoriesAdapter.ViewHolder>(){
 
     override fun getItemCount(): Int {
@@ -35,11 +35,11 @@ class CategoriesAdapter(
         personnelPresenter.showCategoryOn(holder, position)
     }
 
-    class ViewHolder(view: View, callBacks: Personnal.ISelectCategory) :
+    class ViewHolder(view: View, callBacks: PersonnalFragment.ISelectCategory) :
         RecyclerView.ViewHolder(view), View.OnClickListener,
         PersonnelPresenter.ICategoryItemScreen {
 
-        private val callBacks: Personnal.ISelectCategory
+        private val callBacks: PersonnalFragment.ISelectCategory
         private val categoryNameTextView: TextView
         private val categoryImageView: ImageView
         private var id: UUID? = null

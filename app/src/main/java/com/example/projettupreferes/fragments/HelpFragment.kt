@@ -1,7 +1,6 @@
 package com.example.projettupreferes.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +14,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [Help.newInstance] factory method to
+ * Use the [HelpFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Help : Fragment() {
+class HelpFragment : Fragment() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +38,7 @@ class Help : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            Help().apply {
+            HelpFragment().apply {
                 arguments = Bundle().apply {
                     // Ajoutez ici des arguments si nécessaire
                 }

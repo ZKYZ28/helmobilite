@@ -1,13 +1,11 @@
 package com.example.projettupreferes.presenters
 
-import android.util.Log
-import com.example.projettupreferes.database.repository.TuPreferesRepository
-import com.example.projettupreferes.fragments.Personnal
+import com.example.projettupreferes.fragments.PersonnalFragment
 import com.example.projettupreferes.models.Category
 import com.example.projettupreferes.models.GameManager
 import java.util.*
 
-class PersonnelPresenter(private val personnel: Personnal, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
+class PersonnelPresenter(private val personnel: PersonnalFragment, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
     init {
         personnel.presenter = this;
     }

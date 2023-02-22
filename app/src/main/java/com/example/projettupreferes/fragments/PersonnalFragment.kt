@@ -14,7 +14,7 @@ import com.example.projettupreferes.adaptater.CategoriesAdapter
 import com.example.projettupreferes.presenters.PersonnelPresenter
 import java.util.*
 
-class Personnal : Fragment(), PersonnelPresenter.ICategoryListScreen {
+class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen {
 
     lateinit var callback : ISelectCategory
     lateinit var presenter: PersonnelPresenter
@@ -53,7 +53,7 @@ class Personnal : Fragment(), PersonnelPresenter.ICategoryListScreen {
 
     companion object {
         fun newInstance() =
-            Personnal().apply {
+            PersonnalFragment().apply {
                 arguments = Bundle().apply {
                 }
             }
@@ -62,7 +62,7 @@ class Personnal : Fragment(), PersonnelPresenter.ICategoryListScreen {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        callback = context as Personnal.ISelectCategory
+        callback = context as PersonnalFragment.ISelectCategory
     }
 
     override fun loadView() {

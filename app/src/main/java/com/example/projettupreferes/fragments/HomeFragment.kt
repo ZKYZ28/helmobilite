@@ -10,7 +10,7 @@ import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.MainFragmentPresenter
 
 
-class Home : Fragment() {
+class HomeFragment : Fragment() {
 
     lateinit var presenter: MainFragmentPresenter;
 
@@ -47,7 +47,7 @@ class Home : Fragment() {
 
     companion object {
         fun newInstance() =
-            Home().apply {
+            HomeFragment().apply {
                 arguments = Bundle().apply {
                 }
             }
