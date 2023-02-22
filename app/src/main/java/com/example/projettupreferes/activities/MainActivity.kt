@@ -49,8 +49,7 @@ class MainActivity : AppCompatActivity(), IMainActivity, Personnal.ISelectCatego
         // val categories : HashMap<String, Category> = HashMap(TuPreferesRepository.getInstance()?.getCategories())
 
          val categories = mutableListOf<Category>()
-         categories.add(Category(UUID.fromString("2493123b-5db9-4117-83c3-c3b8a2eaec7a"), "Test", "file:///data/user/0/com.example.projettupreferes/files/category_images/category_image_1677004614898.jpeg"))
-         categories.add(Category(UUID.fromString("dffe5d7d-3d07-4bc6-8ff7-16b7b9ae42e6"), "Test2", "file:///data/user/0/com.example.projettupreferes/files/category_images/category_image_1677004614898.jpeg"))
+         categories.add(Category(UUID.fromString("2493123b-5db9-4117-83c3-c3b8a2eaec7a"), "SALUT MONSIEUR DEVLEG", "file:///data/user/0/com.example.projettupreferes/files/category_images/category_image_1677004614898.jpeg"))
         val gameManager = GameManager(statistics, categories)
 
 

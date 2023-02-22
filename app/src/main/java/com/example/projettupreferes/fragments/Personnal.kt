@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projettupreferes.R
 import com.example.projettupreferes.adaptater.CategoriesAdapter
@@ -39,6 +40,7 @@ class Personnal : Fragment(), PersonnelPresenter.ICategoryListScreen {
 
         createCategory = view.findViewById(R.id.CreateCategory)
         recycler = view.findViewById(R.id.listCategoriesRv)
+        recycler.layoutManager =  LinearLayoutManager(this.context);
         recycler.adapter = CategoriesAdapter(presenter, callback)
 
 
