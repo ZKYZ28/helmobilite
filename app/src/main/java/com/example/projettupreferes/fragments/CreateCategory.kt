@@ -18,7 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 class CreateCategory : Fragment(), ICreateCategory {
 
-    lateinit var categoryPresenter: CreateCategoryPresenter
+    lateinit var createCategoryPresenter: CreateCategoryPresenter
     private lateinit var confirmCreationButton: Button
     private lateinit var imageCategoryButton: Button
     private lateinit var nameCategory: EditText
@@ -30,7 +30,7 @@ class CreateCategory : Fragment(), ICreateCategory {
         if (result.resultCode == Activity.RESULT_OK && result.data != null) {
             selectedImageUri = result.data?.data
             if (selectedImageUri != null) {
-                categoryPresenter.temporarySelectedImageUri(requireContext(), selectedImageUri!!)
+                createCategoryPresenter.temporarySelectedImageUri(requireContext(), selectedImageUri!!)
             }
         }
     }
@@ -51,7 +51,7 @@ class CreateCategory : Fragment(), ICreateCategory {
         imageCategoryButton = view.findViewById(R.id.ImageCategory)
 
         confirmCreationButton.setOnClickListener {
-            categoryPresenter.validateCreation(nameCategory.text.toString(), selectedImageUri)
+            createCategoryPresenter.validateCreation(nameCategory.text.toString(), selectedImageUri)
         }
 
         imageCategoryButton.setOnClickListener {

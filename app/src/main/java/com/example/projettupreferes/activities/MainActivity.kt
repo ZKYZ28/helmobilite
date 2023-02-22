@@ -5,16 +5,16 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.projettupreferes.*
+import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.*
-import com.example.projettupreferes.presenters.*
+import com.example.projettupreferes.models.Category
 import com.example.projettupreferes.models.GameManager
+import com.example.projettupreferes.presenters.*
 import com.example.projettupreferes.presenters.viewsInterface.activity.IMainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
-import androidx.lifecycle.lifecycleScope
-import com.example.projettupreferes.database.repository.TuPreferesRepository
-import com.example.projettupreferes.models.Category
 import java.util.*
 
 class MainActivity : AppCompatActivity(), IMainActivity, Personnal.ISelectCategory {
@@ -138,5 +138,8 @@ class MainActivity : AppCompatActivity(), IMainActivity, Personnal.ISelectCatego
 
     override fun onSelectedCategory(categoryId: UUID?) {
         Log.d("TEST", "JE CHANGE DE VUE")
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, com.example.projettupreferes.fragments.Category.newInstance(categoryId.toString()))
+            .addToBackStack(null).commit()
     }
 }
