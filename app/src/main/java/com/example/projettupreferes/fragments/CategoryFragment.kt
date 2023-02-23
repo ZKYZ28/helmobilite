@@ -53,7 +53,7 @@ class CategoryFragment : Fragment() {
         }
 
         addPaireButton.setOnClickListener {
-            categoryPresenter.goToPair()
+            categoryPresenter.goToPair(categoryId)
         }
 
         seePairesButton.setOnClickListener {
@@ -91,6 +91,7 @@ class CategoryFragment : Fragment() {
                     categoryId = categoryUUID
                     if (categoryId != null) {
                         categoryPresenter.loadCategory(categoryUUID)
+                        categoryPresenter.goToPair(categoryUUID)
                     }
                 }
             }

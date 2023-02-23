@@ -177,6 +177,10 @@ class CreatePairFragment : Fragment() {
         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
     }
 
+    fun close() {
+        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() =

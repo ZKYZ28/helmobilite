@@ -6,14 +6,19 @@ import com.example.projettupreferes.fragments.CategoryFragment
 import com.example.projettupreferes.models.GameManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-class CategoryPresenter(private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
+class CategoryPresenter(
+    private val mainPresenter: MainActivityPresenter,
+    private val gameManager: GameManager
+) {
 
-    private var categoryFragment : CategoryFragment? = null
+    private var categoryFragment: CategoryFragment? = null
 
-    fun setCategoryFragment(categoyFragmentNew : CategoryFragment){
+    fun setCategoryFragment(categoyFragmentNew: CategoryFragment) {
         this.categoryFragment = categoyFragmentNew
     }
 
@@ -23,7 +28,9 @@ class CategoryPresenter(private val mainPresenter : MainActivityPresenter, priva
                 TuPreferesRepository.getInstance()?.getCategory(categoryUUID)
                     ?.collect { category ->
                         if (category != null) {
-                            this@CategoryPresenter.gameManager.currentCategory = category
+                            //TODO changer les 3 appels
+                            this@CategoryPresenter.gameManager.categoryWithPaires.category =
+                                category
                             categoryFragment?.displayCategoryInformation(
                                 category.categoryName,
                                 category.pathImage
@@ -35,20 +42,43 @@ class CategoryPresenter(private val mainPresenter : MainActivityPresenter, priva
     }
 
 
-    fun deleteCategory(){
+    fun deleteCategory() {
         //SUPPRIMER LA CAT DEPUIS LA BD
-        TuPreferesRepository.getInstance()?.deleteCategory(gameManager.currentCategory)
+        TuPreferesRepository.getInstance()?.deleteCategory(gameManager.categoryWithPaires.category)
 
         categoryFragment?.close()
     }
 
-    fun editCategory(){
+    fun editCategory() {
         mainPresenter.requestSwitchView("EditCategory")
     }
 
-    fun goToPair() {
+    //TODO : retirer uuid
+    fun goToPair(categoryUUID: UUID?) {
         mainPresenter.requestSwitchView("CreatePair")
+        GlobalScope.launch(Dispatchers.Main) {
+            TuPreferesRepository.getInstance()?.getPairesByCategoryId(categoryUUID)
+                ?.collect { paires ->
+                    this@CategoryPresenter.gameManager.categoryWithPaires.paires = paires
+
+                    gameManager.categoryWithPaires.paires.forEach { paire ->
+                        val choiceOneFlow = TuPreferesRepository.getInstance()?.getChoice(paire.choiceOneId)
+                        val choiceTwoFlow = TuPreferesRepository.getInstance()?.getChoice(paire.choiceTwoId)
+
+                        if(choiceOneFlow != null && choiceTwoFlow != null) {
+                            choiceOneFlow?.zip(choiceTwoFlow) { choiceOne, choiceTwo ->
+                                Log.d("Choice", "${choiceOne?.textChoice} ${choiceTwo?.textChoice}")
+                            }?.collect {
+                            }
+                        }
+
+                    }
+                }
+        }
     }
 
 
+
 }
+
+

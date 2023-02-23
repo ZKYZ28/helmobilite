@@ -10,7 +10,7 @@ import java.util.*
 @Entity(tableName = "paire")
 data class Paire(
     @PrimaryKey @NonNull val id: UUID = UUID.randomUUID(),
-    @Embedded(prefix = "choice_one_") val choiceOne : Choice,
-    @Embedded(prefix = "choice_two_") val choiceTwo : Choice,
-    @ColumnInfo(name = "categoryId") var categoryId: UUID
+    @ColumnInfo(name = "choice_one_id") val choiceOneId: UUID?,
+    @ColumnInfo(name = "choice_two_id") val choiceTwoId: UUID?,
+    @ColumnInfo(name = "categoryId") var categoryId: UUID,
 )

@@ -4,10 +4,7 @@ package com.example.projettupreferes.presenters
 import android.net.Uri
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CreatePairFragment
-import com.example.projettupreferes.models.Choice
-import com.example.projettupreferes.models.GameManager
-import com.example.projettupreferes.models.ImageManager
-import com.example.projettupreferes.models.Paire
+import com.example.projettupreferes.models.*
 
 class CreatePairPresenter(private val createPairFragment: CreatePairFragment, private val  mainActivityPresenter: MainActivityPresenter, private val gameManager: GameManager) {
     fun deleteImageChoiceOneTraitment() {
@@ -35,16 +32,24 @@ class CreatePairPresenter(private val createPairFragment: CreatePairFragment, pr
     }
 
     fun validateCreation(textChoiceOne: String, textChoiceTwo: String, selectedImageUriChoiceOne: Uri?, selectedImageUriChoiceTwo: Uri?) {
-       val choiceOne = createChoice(textChoiceOne, selectedImageUriChoiceOne)
+        val choiceOne = createChoice(textChoiceOne, selectedImageUriChoiceOne)
         val choiceTwo = createChoice(textChoiceTwo, selectedImageUriChoiceTwo)
 
         if(!choiceOne.textChoice.isEmpty() && !choiceTwo.textChoice.isEmpty()){
-            //TODO : donner le nom de la catégorie ID
-            //val pair = Paire(choiceOne = choiceOne, choiceTwo = choiceTwo)
-            val currentCategory = gameManager.currentCategory
-            //TODO : avoir le catégorie ID
-           // currentCategory.listPaires.add(pair)
-            TuPreferesRepository.getInstance()?.updateCategory(currentCategory)
+            val currentCategoryWithListPairs = gameManager.categoryWithPaires
+            //Insertion des choix
+            TuPreferesRepository.getInstance()?.insertChoice(choiceOne)
+            TuPreferesRepository.getInstance()?.insertChoice(choiceTwo)
+
+            //Insertion de la paire
+            val pair = Paire(choiceOneId = choiceOne.id, choiceTwoId = choiceTwo.id, categoryId = currentCategoryWithListPairs.category.id)
+            TuPreferesRepository.getInstance()?.insertPaire(pair)
+
+            //Mettre à jour la liste de paires
+            val updatedPaires = currentCategoryWithListPairs.paires + pair
+            gameManager.categoryWithPaires.paires = updatedPaires
+            mainActivityPresenter.requestSwitchView("categoryFragment")
+            createPairFragment.close()
         }
     }
 

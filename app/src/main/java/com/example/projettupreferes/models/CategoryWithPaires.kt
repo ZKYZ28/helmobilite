@@ -4,10 +4,10 @@ import androidx.room.Embedded
 import androidx.room.Relation
 
 data class CategoryWithPaires(
-    @Embedded val category: Category,
+    @Embedded var category: Category,
     @Relation(
         parentColumn = "id",
         entityColumn = "categoryId"
     )
-    val paires: List<Paire>
+    var paires: List<Paire>
 )

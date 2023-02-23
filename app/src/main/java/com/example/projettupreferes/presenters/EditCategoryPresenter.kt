@@ -31,10 +31,10 @@ class EditCategoryPresenter(private val editCategoryFragment: EditCategoryFragme
         if (imagePath == null) {
             editCategoryFragment.showErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'image.")
         }
-
-        gameManager.currentCategory.categoryName = categoryName
-        gameManager.currentCategory.pathImage = imagePath.toString()
-        TuPreferesRepository.getInstance()?.updateCategory(gameManager.currentCategory)
+        //TODO : refactor appels
+        gameManager.categoryWithPaires.category.categoryName = categoryName
+        gameManager.categoryWithPaires.category.pathImage = imagePath.toString()
+        TuPreferesRepository.getInstance()?.updateCategory(gameManager.categoryWithPaires.category)
         mainPresenter.requestSwitchView("categoryFragment")
         editCategoryFragment.close()
     }
@@ -44,7 +44,7 @@ class EditCategoryPresenter(private val editCategoryFragment: EditCategoryFragme
     }
 
     fun getCurrentCategory() {
-        val currentCategory = gameManager.currentCategory;
+        val currentCategory = gameManager.categoryWithPaires.category;
         editCategoryFragment.displayInformationInFields(currentCategory.categoryName, Uri.parse(currentCategory.pathImage))
     }
 

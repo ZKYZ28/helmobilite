@@ -2,21 +2,23 @@ package com.example.projettupreferes.models
 
 class GameManager(val statistics: Statistics) {
 
-    private lateinit var _currentCategory: Category
+    private var _currentCategoryWithPaires : CategoryWithPaires = CategoryWithPaires(Category(categoryName = "", pathImage = ""), listOf<Paire>())
 
     private var _categoriesList: MutableList<Category> = mutableListOf()
 
-    var currentCategory: Category
-        get() = _currentCategory
+    var categoryWithPaires: CategoryWithPaires
+        get() = _currentCategoryWithPaires
         set(value) {
-            _currentCategory = value
+            _currentCategoryWithPaires = value
         }
+
 
     var categoriesList: MutableList<Category>
         get() = _categoriesList
         set(value) {
             _categoriesList = value
         }
+
 
 
 }
