@@ -3,12 +3,14 @@ package com.example.projettupreferes.models
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 import java.util.*
 
 
 @Entity(tableName = "category")
-class Category(
+data class Category(
     @PrimaryKey @NonNull val id: UUID = UUID.randomUUID(),
     var categoryName : String,
     var pathImage : String
 )
+

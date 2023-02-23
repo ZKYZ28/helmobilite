@@ -1,4 +1,13 @@
 package com.example.projettupreferes.models
 
-class Choice(val textChoice : String = "", val isText: Boolean) {
-}
+import androidx.annotation.NonNull
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.util.*
+
+@Entity(tableName = "choice")
+data class Choice(
+    @PrimaryKey @NonNull val id: UUID = UUID.randomUUID(),
+    val textChoice : String = "",
+    val isText: Boolean
+)

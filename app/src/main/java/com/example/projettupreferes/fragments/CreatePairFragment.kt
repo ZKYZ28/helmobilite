@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -34,38 +35,43 @@ class CreatePairFragment : Fragment() {
     private var selectedImageUriChoiceOne: Uri? = null
     private var selectedImageUriChoiceTwo: Uri? = null
 
+    private lateinit var pickImageChoiceOne: ActivityResultLauncher<Intent>
+    private lateinit var pickImageChoiceTwo: ActivityResultLauncher<Intent>
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
 
         }
-    }
 
-    private val pickImageChoiceOne = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-            selectedImageUriChoiceOne = result.data?.data
-            if (selectedImageUriChoiceOne != null) {
-                deleteImageChoiceOne.isVisible = true
-                deleteImageChoiceOne.isEnabled = true
+         pickImageChoiceTwo = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                selectedImageUriChoiceTwo = result.data?.data
+                if (selectedImageUriChoiceTwo != null) {
+                    deleteImageChoiceTwo.isVisible = true
+                    deleteImageChoiceTwo.isEnabled = true
 
-                textChoiceOne.isVisible = false
-                textChoiceOne.isEnabled = false
+                    textChoiceTwo.isVisible = false
+                    textChoiceTwo.isEnabled = false
+                }
+            }
+        }
+
+         pickImageChoiceOne = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                selectedImageUriChoiceOne = result.data?.data
+                if (selectedImageUriChoiceOne != null) {
+                    deleteImageChoiceOne.isVisible = true
+                    deleteImageChoiceOne.isEnabled = true
+
+                    textChoiceOne.isVisible = false
+                    textChoiceOne.isEnabled = false
+                }
             }
         }
     }
 
-    private val pickImageChoiceTwo = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-            selectedImageUriChoiceTwo = result.data?.data
-            if (selectedImageUriChoiceTwo != null) {
-                deleteImageChoiceTwo.isVisible = true
-                deleteImageChoiceTwo.isEnabled = true
-
-                textChoiceTwo.isVisible = false
-                textChoiceTwo.isEnabled = false
-            }
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

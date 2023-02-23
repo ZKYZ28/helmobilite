@@ -33,13 +33,15 @@ class PersonnelPresenter(private val personnel: PersonnalFragment, private val m
 
     fun loadCategories() {
         GlobalScope.launch(Main) {
-            TuPreferesRepository.getInstance()?.getCategoriesList()
-                ?.collect { categories ->
+            TuPreferesRepository.getInstance()?.getCategoriesWithPairesList()
+                ?.collect { categoriesWithPaires ->
+                    val categories = categoriesWithPaires.map { it.category }
                     this@PersonnelPresenter.gameManager.categoriesList = categories.toMutableList()
                     personnel.loadView()
                 }
         }
     }
+
 
 
 

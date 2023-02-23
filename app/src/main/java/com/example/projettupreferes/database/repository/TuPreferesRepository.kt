@@ -3,6 +3,8 @@ package com.example.projettupreferes.database.repository
 import com.example.projettupreferes.database.TuPreferesDataBase
 import com.example.projettupreferes.database.dao.CategoryDao
 import com.example.projettupreferes.models.Category
+import com.example.projettupreferes.models.CategoryWithPaires
+import com.example.projettupreferes.models.Paire
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import java.util.*
@@ -13,9 +15,20 @@ class TuPreferesRepository {
     val categoryDao : CategoryDao? = TuPreferesDataBase.getInstance()?.categoryDao()
     val executor: ExecutorService = Executors.newSingleThreadExecutor()
 
-    fun insertCategory(category: Category) {
+//    fun insertCategory(category: Category) {
+//        executor.execute { categoryDao?.insertCategory(category) }
+//    }
+
+    fun insertCategory(category: Category){
         executor.execute { categoryDao?.insertCategory(category) }
     }
+
+    fun insertPaire(paire: Paire) {
+        executor.execute { categoryDao?.insertPaire(paire)}
+    }
+
+
+
 
     fun updateCategory(category: Category) {
         executor.execute { categoryDao?.updateCategory(category) }
@@ -25,7 +38,8 @@ class TuPreferesRepository {
         executor.execute { categoryDao?.deleteCategory(category)}
     }
 
-    fun getCategoriesList(): Flow<List<Category>> = categoryDao?.getCategories() ?: flowOf(emptyList())
+    fun getCategoriesWithPairesList(): Flow<List<CategoryWithPaires>> = categoryDao?.getCategoriesWithPaires() ?: flowOf(emptyList())
+
 
     fun getCategory(uuid: UUID?): Flow<Category?>? {
         return categoryDao?.getCategory(uuid)

@@ -27,7 +27,6 @@ class EditCategoryPresenter(private val editCategoryFragment: EditCategoryFragme
     }
 
     private fun editCategory(categoryName: String, selectedImageUri: Uri) {
-        Log.d("SELECTED IMAGE", selectedImageUri.toString())
         val imagePath = ImageManager.saveImage(editCategoryFragment.requireContext(), selectedImageUri)
         if (imagePath == null) {
             editCategoryFragment.showErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'image.")
@@ -36,6 +35,7 @@ class EditCategoryPresenter(private val editCategoryFragment: EditCategoryFragme
         gameManager.currentCategory.categoryName = categoryName
         gameManager.currentCategory.pathImage = imagePath.toString()
         TuPreferesRepository.getInstance()?.updateCategory(gameManager.currentCategory)
+        mainPresenter.requestSwitchView("categoryFragment")
         editCategoryFragment.close()
     }
 
@@ -45,8 +45,6 @@ class EditCategoryPresenter(private val editCategoryFragment: EditCategoryFragme
 
     fun getCurrentCategory() {
         val currentCategory = gameManager.currentCategory;
-        Log.d("URI DU CURRENT CATEGORY", currentCategory.pathImage)
-        Log.d("IMAGE EXISTE", File(currentCategory.pathImage.toUri().getPath()).exists().toString())
         editCategoryFragment.displayInformationInFields(currentCategory.categoryName, Uri.parse(currentCategory.pathImage))
     }
 

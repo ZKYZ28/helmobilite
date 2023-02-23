@@ -8,6 +8,7 @@ import com.example.projettupreferes.fragments.CreateCategoryFragment
 import com.example.projettupreferes.models.Category
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.ImageManager
+import com.example.projettupreferes.models.Paire
 
 class CreateCategoryPresenter(private val createCategoryFragment: CreateCategoryFragment, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
     init {
@@ -34,6 +35,7 @@ class CreateCategoryPresenter(private val createCategoryFragment: CreateCategory
         }
 
         val category = Category(categoryName = categoryName, pathImage = imagePath.toString())
+
         TuPreferesRepository.getInstance()?.insertCategory(category)
         createCategoryFragment.close()
         return category

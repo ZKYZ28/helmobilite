@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.CreateCategoryPresenter
@@ -25,11 +26,16 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
     private lateinit var imageSelectedCategory: ImageView
     private var selectedImageUri: Uri? = null
 
-    private val pickImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-            selectedImageUri = result.data?.data
-            if (selectedImageUri != null) {
-                createCategoryPresenter.temporarySelectedImageUri(requireContext(), selectedImageUri!!)
+    private lateinit var pickImage: ActivityResultLauncher<Intent>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+         pickImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                selectedImageUri = result.data?.data
+                if (selectedImageUri != null) {
+                    createCategoryPresenter.temporarySelectedImageUri(requireContext(), selectedImageUri!!)
+                }
             }
         }
     }

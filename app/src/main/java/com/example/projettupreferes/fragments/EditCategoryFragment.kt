@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -25,11 +26,18 @@ class EditCategoryFragment : Fragment() {
     private lateinit var imageSelectedCategoryEdit: ImageView
     private var selectedImageUri: Uri? = null
 
+    private lateinit var pickImage : ActivityResultLauncher<Intent>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-
+         pickImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                selectedImageUri = result.data?.data
+                if (selectedImageUri != null) {
+                    presenter.temporarySelectedImageUri(requireContext(), selectedImageUri!!)
+                }
+            }
         }
     }
 
@@ -80,17 +88,10 @@ class EditCategoryFragment : Fragment() {
 
     fun close() {
         requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-        requireActivity().supportFragmentManager.popBackStack("categoryFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        //TODO : tendre vers cette ligne à l'avenir
+       // requireActivity().supportFragmentManager.popBackStack("categoryFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
-    private val pickImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-            selectedImageUri = result.data?.data
-            if (selectedImageUri != null) {
-                presenter.temporarySelectedImageUri(requireContext(), selectedImageUri!!)
-            }
-        }
-    }
 
     fun showSelectedImage(selectedImageUri: Uri) {
         imageSelectedCategoryEdit.setImageURI(selectedImageUri)
