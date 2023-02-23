@@ -54,7 +54,7 @@
         app:layout_constraintVertical_bias="0.246" />
 
     <EditText
-        android:id="@+id/NameCategory"
+        android:id="@+id/texteChoiceOne"
         android:layout_width="320dp"
         android:layout_height="30dp"
         android:background="@drawable/component_input_text"
@@ -76,7 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NameCategory" />
+        app:layout_constraintTop_toBottomOf="@+id/texteChoiceOne" />
 
 
     <TextView
@@ -94,9 +94,9 @@
         app:layout_constraintVertical_bias="0.352" />
 
     <Button
-        android:id="@+id/ImageCategory"
-        android:layout_width="320dp"
-        android:layout_height="36dp"
+        android:id="@+id/selectImageChoiceOne"
+        android:layout_width="261dp"
+        android:layout_height="43dp"
         android:background="@drawable/component_input_text"
         android:drawableLeft="@drawable/icon_help"
         android:text="Image"
@@ -149,7 +149,7 @@
         app:layout_constraintVertical_bias="0.623" />
 
     <EditText
-        android:id="@+id/NameCategoryChoix2"
+        android:id="@+id/texteChoiceTwo"
         android:layout_width="320dp"
         android:layout_height="30dp"
         android:background="@drawable/component_input_text"
@@ -161,34 +161,48 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.58" />
 
+    <Button
+        android:id="@+id/selectImageChoiceTwo"
+        android:layout_width="262dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/component_input_text"
+        android:drawableLeft="@drawable/icon_help"
+        android:text="Image"
+        app:layout_constraintBottom_toTopOf="@+id/validateCreation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/deleteImageChoiceTwo"
+        android:layout_width="44dp"
+        android:layout_height="48dp"
+        android:background="@color/main_background"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintStart_toEndOf="@+id/selectImageChoiceOne"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.749"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
+
     <TextView
         android:id="@+id/imageCategoryChoix2"
         android:layout_width="67dp"
         android:layout_height="27dp"
-        android:layout_marginBottom="268dp"
+        android:layout_marginBottom="4dp"
         android:text="Image"
         android:textColor="@color/white"
         android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/selectImageChoiceTwo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.122"
+        app:layout_constraintHorizontal_bias="0.11"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/ImageCategoryChoix2"
-        android:layout_width="320dp"
-        android:layout_height="36dp"
-        android:layout_marginBottom="56dp"
-        android:background="@drawable/component_input_text"
-        android:drawableLeft="@drawable/icon_help"
-        android:text="Image"
-        app:layout_constraintBottom_toTopOf="@+id/ConfirmCreation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/ConfirmCreation"
+        android:id="@+id/validateCreation"
         android:layout_width="220dp"
         android:layout_height="38dp"
         android:background="@drawable/component_input_text"
@@ -200,6 +214,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.843" />
+
+    <ImageButton
+        android:id="@+id/deleteImageChoiceOne"
+        android:layout_width="44dp"
+        android:layout_height="48dp"
+        android:background="@color/main_background"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.157"
+        app:layout_constraintStart_toEndOf="@+id/selectImageChoiceOne"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

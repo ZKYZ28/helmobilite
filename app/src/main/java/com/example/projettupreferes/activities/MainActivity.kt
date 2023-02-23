@@ -96,6 +96,8 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             categoryPresenter = CategoryPresenter(mainPresenter, gameManager)
             val editCategoryPresenter = EditCategoryPresenter(editCategoryFragment, mainPresenter, gameManager)
 
+            val createPairPresenter = CreatePairPresenter(createPairFragment, mainPresenter, gameManager)
+
             //Ajout du fragment de base
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragmentContainer, fragmentHomeFragment)
