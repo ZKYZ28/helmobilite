@@ -1,5 +1,6 @@
 package com.example.projettupreferes.presenters
 
+import android.util.Log
 import com.example.projettupreferes.fragments.HomeFragment
 import com.example.projettupreferes.models.GameManager
 

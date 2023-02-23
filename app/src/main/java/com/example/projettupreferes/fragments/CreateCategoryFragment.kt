@@ -79,6 +79,7 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
 
 
     override fun close() {
+        nameCategory.setText("");
         requireActivity().supportFragmentManager.popBackStack()
     }
 

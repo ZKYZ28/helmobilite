@@ -1,7 +1,12 @@
 package com.example.projettupreferes.presenters
 
+import android.util.Log
+import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CategoryFragment
 import com.example.projettupreferes.models.GameManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 class CategoryPresenter(private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
@@ -12,20 +17,29 @@ class CategoryPresenter(private val mainPresenter : MainActivityPresenter, priva
         this.categoryFragment = categoyFragmentNew
     }
 
-    fun loadCategory(categoryUUID : UUID){
-        //TODO LOAD LA CAT DEPUIS LA BD
-
-        //TODO CHANGER LE CAT COURANTE DANS GAMEMANAGER
-        //gameManager.setCurrentCategory(category)
-
-        categoryFragment?.displayCategoryInformation("FRANCOIS CAT", "file:///data/user/0/com.example.projettupreferes/files/category_images/category_image_1677004614898.jpeg")
+    fun loadCategory(categoryUUID: UUID?) {
+        if (categoryFragment != null) {
+            GlobalScope.launch(Dispatchers.Main) {
+                TuPreferesRepository.getInstance()?.getCategory(categoryUUID)
+                    ?.collect { category ->
+                        if (category != null) {
+                            this@CategoryPresenter.gameManager.currentCategory = category
+                            categoryFragment?.displayCategoryInformation(
+                                category.categoryName,
+                                category.pathImage
+                            )
+                        }
+                    }
+            }
+        }
     }
 
-    fun deleteCategory(categoryUUID : UUID){
-        //SUPPRIMER LA CAT DEPUIS LA BD
-        //TuPreferesRepository.getInstance()?.deleteCategory(categoryUUID)
 
-        mainPresenter.requestSwitchView("Personnel")
+    fun deleteCategory(){
+        //SUPPRIMER LA CAT DEPUIS LA BD
+        TuPreferesRepository.getInstance()?.deleteCategory(gameManager.currentCategory)
+
+        categoryFragment?.close()
     }
 
     fun editCategory(){

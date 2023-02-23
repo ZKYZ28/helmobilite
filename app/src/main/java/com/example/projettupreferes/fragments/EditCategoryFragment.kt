@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.EditCategoryPresenter
 
@@ -57,6 +59,17 @@ class EditCategoryFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.getCurrentCategory()
+    }
+
+    fun displayInformationInFields(categoryName: String, imagePath: Uri) {
+        nameCategoryEdit.setText(categoryName)
+        imageSelectedCategoryEdit.setImageURI(imagePath)
+        selectedImageUri = imagePath;
+    }
+
     /**
      * Méthode qui permet d'afficher un message d'erreur
      * indiquant que tous les champs sont obligatoires
@@ -66,7 +79,8 @@ class EditCategoryFragment : Fragment() {
     }
 
     fun close() {
-        requireActivity().supportFragmentManager.popBackStack()
+        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+        requireActivity().supportFragmentManager.popBackStack("categoryFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
     private val pickImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->

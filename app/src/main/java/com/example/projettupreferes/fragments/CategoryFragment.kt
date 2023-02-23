@@ -14,10 +14,9 @@ import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.CategoryPresenter
 import java.util.*
 
-private const val CATEGORYID = "categoryId"
 
 class CategoryFragment : Fragment() {
-    private var categoryId: String? = null
+    private var categoryId: UUID? = null
     lateinit var categoryPresenter: CategoryPresenter
 
     lateinit var imageCategoryIv : ImageView
@@ -31,9 +30,6 @@ class CategoryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            categoryId = it.getString(CATEGORYID)
-        }
     }
 
     override fun onCreateView(
@@ -65,14 +61,14 @@ class CategoryFragment : Fragment() {
         }
 
         deleteCategoryButton.setOnClickListener {
-            categoryPresenter.deleteCategory(UUID.fromString(categoryId))
+            categoryPresenter.deleteCategory()
         }
 
         playGameCl.setOnClickListener {
 
         }
 
-        categoryPresenter.loadCategory(UUID.fromString(categoryId))
+        categoryPresenter.loadCategory(categoryId)
 
         return view
     }
@@ -82,13 +78,20 @@ class CategoryFragment : Fragment() {
         categoryNameEt.text = categoryName
     }
 
+    fun close() {
+        requireActivity().supportFragmentManager.popBackStack()
+    }
+
     companion object {
         @JvmStatic
-        fun newInstance(categoryId: String?, categoryPresenterInit: CategoryPresenter) =
+        fun newInstance(categoryUUID: UUID?, categoryPresenterInit: CategoryPresenter) =
             CategoryFragment().apply {
                 arguments = Bundle().apply {
-                    putString(CATEGORYID, categoryId)
                     categoryPresenter = categoryPresenterInit;
+                    categoryId = categoryUUID
+                    if (categoryId != null) {
+                        categoryPresenter.loadCategory(categoryUUID)
+                    }
                 }
             }
     }

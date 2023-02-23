@@ -1,10 +1,8 @@
 package com.example.projettupreferes.database.repository
 
-import androidx.lifecycle.LiveData
 import com.example.projettupreferes.database.TuPreferesDataBase
 import com.example.projettupreferes.database.dao.CategoryDao
 import com.example.projettupreferes.models.Category
-import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import java.util.*
@@ -23,9 +21,9 @@ class TuPreferesRepository {
         executor.execute { categoryDao?.updateCategory(category) }
     }
 
-    /*fun deleteCategory(uudi: UUID) {
-        executor.execute { categoryDao?.deleteCategory(uudi)}
-    }*/
+    fun deleteCategory(category: Category) {
+        executor.execute { categoryDao?.deleteCategory(category)}
+    }
 
     fun getCategoriesList(): Flow<List<Category>> = categoryDao?.getCategories() ?: flowOf(emptyList())
 

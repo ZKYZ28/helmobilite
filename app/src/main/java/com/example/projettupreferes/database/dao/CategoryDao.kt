@@ -23,6 +23,6 @@ interface CategoryDao {
     @Update
     fun updateCategory(category: Category)
 
-    /*@Delete
-    fun deleteCategory(uuid: UUID?)*/
+    @Delete
+    fun deleteCategory(category: Category?)
 }

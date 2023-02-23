@@ -19,13 +19,11 @@ class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen {
     lateinit var callback : ISelectCategory
     lateinit var presenter: PersonnelPresenter
 
+    private lateinit var recycler : RecyclerView
+    private lateinit var createCategory: Button
 
-    lateinit var recycler : RecyclerView
-    lateinit var createCategory: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
     }
 
     interface ISelectCategory {
@@ -36,36 +34,38 @@ class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_personnel, container, false);
+        val view = inflater.inflate(R.layout.fragment_personnel, container, false)
 
         createCategory = view.findViewById(R.id.CreateCategory)
+
         recycler = view.findViewById(R.id.listCategoriesRv)
-        recycler.layoutManager =  LinearLayoutManager(this.context);
+        recycler.layoutManager = LinearLayoutManager(requireContext())
         recycler.adapter = CategoriesAdapter(presenter, callback)
 
-
         createCategory.setOnClickListener {
-            presenter.goToCreateCategory("CreateCategory");
+            presenter.goToCreateCategory("CreateCategory")
         }
 
-        return view;
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.loadCategories()
     }
 
     companion object {
-        fun newInstance() =
-            PersonnalFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
+        fun newInstance() = PersonnalFragment()
     }
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        callback = context as PersonnalFragment.ISelectCategory
+        callback = context as ISelectCategory
     }
 
     override fun loadView() {
-        recycler.adapter = CategoriesAdapter(presenter, callback)
+        if (view != null) {
+            recycler.adapter = CategoriesAdapter(presenter, callback)
+        }
     }
 }
