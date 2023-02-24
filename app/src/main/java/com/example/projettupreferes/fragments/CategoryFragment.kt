@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
@@ -65,7 +66,7 @@ class CategoryFragment : Fragment() {
         }
 
         playGameCl.setOnClickListener {
-
+            categoryPresenter.switchToPlayGame()
         }
 
         categoryPresenter.loadCategory(categoryId)
@@ -80,6 +81,14 @@ class CategoryFragment : Fragment() {
 
     fun close() {
         requireActivity().supportFragmentManager.popBackStack()
+    }
+
+    /**
+     * Méthode qui permet d'afficher un message d'erreur
+     * indiquant que tous les champs sont obligatoires
+     */
+    fun showErrorMessage(errorMessage: String) {
+        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

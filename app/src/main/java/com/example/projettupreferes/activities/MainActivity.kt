@@ -2,10 +2,8 @@ package com.example.projettupreferes.activities
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.example.projettupreferes.*
 import com.example.projettupreferes.fragments.*
 import com.example.projettupreferes.models.GameManager
@@ -44,8 +42,8 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             val helpFragment = HelpFragment.newInstance();
             mapFragments["Help"] = helpFragment;
 
-            val fragmentNormalGameFragment = NormalGameFragment.newInstance();
-            mapFragments["NormalGame"] = fragmentNormalGameFragment;
+            val fragmentPlayGameFragment = PlayGameFragment.newInstance();
+            mapFragments["NormalGame"] = fragmentPlayGameFragment;
 
             val personnelFragment = PersonnalFragment.newInstance();
             mapFragments["Personnel"] = personnelFragment;
@@ -62,12 +60,15 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             val createPairFragment = CreatePairFragment.newInstance()
             mapFragments["CreatePair"] = createPairFragment
 
+            val seePairFragment = SeePairFragment.newInstance()
+            mapFragments["SeePair"] = seePairFragment
+
 
         //Ajout des presenters Fragments
             val mainFragmentPresenter =
                 MainFragmentPresenter(fragmentHomeFragment, mainPresenter, gameManager)
-            val normalGamePresenter =
-                NormalGamePresenter(fragmentNormalGameFragment, mainPresenter, gameManager)
+            val playGamePresenter =
+                PlayGamePresenter(fragmentPlayGameFragment, mainPresenter, gameManager)
             val personnelPresenter = PersonnelPresenter(personnelFragment, mainPresenter, gameManager)
             personnelPresenter.loadCategories()
 
@@ -75,6 +76,8 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             val noCategoryFound = NoCategoryFoundPresenter(notCategoryFound, mainPresenter)
             categoryPresenter = CategoryPresenter(mainPresenter, gameManager)
             val editCategoryPresenter = EditCategoryPresenter(editCategoryFragment, mainPresenter, gameManager)
+            val seePairPresenter = SeePairPresenter(seePairFragment, mainPresenter, gameManager)
+
 
             val createPairPresenter = CreatePairPresenter(createPairFragment, mainPresenter, gameManager)
 

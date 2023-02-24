@@ -79,10 +79,13 @@ class CategoryPresenter(
         }
     }
 
-
-
-
-
+    fun switchToPlayGame(){
+        if(gameManager.categoryWithPaires.paires.isEmpty()){
+            categoryFragment?.showErrorMessage("Vous n'avez aucune paire liée à cette catégorie")
+        }else{
+            mainPresenter.requestSwitchView("NormalGame")
+        }
+    }
 }
 
 
