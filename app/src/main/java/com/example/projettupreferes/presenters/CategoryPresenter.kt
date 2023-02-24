@@ -1,12 +1,11 @@
 package com.example.projettupreferes.presenters
 
-import android.util.Log
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CategoryFragment
 import com.example.projettupreferes.models.GameManager
+import com.example.projettupreferes.models.Paire
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -67,15 +66,20 @@ class CategoryPresenter(
 
                         if(choiceOneFlow != null && choiceTwoFlow != null) {
                             choiceOneFlow?.zip(choiceTwoFlow) { choiceOne, choiceTwo ->
-                                Log.d("Choice", "${choiceOne?.textChoice} ${choiceTwo?.textChoice}")
-                            }?.collect {
+                                println("Choice One: ${choiceOne?.textChoice}")
+                                println("Choice Two: ${choiceTwo?.textChoice}")
+                                Paire(choiceOneId = choiceOne?.id, choiceTwoId = choiceTwo?.id, categoryId = categoryUUID)
+                            }?.collect { paireWithChoices ->
+                                val updatedPaires = gameManager.categoryWithPaires.paires + listOf(paireWithChoices)
+                                gameManager.categoryWithPaires.paires = updatedPaires
                             }
                         }
-
                     }
                 }
         }
     }
+
+
 
 
 
