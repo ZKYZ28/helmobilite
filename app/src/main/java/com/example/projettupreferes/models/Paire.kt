@@ -8,7 +8,7 @@ import java.util.*
 
 @Entity(tableName = "paire")
 data class Paire(
-    @PrimaryKey @NonNull val id: UUID = UUID.randomUUID(),
+    @PrimaryKey @NonNull val idPaire: UUID = UUID.randomUUID(),
     @ColumnInfo(name = "choice_one_id") val choiceOneId: UUID?,
     @ColumnInfo(name = "choice_two_id") val choiceTwoId: UUID?,
     @ColumnInfo(name = "categoryId") var categoryId: UUID?,

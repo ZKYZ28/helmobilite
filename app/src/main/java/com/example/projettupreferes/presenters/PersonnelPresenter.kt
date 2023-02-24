@@ -58,6 +58,6 @@ class PersonnelPresenter(private val personnel: PersonnalFragment, private val m
         position: Int
     ) {
         val p: Category = gameManager.categoriesList[position]
-        holder.showCategory(p.id, p.categoryName, p.pathImage)
+        holder.showCategory(p.idCategory, p.categoryName, p.pathImage)
     }
 }

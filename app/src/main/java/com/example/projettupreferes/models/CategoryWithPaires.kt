@@ -6,7 +6,7 @@ import androidx.room.Relation
 data class CategoryWithPaires(
     @Embedded var category: Category,
     @Relation(
-        parentColumn = "id",
+        parentColumn = "idCategory",
         entityColumn = "categoryId"
     )
     var paires: List<Paire>

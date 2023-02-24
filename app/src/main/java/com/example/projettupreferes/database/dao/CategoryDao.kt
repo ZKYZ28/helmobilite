@@ -13,7 +13,7 @@ interface CategoryDao {
     @Query("SELECT * FROM category")
     fun getCategoriesWithPaires(): Flow<List<CategoryWithPaires>>
 
-    @Query("SELECT * FROM category where id = (:uuid)")
+    @Query("SELECT * FROM category where idCategory = (:uuid)")
     fun getCategory(uuid: UUID?): Flow<Category>
 
     @Query("SELECT * FROM paire WHERE categoryId = :categoryId")
@@ -27,7 +27,7 @@ interface CategoryDao {
 
     @Transaction
     fun deleteCategoryWithPaires(category: Category) {
-        deletePaires(category.id)
+        deletePaires(category.idCategory)
         deleteCategory(category)
     }
 
@@ -36,6 +36,8 @@ interface CategoryDao {
 
     @Delete
     fun deleteCategory(category: Category)
+
+
     @Insert
     fun insertChoice(choice: Choice) : Long
 
@@ -48,13 +50,8 @@ interface CategoryDao {
     @Update
     fun updatePaire(paire: Paire)
 
-    @Query("SELECT * FROM choice WHERE id = :choiceId")
+    @Query("SELECT * FROM choice WHERE idChoice = :choiceId")
     fun getChoice(choiceId: UUID?): Choice
-
-
-
-
-
 
 
 }

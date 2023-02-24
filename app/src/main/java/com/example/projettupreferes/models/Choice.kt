@@ -7,7 +7,7 @@ import java.util.*
 
 @Entity(tableName = "choice")
 data class Choice(
-    @PrimaryKey @NonNull val id: UUID = UUID.randomUUID(),
+    @PrimaryKey @NonNull val idChoice: UUID = UUID.randomUUID(),
     val textChoice : String = "",
     val isText: Boolean
 )

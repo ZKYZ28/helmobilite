@@ -22,10 +22,7 @@ class CategoriesAdapter(
     }
 
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view: View = layoutInflater.inflate(R.layout.category_item_list, parent, false)
         return ViewHolder(view, callBacks)

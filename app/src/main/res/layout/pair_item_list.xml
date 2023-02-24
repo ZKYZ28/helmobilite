@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="200dp"
     android:background="@color/main_background">
 
 
@@ -48,7 +48,7 @@
 
     <LinearLayout
         android:id="@+id/barTopPair"
-        android:layout_width="322dp"
+        android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="16dp"
         android:background="@color/white"
@@ -79,8 +79,10 @@
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.472"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.488" />
 
         <Button
             android:id="@+id/buttonChoiceTwo"
@@ -91,6 +93,7 @@
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.47"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -108,7 +111,7 @@
 
 
     <ImageButton
-        android:id="@+id/seletePairButton"
+        android:id="@+id/deletePairButton"
         android:layout_width="30dp"
         android:layout_height="34dp"
         android:backgroundTint="@color/main_background"

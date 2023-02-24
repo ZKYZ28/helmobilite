@@ -12,7 +12,7 @@ import com.example.projettupreferes.presenters.viewsInterface.activity.IMainActi
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
-class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISelectCategory {
+class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISelectCategory, SeePairFragment.ISelectPair {
 
     private val mapFragments = mutableMapOf<String, Fragment>()
     private lateinit var categoryPresenter : CategoryPresenter
@@ -142,6 +142,10 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
                 .addToBackStack("categoryFragment").commit()
             mapFragments["categoryFragment"] = newFragment;
         }
+    }
+
+    override fun onSelectedPair(pairId: UUID?) {
+        TODO("Not yet implemented")
     }
 
 }

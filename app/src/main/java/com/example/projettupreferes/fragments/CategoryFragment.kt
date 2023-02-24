@@ -58,7 +58,7 @@ class CategoryFragment : Fragment() {
         }
 
         seePairesButton.setOnClickListener {
-
+            categoryPresenter.switchToSeePairs()
         }
 
         deleteCategoryButton.setOnClickListener {
