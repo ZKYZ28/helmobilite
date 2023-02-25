@@ -9,6 +9,9 @@ import com.example.projettupreferes.models.Category
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.ImageManager
 import com.example.projettupreferes.models.Paire
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class CreateCategoryPresenter(private val createCategoryFragment: CreateCategoryFragment, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
     init {
@@ -21,11 +24,17 @@ class CreateCategoryPresenter(private val createCategoryFragment: CreateCategory
             createCategoryFragment.showErrorMessage("Le nom de la catégorie ne peut pas être vide")
         } else if (selectedImageUri == null) {
             createCategoryFragment.showErrorMessage("Vous devez sélectionner une image")
-        } else {
+        } else if(!checkIfCategoryAlreadyExist(categoryName)){
             val category = createCategory(categoryName, selectedImageUri)
             gameManager.categoriesList.add(category)
             mainPresenter.requestSwitchView("Personnel")
         }
+    }
+
+    fun checkIfCategoryAlreadyExist(categoryName : String) : Boolean{
+        //TODO CHECK SI LE NOM DE LA CATEGORIE N'EST PAS DEJA UTILISE
+        //TuPreferesRepository.getInstance()?.checkIfCategoryAlreadyExiste(categoryName)
+        return false
     }
 
     private fun createCategory(categoryName: String, selectedImageUri: Uri): Category {

@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
@@ -62,7 +63,15 @@ class CategoryFragment : Fragment() {
         }
 
         deleteCategoryButton.setOnClickListener {
-            categoryPresenter.deleteCategory()
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Confirmation")
+            builder.setMessage("Voulez-vous vraiment supprimer la catégorie ?")
+            builder.setPositiveButton("OK") { dialog, which ->
+                categoryPresenter.deleteCategory()
+            }
+            builder.setNegativeButton("Annuler", null)
+            val dialog = builder.create()
+            dialog.show()
         }
 
         playGameCl.setOnClickListener {

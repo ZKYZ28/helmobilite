@@ -20,8 +20,12 @@ class TuPreferesRepository {
 //        executor.execute { categoryDao?.insertCategory(category) }
 //    }
 
-    fun insertCategory(category: Category){
+    fun insertCategory(category: Category) {
         executor.execute { categoryDao?.insertCategory(category) }
+    }
+
+    fun checkIfCategoryAlreadyExiste(categoryName: String){
+        executor.execute { categoryDao?.getCategoryName(categoryName) }
     }
 
     fun insertPaire(paire: Paire) {

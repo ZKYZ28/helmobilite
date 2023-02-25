@@ -13,6 +13,10 @@ interface CategoryDao {
     @Query("SELECT * FROM category")
     fun getCategoriesWithPaires(): Flow<List<CategoryWithPaires>>
 
+    @Query("SELECT categoryName FROM category WHERE categoryName = (:categoryName)")
+    fun getCategoryName(categoryName : String): Flow<String>
+
+
     @Query("SELECT * FROM category where idCategory = (:uuid)")
     fun getCategory(uuid: UUID?): Flow<Category>
 
