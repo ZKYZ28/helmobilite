@@ -1,6 +1,8 @@
 package com.example.projettupreferes.fragments
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -12,13 +14,18 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.CreateCategoryPresenter
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategory
+import java.io.File
 
 
-class CreateCategoryFragment : Fragment(), ICreateCategory {
+class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategory {
 
     lateinit var createCategoryPresenter: CreateCategoryPresenter
     private lateinit var confirmCreationButton: Button
@@ -27,15 +34,6 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
     private lateinit var imageSelectedCategory: ImageView
     private var selectedImageUri: Uri? = null
 
-   // private lateinit var pickImage: ActivityResultLauncher<Intent>
-    //private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
-    private lateinit var imagePickerLauncher: ActivityResultLauncher<Int>
-    private lateinit var cameraXLauncher: ActivityResultLauncher<Uri>
-    private val imagePickerContract = ImagePickerContract()
-    private val cameraXContract = CameraXContract()
-    private val REQUEST_IMAGE_CAPTURE = 0
-    private val REQUEST_PICK_IMAGE = 1
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +41,7 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
     }
 
@@ -55,20 +54,14 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
         nameCategory = view.findViewById(R.id.NameCategory)
         imageCategoryButton = view.findViewById(R.id.ImageCategory)
 
-        imagePickerLauncher = registerForActivityResult(imagePickerContract) { uri ->
-            uri?.let {
-                selectedImageUri = uri
-                Log.d("URI LU ENNVOYE AU PRESENTER", uri.toString())
-                createCategoryPresenter.temporarySelectedImageUri(it) }
-            Log.d("URI LU EN DEHORS DU LET", uri.toString())
-        }
 
-        cameraXLauncher = registerForActivityResult(cameraXContract) { uri ->
-            uri?.let {
-                selectedImageUri = uri
-                imageSelectedCategory.setImageURI(uri)
+        //Traitement de l'image si utilisateur a pris galerie ou photo
+        imagePickerLauncher = registerForActivityResult(imagePickerContract) { uri ->
+            if (uri != null) {
+                    selectedImageUri = uri
+                    createCategoryPresenter.temporarySelectedImageUri(uri)
+                }
             }
-        }
 
         confirmCreationButton.setOnClickListener {
             createCategoryPresenter.validateCreation(nameCategory.text.toString(), selectedImageUri)
@@ -82,31 +75,19 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
         return view
     }
 
-    fun launchImagePicker(mode: Int) {
-        imagePickerLauncher.launch(mode)
+
+
+    fun showImagePicker() {
+        super.showImagePickerDialog(0)
     }
 
 
-     fun showImagePickerDialog() {
-        val items = arrayOf(getString(R.string.take_photo), getString(R.string.choose_from_gallery))
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setItems(items) { dialog, which ->
-            when (which) {
-                0 -> launchImagePicker(REQUEST_IMAGE_CAPTURE)
-                1 -> launchImagePicker(REQUEST_PICK_IMAGE)
-            }
-        }
-        builder.show()
-    }
 
-
-    fun onImagePickError() {
-        // Traiter les erreurs de sélection d'image
-        Toast.makeText(requireContext(), "Error picking image", Toast.LENGTH_SHORT).show()
+    override fun showSelectedImage(selectedImageUri: Uri) {
+        imageSelectedCategory.setImageURI(selectedImageUri)
     }
 
     companion object {
-        private val PICK_IMAGE_REQUEST = 1
         fun newInstance() = CreateCategoryFragment()
     }
 
@@ -115,7 +96,7 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
      * indiquant que tous les champs sont obligatoires
      */
     override fun showErrorMessage(errorMessage: String) {
-        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        super.displayErrorMessage(errorMessage)
     }
 
 
@@ -125,9 +106,6 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
         requireActivity().supportFragmentManager.popBackStack()
     }
 
-    override fun showSelectedImage(selectedImageUri: Uri) {
-        imageSelectedCategory.setImageURI(selectedImageUri)
-    }
 }
 
 

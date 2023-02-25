@@ -19,7 +19,7 @@ import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.CreatePairPresenter
 
 
-class CreatePairFragment : Fragment() {
+class CreatePairFragment : FragmentWithImagePicker() {
    lateinit var presenter : CreatePairPresenter
     lateinit var textChoiceOne : EditText
     lateinit var selecteImageChoiceOne : Button
@@ -35,8 +35,9 @@ class CreatePairFragment : Fragment() {
     private var selectedImageUriChoiceOne: Uri? = null
     private var selectedImageUriChoiceTwo: Uri? = null
 
-    private lateinit var pickImageChoiceOne: ActivityResultLauncher<Intent>
-    private lateinit var pickImageChoiceTwo: ActivityResultLauncher<Intent>
+    private val imagePickerContractTwo = ImagePickerContract()
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,28 +46,24 @@ class CreatePairFragment : Fragment() {
 
         }
 
-         pickImageChoiceTwo = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-                selectedImageUriChoiceTwo = result.data?.data
-                if (selectedImageUriChoiceTwo != null) {
-                    deleteImageChoiceTwo.isVisible = true
-                    deleteImageChoiceTwo.isEnabled = true
-
-                    textChoiceTwo.isVisible = false
-                    textChoiceTwo.isEnabled = false
-                }
-            }
-        }
-
-         pickImageChoiceOne = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-                selectedImageUriChoiceOne = result.data?.data
+        imagePickerLauncher = registerForActivityResult(imagePickerContract) { uri: Uri? ->
+            if (imagePickerSource == 1) {
+                selectedImageUriChoiceOne = uri
                 if (selectedImageUriChoiceOne != null) {
                     deleteImageChoiceOne.isVisible = true
                     deleteImageChoiceOne.isEnabled = true
 
                     textChoiceOne.isVisible = false
                     textChoiceOne.isEnabled = false
+                }
+            } else {
+                selectedImageUriChoiceTwo = uri
+                if (selectedImageUriChoiceTwo != null) {
+                    deleteImageChoiceTwo.isVisible = true
+                    deleteImageChoiceTwo.isEnabled = true
+
+                    textChoiceTwo.isVisible = false
+                    textChoiceTwo.isEnabled = false
                 }
             }
         }
@@ -94,15 +91,13 @@ class CreatePairFragment : Fragment() {
 
 
         selecteImageChoiceOne.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            pickImageChoiceOne.launch(intent)
+           // imagePickerSource = 1
+            presenter.onPickImageClicked(1)
         }
 
         selecteImageChoiceTwo.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            pickImageChoiceTwo.launch(intent)
+          //  imagePickerSource = 2
+            presenter.onPickImageClicked(2)
         }
 
 
@@ -174,12 +169,17 @@ class CreatePairFragment : Fragment() {
      * indiquant que tous les champs sont obligatoires
      */
     fun showErrorMessage(errorMessage: String) {
-        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        super.displayErrorMessage(errorMessage)
     }
 
     fun close() {
         requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
     }
+
+    fun showImagePicker(choiceNumber: Int) {
+        super.showImagePickerDialog(choiceNumber)
+    }
+
 
     companion object {
         @JvmStatic

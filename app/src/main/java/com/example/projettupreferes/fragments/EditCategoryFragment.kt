@@ -17,7 +17,7 @@ import androidx.fragment.app.FragmentManager
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.EditCategoryPresenter
 
-class EditCategoryFragment : Fragment() {
+class EditCategoryFragment : FragmentWithImagePicker() {
 
     lateinit var presenter : EditCategoryPresenter
     private lateinit var confirmModification: Button
@@ -26,19 +26,10 @@ class EditCategoryFragment : Fragment() {
     private lateinit var imageSelectedCategoryEdit: ImageView
     private var selectedImageUri: Uri? = null
 
-    private lateinit var pickImage : ActivityResultLauncher<Intent>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-         pickImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-                selectedImageUri = result.data?.data
-                if (selectedImageUri != null) {
-                    presenter.temporarySelectedImageUri(requireContext(), selectedImageUri!!)
-                }
-            }
-        }
     }
 
 
@@ -53,15 +44,21 @@ class EditCategoryFragment : Fragment() {
         nameCategoryEdit = view.findViewById(R.id.NameCategoryEdit)
         imageSelectedCategoryEdit = view.findViewById(R.id.ImageSelectedCategoryEdit)
 
+        //Traitement de l'image si utilisateur a pris galerie ou photo
+        imagePickerLauncher = registerForActivityResult(imagePickerContract) { uri ->
+            if (uri != null) {
+                selectedImageUri = uri
+                presenter.temporarySelectedImageUri(uri)
+            }
+        }
+
 
         confirmModification.setOnClickListener {
             presenter.validateModification(nameCategoryEdit.text.toString(), selectedImageUri)
         }
 
         imageCategoryEdit.setOnClickListener{
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            pickImage.launch(intent)
+            presenter.onPickImageClicked()
         }
 
         return view
@@ -83,7 +80,15 @@ class EditCategoryFragment : Fragment() {
      * indiquant que tous les champs sont obligatoires
      */
     fun showErrorMessage(errorMessage: String) {
-        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        super.displayErrorMessage(errorMessage)
+    }
+
+    /**
+     * Affichage de la boite de dialogue comprenant
+     * la galerie et l'appareil photo
+     */
+    fun showImagePicker() {
+        super.showImagePickerDialog(0)
     }
 
     fun close() {

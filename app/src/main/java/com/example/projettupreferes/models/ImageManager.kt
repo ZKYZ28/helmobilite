@@ -14,7 +14,7 @@ class ImageManager {
                 file.mkdir()
             }
 
-            val newFile = File(file, "category_image_${System.currentTimeMillis()}.jpeg")
+            val newFile = File(file, "category_image_${System.currentTimeMillis()}.jpg")
             val inputStream = context.contentResolver.openInputStream(uri)
             val outputStream = FileOutputStream(newFile)
 

@@ -39,13 +39,17 @@ class EditCategoryPresenter(private val editCategoryFragment: EditCategoryFragme
         editCategoryFragment.close()
     }
 
-    fun temporarySelectedImageUri(context: Context, uri: Uri) {
+    fun temporarySelectedImageUri(uri: Uri) {
         editCategoryFragment.showSelectedImage(uri)
     }
 
     fun getCurrentCategory() {
         val currentCategory = gameManager.categoryWithPaires.category;
         editCategoryFragment.displayInformationInFields(currentCategory.categoryName, Uri.parse(currentCategory.pathImage))
+    }
+
+    fun onPickImageClicked() {
+        editCategoryFragment.showImagePicker()
     }
 
 }

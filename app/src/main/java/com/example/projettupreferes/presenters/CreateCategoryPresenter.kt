@@ -40,7 +40,7 @@ class CreateCategoryPresenter(private val createCategoryFragment: CreateCategory
     }
 
     fun onPickImageClicked() {
-        createCategoryFragment.showImagePickerDialog()
+        createCategoryFragment.showImagePicker()
     }
 
     fun temporarySelectedImageUri(uri: Uri) {
