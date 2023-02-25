@@ -84,12 +84,15 @@
 
     <ImageView
         android:id="@+id/ImageSelectedCategoryEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/ConfirmModification"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageCategory"/>
+        app:layout_constraintTop_toBottomOf="@+id/imageCategory"
+        app:layout_constraintVertical_bias="0.869"
+        app:layout_constraintWidth_percent="0.7" />
 
     <Button
         android:id="@+id/ConfirmModification"
@@ -100,11 +103,10 @@
         android:text="Modifier"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.815" />
-
+        app:layout_constraintVertical_bias="0.834" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
