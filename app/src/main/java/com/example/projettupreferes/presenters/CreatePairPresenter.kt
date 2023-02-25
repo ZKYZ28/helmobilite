@@ -46,7 +46,7 @@ class CreatePairPresenter(private val createPairFragment: CreatePairFragment, pr
             TuPreferesRepository.getInstance()?.insertPaire(pair)
 
             //Mettre à jour la liste de paires
-            val updatedPaires = currentCategoryWithListPairs.paires + pair
+            val updatedPaires = currentCategoryWithListPairs.paires + listOf(pair)
             gameManager.categoryWithPaires.paires = updatedPaires
 
             mainActivityPresenter.requestSwitchView("categoryFragment")

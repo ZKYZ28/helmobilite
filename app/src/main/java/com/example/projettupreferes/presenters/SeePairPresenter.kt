@@ -32,7 +32,6 @@ class SeePairPresenter(private val seePairFragment: SeePairFragment, private val
         if(gameManager.categoryWithPaires.paires.isEmpty()){
             return 0
         }
-        Log.d("PAIRES SIZE TROIS", gameManager.categoryWithPaires.paires.size.toString())
         return gameManager.categoryWithPaires.paires.size
     }
 
@@ -68,4 +67,9 @@ class SeePairPresenter(private val seePairFragment: SeePairFragment, private val
     fun loadpairs() {
         seePairFragment.loadView()
     }
+
+    fun displayTitle(){
+        seePairFragment.changeTitle(gameManager.categoryWithPaires.category.categoryName)
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.example.projettupreferes.presenters
 
-import android.util.Log
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CategoryFragment
 import com.example.projettupreferes.models.GameManager
@@ -54,29 +53,26 @@ class CategoryPresenter(
     }
 
     //TODO : retirer uuid
-    fun goToPair(categoryUUID: UUID?) {
-        mainPresenter.requestSwitchView("CreatePair")
+    fun loadPair(categoryUUID: UUID?) {
         GlobalScope.launch(Dispatchers.Main) {
             TuPreferesRepository.getInstance()?.getPairesByCategoryId(categoryUUID)
                 ?.collect { paires ->
-
-                    //TODO DEMANDER A MONSIEUR DE VLEG POUQUOI IL AVAIT FAIT CE QUI EST EN COMMENTAIRE
-                   // this@CategoryPresenter.gameManager.categoryWithPaires.paires = paires
-                    //gameManager.categoryWithPaires.paires.forEach { paire ->
+                    val updatedPaires = mutableListOf<Paire>()
 
                     paires.forEach { paire ->
                         val choiceOneFlow = TuPreferesRepository.getInstance()?.getChoice(paire.choiceOneId)
                         val choiceTwoFlow = TuPreferesRepository.getInstance()?.getChoice(paire.choiceTwoId)
 
-                        if(choiceOneFlow != null && choiceTwoFlow != null) {
-                            choiceOneFlow?.zip(choiceTwoFlow) { choiceOne, choiceTwo ->
+                        if (choiceOneFlow != null && choiceTwoFlow != null) {
+                            choiceOneFlow.zip(choiceTwoFlow) { choiceOne, choiceTwo ->
                                 Paire(choiceOneId = choiceOne?.idChoice, choiceTwoId = choiceTwo?.idChoice, categoryId = categoryUUID)
                             }?.collect { paireWithChoices ->
-                                val updatedPaires = gameManager.categoryWithPaires.paires + listOf(paireWithChoices)
-                                gameManager.categoryWithPaires.paires = updatedPaires
+                                updatedPaires.add(paireWithChoices)
                             }
                         }
                     }
+
+                    gameManager.categoryWithPaires.paires = updatedPaires
                 }
         }
     }
@@ -95,6 +91,10 @@ class CategoryPresenter(
         }else{
             mainPresenter.requestSwitchView("SeePair")
         }
+    }
+
+    fun switchToAddPair() {
+        mainPresenter.requestSwitchView("CreatePair")
     }
 }
 

@@ -2,6 +2,7 @@ package com.example.projettupreferes.activities
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.*
@@ -129,23 +130,15 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
     }
 
     override fun onSelectedCategory(categoryId: UUID?) {
-        val existingFragment = supportFragmentManager.findFragmentByTag("categoryFragment")
-        if (existingFragment != null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, existingFragment)
-                .addToBackStack("categoryFragment").commit()
-            mapFragments["categoryFragment"] = existingFragment;
-        } else {
             val newFragment = CategoryFragment.newInstance(categoryId, categoryPresenter)
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, newFragment, "categoryFragment")
                 .addToBackStack("categoryFragment").commit()
             mapFragments["categoryFragment"] = newFragment;
-        }
     }
 
     override fun onSelectedPair(pairId: UUID?) {
-        TODO("Not yet implemented")
+        Log.d("PAIRE SELECTED", "PAIRE SELECTIONNEE")
     }
 
 }
