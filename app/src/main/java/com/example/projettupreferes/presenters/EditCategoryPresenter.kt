@@ -8,6 +8,7 @@ import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.EditCategoryFragment
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.ImageManager
+import com.example.projettupreferes.models.exceptions.SaveImageStorageException
 import java.io.File
 
 class EditCategoryPresenter(private val editCategoryFragment: EditCategoryFragment, val mainPresenter : MainActivityPresenter, val gameManager: GameManager) {
@@ -27,7 +28,13 @@ class EditCategoryPresenter(private val editCategoryFragment: EditCategoryFragme
     }
 
     private fun editCategory(categoryName: String, selectedImageUri: Uri) {
-        val imagePath = ImageManager.saveImage(editCategoryFragment.requireContext(), selectedImageUri)
+        var imagePath: Uri? = null
+        try {
+            imagePath = ImageManager.saveImage(editCategoryFragment.requireContext(), selectedImageUri)
+        } catch (e: SaveImageStorageException) {
+            editCategoryFragment.showErrorMessage(e.message!!)
+        }
+
         if (imagePath == null) {
             editCategoryFragment.showErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'image.")
         }

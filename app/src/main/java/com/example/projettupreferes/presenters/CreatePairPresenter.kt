@@ -5,6 +5,7 @@ import android.net.Uri
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CreatePairFragment
 import com.example.projettupreferes.models.*
+import com.example.projettupreferes.models.exceptions.SaveImageStorageException
 import java.util.*
 
 class CreatePairPresenter(private val createPairFragment: CreatePairFragment, private val  mainActivityPresenter: MainActivityPresenter, private val gameManager: GameManager) {
@@ -68,7 +69,17 @@ class CreatePairPresenter(private val createPairFragment: CreatePairFragment, pr
             createPairFragment.showErrorMessage("Vous devez choisir un texte ou une image par choix")
             Choice(textChoice = "", isText = true, pairIdFk = idPair)
         }else{
-            val imagePath = ImageManager.saveImage(createPairFragment.requireContext(), selectedImageUriChoice)
+            var imagePath: Uri? = null
+            try {
+                imagePath = ImageManager.saveImage(createPairFragment.requireContext(), selectedImageUriChoice)
+            } catch (e: SaveImageStorageException) {
+                createPairFragment.showErrorMessage(e.message!!)
+            }
+
+            if (imagePath == null) {
+                createPairFragment.showErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'image.")
+                //TODO : throw pour éviter imagePath null dans le choix (même chose dans CreateCategoryPresenter et EditCategoryPresenter")
+            }
             Choice(textChoice = imagePath.toString(), isText = false, pairIdFk = idPair)
         }
     }

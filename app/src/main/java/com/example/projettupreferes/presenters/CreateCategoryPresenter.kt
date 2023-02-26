@@ -7,6 +7,7 @@ import com.example.projettupreferes.models.Category
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.ImageManager
 import com.example.projettupreferes.models.Paire
+import com.example.projettupreferes.models.exceptions.SaveImageStorageException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -41,7 +42,13 @@ class CreateCategoryPresenter(private val createCategoryFragment: CreateCategory
     }
 
     private fun createCategory(categoryName: String, selectedImageUri: Uri): Category {
-        val imagePath = ImageManager.saveImage(createCategoryFragment.requireContext(), selectedImageUri)
+        var imagePath: Uri? = null
+        try {
+            imagePath = ImageManager.saveImage(createCategoryFragment.requireContext(), selectedImageUri)
+        } catch (e: SaveImageStorageException) {
+            createCategoryFragment.showErrorMessage(e.message!!)
+        }
+
         if (imagePath == null) {
             createCategoryFragment.showErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'image.")
         }
