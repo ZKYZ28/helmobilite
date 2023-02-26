@@ -1,8 +1,6 @@
 package com.example.projettupreferes.presenters
 
-import android.content.Context
 import android.net.Uri
-import android.util.Log
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CreateCategoryFragment
 import com.example.projettupreferes.models.Category
@@ -55,7 +53,12 @@ class CreateCategoryPresenter(private val createCategoryFragment: CreateCategory
         return category
     }
 
-    fun temporarySelectedImageUri(context: Context, uri: Uri) {
+    fun onPickImageClicked() {
+        createCategoryFragment.showImagePicker()
+    }
+
+    fun temporarySelectedImageUri(uri: Uri) {
         createCategoryFragment.showSelectedImage(uri)
     }
+
 }

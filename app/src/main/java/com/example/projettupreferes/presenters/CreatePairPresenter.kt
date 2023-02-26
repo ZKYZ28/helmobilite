@@ -73,6 +73,11 @@ class CreatePairPresenter(private val createPairFragment: CreatePairFragment, pr
         }
     }
 
+    fun onPickImageClicked(choiceNumber: Int) {
+        createPairFragment.showImagePicker(choiceNumber)
+    }
+
+
 
     init {
         createPairFragment.presenter = this

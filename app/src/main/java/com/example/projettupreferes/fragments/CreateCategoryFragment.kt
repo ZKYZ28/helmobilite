@@ -1,23 +1,31 @@
 package com.example.projettupreferes.fragments
 
 import android.app.Activity
-import android.content.Intent
+import android.app.AlertDialog
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.activity.result.ActivityResult
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.CreateCategoryPresenter
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategory
-import androidx.activity.result.contract.ActivityResultContracts
+import java.io.File
 
 
-class CreateCategoryFragment : Fragment(), ICreateCategory {
+class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategory {
 
     lateinit var createCategoryPresenter: CreateCategoryPresenter
     private lateinit var confirmCreationButton: Button
@@ -26,22 +34,14 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
     private lateinit var imageSelectedCategory: ImageView
     private var selectedImageUri: Uri? = null
 
-    private lateinit var pickImage: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-         pickImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-                selectedImageUri = result.data?.data
-                if (selectedImageUri != null) {
-                    createCategoryPresenter.temporarySelectedImageUri(requireContext(), selectedImageUri!!)
-                }
-            }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
     }
 
@@ -54,14 +54,21 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
         nameCategory = view.findViewById(R.id.NameCategory)
         imageCategoryButton = view.findViewById(R.id.ImageCategory)
 
+
+        //Traitement de l'image si utilisateur a pris galerie ou photo
+        imagePickerLauncher = registerForActivityResult(imagePickerContract) { uri ->
+            if (uri != null) {
+                    selectedImageUri = uri
+                    createCategoryPresenter.temporarySelectedImageUri(uri)
+                }
+            }
+
         confirmCreationButton.setOnClickListener {
             createCategoryPresenter.validateCreation(nameCategory.text.toString(), selectedImageUri)
         }
 
         imageCategoryButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            pickImage.launch(intent)
+            createCategoryPresenter.onPickImageClicked()
         }
 
 
@@ -69,8 +76,18 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
     }
 
 
+
+    fun showImagePicker() {
+        super.showImagePickerDialog(0)
+    }
+
+
+
+    override fun showSelectedImage(selectedImageUri: Uri) {
+        imageSelectedCategory.setImageURI(selectedImageUri)
+    }
+
     companion object {
-        private val PICK_IMAGE_REQUEST = 1
         fun newInstance() = CreateCategoryFragment()
     }
 
@@ -79,7 +96,7 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
      * indiquant que tous les champs sont obligatoires
      */
     override fun showErrorMessage(errorMessage: String) {
-        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        super.displayErrorMessage(errorMessage)
     }
 
 
@@ -89,9 +106,6 @@ class CreateCategoryFragment : Fragment(), ICreateCategory {
         requireActivity().supportFragmentManager.popBackStack()
     }
 
-    override fun showSelectedImage(selectedImageUri: Uri) {
-        imageSelectedCategory.setImageURI(selectedImageUri)
-    }
 }
 
 
