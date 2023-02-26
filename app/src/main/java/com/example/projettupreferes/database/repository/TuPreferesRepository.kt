@@ -1,5 +1,6 @@
 package com.example.projettupreferes.database.repository
 
+import androidx.room.Transaction
 import com.example.projettupreferes.database.TuPreferesDataBase
 import com.example.projettupreferes.database.dao.CategoryDao
 import com.example.projettupreferes.models.*
@@ -40,9 +41,25 @@ class TuPreferesRepository {
         executor.execute { categoryDao?.updateCategory(category) }
     }
 
-    fun deleteCategory(category: Category) {
-        executor.execute { categoryDao?.deleteCategoryWithPaires(category)}
+    fun updateStatics(statistics: Statistics) {
+        executor.execute { categoryDao?.updateStatistics(statistics) }
     }
+
+    fun getStatistics(statisticsId: UUID?) : Flow<Statistics?>{
+        return flow {
+            emit(categoryDao?.getStatistics(statisticsId))
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun deleteCategory(category: Category) {
+        executor.execute { categoryDao?.deleteCategory(category)}
+    }
+
+    fun deletePaire(idPair: UUID) {
+        executor.execute { categoryDao?.deletePaire(idPair)}
+    }
+
+
 
     fun getCategoriesWithPairesList(): Flow<List<CategoryWithPaires>> = categoryDao?.getCategoriesWithPaires() ?: flowOf(emptyList())
 

@@ -15,16 +15,15 @@ class PlayGamePresenter(private val playGameFragment: PlayGameFragment, private 
     }
 
     fun onChoiceSelected() {
-        //TODO AJOUTER LES STATS
-
         val max = gameManager.categoryWithPaires.paires.size -1
         val currentPair = gameManager.categoryWithPaires.paires[generateRandomNumber(max)]
 
-       /* playGameFragment.displayChoiceOne(currentPair.choiceOne!!.textChoice, currentPair.choiceOne.isText)
-        playGameFragment.displayChoiceOne(currentPair.choiceTwo!!.textChoice, currentPair.choiceTwo.isText)*/
-
         loadChoice(currentPair.choiceOneId, true)
         loadChoice(currentPair.choiceTwoId, false)
+
+        //Mettre à jour les statistics
+        gameManager.statistics.nbrSwipes++
+        TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
     }
 
     private fun loadChoice(uuidChoice : UUID?, isFirst : Boolean){

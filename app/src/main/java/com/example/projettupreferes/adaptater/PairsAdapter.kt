@@ -12,6 +12,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projettupreferes.R
@@ -51,8 +52,6 @@ class PairsAdapter(
         private val textChoiceOne: TextView
         private val buttonChoiceOne : Button
 
-        private val deletePairButton : ImageButton
-
         private val textChoiceTwo: TextView
         private val buttonChoiceTwo : Button
 
@@ -69,16 +68,8 @@ class PairsAdapter(
             textChoiceOne = view.findViewById(R.id.textChoiceOne)
             buttonChoiceOne = view.findViewById(R.id.buttonChoiceOne)
 
-            deletePairButton = view.findViewById(R.id.deletePairButton)
-
             textChoiceTwo = view.findViewById(R.id.textChoiceTwo)
             buttonChoiceTwo = view.findViewById(R.id.buttonChoiceTwo)
-
-
-            deletePairButton.setOnClickListener{
-                Log.d("PAIRE ID", idPair.toString())
-                //TODO
-            }
 
             buttonChoiceOne.setOnClickListener{
                 showPopup(uriChoiceOne)
@@ -121,7 +112,15 @@ class PairsAdapter(
         }
 
         override fun onClick(view: View) {
-            callBacks.onSelectedPair(idPair)
+            val builder = AlertDialog.Builder(itemView.context)
+            builder.setTitle("Confirmation")
+            builder.setMessage("Voulez-vous vraiment supprimer la paire ?")
+            builder.setPositiveButton("OK") { dialog, which ->
+                callBacks.onSelectedPair(idPair)
+            }
+            builder.setNegativeButton("Annuler", null)
+            val dialog = builder.create()
+            dialog.show()
         }
 
         override fun showPair(idPair : UUID?) {

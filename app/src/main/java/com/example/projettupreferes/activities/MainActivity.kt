@@ -6,11 +6,16 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.*
+import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.*
 import com.example.projettupreferes.models.GameManager
+import com.example.projettupreferes.models.Statistics
 import com.example.projettupreferes.presenters.*
 import com.example.projettupreferes.presenters.viewsInterface.activity.IMainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISelectCategory, SeePairFragment.ISelectPair {
@@ -18,19 +23,27 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
     private val mapFragments = mutableMapOf<String, Fragment>()
     private lateinit var categoryPresenter : CategoryPresenter
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         //Démarrage + initlialisation de la première vue
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         //Ajout du presenter Activity
         val mainPresenter = MainActivityPresenter(this)
 
-
         //Gestionnaire d'objets
-        val statistics =  com.example.projettupreferes.models.Statistics(0, 0, 0, 0) // CHANGER L IMPORT
+        val uudiStat = UUID.randomUUID();
+        val statistics = Statistics(uudiStat, 0, 0, 0, 0) // BOUGER CA
+        var gameManager = GameManager(statistics)
 
-        val gameManager = GameManager(statistics);
+        GlobalScope.launch(Dispatchers.Main) {
+            TuPreferesRepository.getInstance()?.getStatistics(UUID.fromString("b0a51d0e-20b7-4c84-8f84-2cf96eeb9a8a"))
+                ?.collect { statisticsLoad ->
+                    gameManager.statistics = statisticsLoad!!
+                }
+        }
 
 
             //Ajout des Fragments
@@ -72,6 +85,8 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
                 PlayGamePresenter(fragmentPlayGameFragment, mainPresenter, gameManager)
             val personnelPresenter = PersonnelPresenter(personnelFragment, mainPresenter, gameManager)
             personnelPresenter.loadCategories()
+
+            val statisticsPresenter = StatisticsPresenter(statisticsFragment, mainPresenter, gameManager)
 
             val createCategoryPresenter = CreateCategoryPresenter(createCategoryFragment, mainPresenter, gameManager)
             val noCategoryFound = NoCategoryFoundPresenter(notCategoryFound, mainPresenter)
@@ -138,7 +153,10 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
     }
 
     override fun onSelectedPair(pairId: UUID?) {
-        Log.d("PAIRE SELECTED", "PAIRE SELECTIONNEE")
+        //TODO UPDATE LA VUE COMMENT ?
+        if (pairId != null) {
+            Log.d("ICI", "DELETE")
+            TuPreferesRepository.getInstance()?.deletePaire(pairId)
+        }
     }
-
 }

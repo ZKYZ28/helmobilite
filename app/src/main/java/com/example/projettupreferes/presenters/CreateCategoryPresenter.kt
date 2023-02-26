@@ -27,6 +27,11 @@ class CreateCategoryPresenter(private val createCategoryFragment: CreateCategory
         } else if(!checkIfCategoryAlreadyExist(categoryName)){
             val category = createCategory(categoryName, selectedImageUri)
             gameManager.categoriesList.add(category)
+
+            //Mettre à jour les statistics
+            gameManager.statistics.nbrCategories++
+            TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
+
             mainPresenter.requestSwitchView("Personnel")
         }
     }

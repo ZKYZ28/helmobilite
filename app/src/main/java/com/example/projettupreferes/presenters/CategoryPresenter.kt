@@ -1,5 +1,6 @@
 package com.example.projettupreferes.presenters
 
+import android.util.Log
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CategoryFragment
 import com.example.projettupreferes.models.GameManager
@@ -44,7 +45,6 @@ class CategoryPresenter(
     fun deleteCategory() {
         //SUPPRIMER LA CAT DEPUIS LA BD
         TuPreferesRepository.getInstance()?.deleteCategory(gameManager.categoryWithPaires.category)
-
         categoryFragment?.close()
     }
 
@@ -65,7 +65,7 @@ class CategoryPresenter(
 
                         if (choiceOneFlow != null && choiceTwoFlow != null) {
                             choiceOneFlow.zip(choiceTwoFlow) { choiceOne, choiceTwo ->
-                                Paire(choiceOneId = choiceOne?.idChoice, choiceTwoId = choiceTwo?.idChoice, categoryId = categoryUUID)
+                                Paire(paire.idPaire, choiceOneId = choiceOne?.idChoice!!, choiceTwoId = choiceTwo?.idChoice!!, categoryIdFk = categoryUUID!!)
                             }?.collect { paireWithChoices ->
                                 updatedPaires.add(paireWithChoices)
                             }
@@ -82,6 +82,11 @@ class CategoryPresenter(
             categoryFragment?.showErrorMessage("Vous n'avez aucune paire liée à cette catégorie")
         }else{
             mainPresenter.requestSwitchView("NormalGame")
+
+            //Mettre à jour les statistics
+            Log.d("STATSPRINTFL", gameManager.statistics.idStatistics.toString())
+            gameManager.statistics.gamesPlayed++
+            TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
         }
     }
 

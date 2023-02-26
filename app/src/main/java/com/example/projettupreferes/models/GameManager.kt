@@ -1,6 +1,6 @@
 package com.example.projettupreferes.models
 
-class GameManager(val statistics: Statistics) {
+class GameManager(var statistics: Statistics) {
 
     private var _currentCategoryWithPaires : CategoryWithPaires = CategoryWithPaires(Category(categoryName = "", pathImage = ""), listOf<Paire>())
 

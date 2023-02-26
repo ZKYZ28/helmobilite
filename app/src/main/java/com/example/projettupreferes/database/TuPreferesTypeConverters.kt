@@ -15,14 +15,4 @@ class TuPreferesTypeConverters {
     fun toUuid(uuid: String?): UUID {
         return UUID.fromString(uuid)
     }
-
-    @TypeConverter
-    fun fromDate(date: Date): Long {
-        return date.getTime()
-    }
-
-    @TypeConverter
-    fun toDate(date: Long): Date {
-        return Date(date)
-    }
 }

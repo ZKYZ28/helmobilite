@@ -7,7 +7,7 @@ data class CategoryWithPaires(
     @Embedded var category: Category,
     @Relation(
         parentColumn = "idCategory",
-        entityColumn = "categoryId"
+        entityColumn = "categoryIdFk"
     )
     var paires: List<Paire>
 )

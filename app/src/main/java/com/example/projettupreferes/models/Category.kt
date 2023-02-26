@@ -2,6 +2,7 @@ package com.example.projettupreferes.models
 
 import androidx.annotation.NonNull
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import java.util.*

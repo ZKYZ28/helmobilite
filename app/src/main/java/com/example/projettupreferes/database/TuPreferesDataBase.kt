@@ -10,16 +10,18 @@ import com.example.projettupreferes.database.dao.CategoryDao
 import com.example.projettupreferes.models.Category
 import com.example.projettupreferes.models.Choice
 import com.example.projettupreferes.models.Paire
+import com.example.projettupreferes.models.Statistics
+
 //Dans @Database il faut ajouter les classes que l'on veut sotcker
 //Si on fait des modifications sur le shéma de la bd il faut augmenter le numéro de la version
-@Database(entities = [Category::class, Paire::class, Choice::class], version = 2, exportSchema = false)
-//@TypeConverters(PairListConverter::class, PairConverter::class, ChoiceConverter::class)
+@Database(entities = [Category::class, Paire::class, Choice::class, Statistics::class], version = 2, exportSchema = false)
+@TypeConverters(TuPreferesTypeConverters::class)
 abstract class TuPreferesDataBase : RoomDatabase() {
     abstract fun categoryDao() : CategoryDao
 
 
     companion object {
-        private const val DATABASE_NAME = "tu-preferes-database"
+        private const val DATABASE_NAME = "database.db"
         private var instance: TuPreferesDataBase? = null
 
         fun initDatabase(context: Context) {
@@ -27,8 +29,8 @@ abstract class TuPreferesDataBase : RoomDatabase() {
                 context.applicationContext,
                 TuPreferesDataBase::class.java, DATABASE_NAME
             )
+                .createFromAsset("database.db")
                 .build()
-            Log.d("BD", "initialisation de la bdd")
         }
 
         fun getInstance(): TuPreferesDataBase? {

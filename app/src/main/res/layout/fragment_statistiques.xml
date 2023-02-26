@@ -53,6 +53,7 @@
             app:layout_constraintVertical_bias="0.1" />
 
         <TextView
+            android:id="@+id/nbrPairs"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
@@ -188,6 +189,7 @@
             app:layout_constraintVertical_bias="0.1" />
 
         <TextView
+            android:id="@+id/nbrGamePlayed"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
