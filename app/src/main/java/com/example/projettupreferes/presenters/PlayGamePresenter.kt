@@ -15,8 +15,8 @@ class PlayGamePresenter(private val playGameFragment: PlayGameFragment, private 
     }
 
     fun onChoiceSelected() {
-        val max = gameManager.categoryWithPaires.paires.size -1
-        val currentPair = gameManager.categoryWithPaires.paires[generateRandomNumber(max)]
+        val max = gameManager.currentCategoryWithPaires.paires.size -1
+        val currentPair = gameManager.currentCategoryWithPaires.paires[generateRandomNumber(max)]
 
         loadChoice(currentPair.choiceOneId, true)
         loadChoice(currentPair.choiceTwoId, false)

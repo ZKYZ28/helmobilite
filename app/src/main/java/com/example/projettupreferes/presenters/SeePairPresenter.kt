@@ -29,14 +29,14 @@ class SeePairPresenter(private val seePairFragment: SeePairFragment, private val
     }
 
     fun getItemCount(): Int {
-        if(gameManager.categoryWithPaires.paires.isEmpty()){
+        if(gameManager.currentCategoryWithPaires.paires.isEmpty()){
             return 0
         }
-        return gameManager.categoryWithPaires.paires.size
+        return gameManager.currentCategoryWithPaires.paires.size
     }
 
     fun showPairOn(holder: PairsAdapter.ViewHolder, position: Int) {
-        val p: Paire = gameManager.categoryWithPaires.paires[position]
+        val p: Paire = gameManager.currentCategoryWithPaires.paires[position]
         val result = TuPreferesRepository.getInstance()?.getChoice(p.choiceOneId)
         val result2 = TuPreferesRepository.getInstance()?.getChoice(p.choiceTwoId)
 
@@ -69,7 +69,7 @@ class SeePairPresenter(private val seePairFragment: SeePairFragment, private val
     }
 
     fun displayTitle(){
-        seePairFragment.changeTitle(gameManager.categoryWithPaires.category.categoryName)
+        seePairFragment.changeTitle(gameManager.currentCategoryWithPaires.category.categoryName)
     }
 
 }

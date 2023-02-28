@@ -6,7 +6,7 @@ class GameManager(var statistics: Statistics) {
 
     private var _categoriesMap: MutableMap<String, Category> = mutableMapOf()
 
-    var categoryWithPaires: CategoryWithPaires
+    var currentCategoryWithPaires: CategoryWithPaires
         get() = _currentCategoryWithPaires
         set(value) {
             _currentCategoryWithPaires = value

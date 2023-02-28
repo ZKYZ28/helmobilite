@@ -25,7 +25,7 @@ class CreateCategoryPresenter(private val createCategoryFragment: CreateCategory
             createCategoryFragment.showErrorMessage("Vous devez sélectionner une image")
         } else if(!checkIfCategoryAlreadyExist(categoryName)){
             val category = createCategory(categoryName, selectedImageUri)
-            gameManager.categoriesList.add(category)
+            gameManager.categoriesMap[categoryName] = category
 
             //Mettre à jour les statistics
             gameManager.statistics.nbrCategories++

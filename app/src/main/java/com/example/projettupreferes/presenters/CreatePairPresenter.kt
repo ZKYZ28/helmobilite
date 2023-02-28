@@ -39,7 +39,7 @@ class CreatePairPresenter(private val createPairFragment: CreatePairFragment, pr
         val choiceTwo = createChoice(textChoiceTwo, selectedImageUriChoiceTwo, idPair)
 
         if(!choiceOne.textChoice.isEmpty() && !choiceTwo.textChoice.isEmpty()){
-            val currentCategoryWithListPairs = gameManager.categoryWithPaires
+            val currentCategoryWithListPairs = gameManager.currentCategoryWithPaires
             //Insertion de la paire
             val pair = Paire(idPair, choiceOneId = choiceOne.idChoice, choiceTwoId = choiceTwo.idChoice, categoryIdFk = currentCategoryWithListPairs.category.idCategory)
             TuPreferesRepository.getInstance()?.insertPaire(pair)
@@ -50,7 +50,7 @@ class CreatePairPresenter(private val createPairFragment: CreatePairFragment, pr
 
             //Mettre à jour la liste de paires
             val updatedPaires = currentCategoryWithListPairs.paires + listOf(pair)
-            gameManager.categoryWithPaires.paires = updatedPaires
+            gameManager.currentCategoryWithPaires.paires = updatedPaires
 
             //Mettre à jour les statistics
             gameManager.statistics.nbrPairs++

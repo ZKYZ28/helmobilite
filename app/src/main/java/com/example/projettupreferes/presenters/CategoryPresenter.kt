@@ -29,7 +29,7 @@ class CategoryPresenter(
                     ?.collect { category ->
                         if (category != null) {
                             //TODO changer les 3 appels
-                            this@CategoryPresenter.gameManager.categoryWithPaires.category =
+                            this@CategoryPresenter.gameManager.currentCategoryWithPaires.category =
                                 category
                             categoryFragment?.displayCategoryInformation(
                                 category.categoryName,
@@ -44,7 +44,7 @@ class CategoryPresenter(
 
     fun deleteCategory() {
         //SUPPRIMER LA CAT DEPUIS LA BD
-        TuPreferesRepository.getInstance()?.deleteCategory(gameManager.categoryWithPaires.category)
+        TuPreferesRepository.getInstance()?.deleteCategory(gameManager.currentCategoryWithPaires.category)
         categoryFragment?.close()
     }
 
@@ -71,13 +71,13 @@ class CategoryPresenter(
                         }
                     }
 
-                    gameManager.categoryWithPaires.paires = updatedPaires
+                    gameManager.currentCategoryWithPaires.paires = updatedPaires
                 }
         }
     }
 
     fun switchToPlayGame(){
-        if(gameManager.categoryWithPaires.paires.isEmpty()){
+        if(gameManager.currentCategoryWithPaires.paires.isEmpty()){
             categoryFragment?.showErrorMessage("Vous n'avez aucune paire liée à cette catégorie")
         }else{
             mainPresenter.requestSwitchView("NormalGame")
@@ -90,7 +90,7 @@ class CategoryPresenter(
     }
 
     fun switchToSeePairs() {
-        if(gameManager.categoryWithPaires.paires.isEmpty()){
+        if(gameManager.currentCategoryWithPaires.paires.isEmpty()){
             categoryFragment?.showErrorMessage("Vous n'avez aucune paire liée à cette catégorie")
         }else{
             mainPresenter.requestSwitchView("SeePair")
