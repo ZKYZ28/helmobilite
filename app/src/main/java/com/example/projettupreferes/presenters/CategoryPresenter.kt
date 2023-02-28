@@ -52,7 +52,6 @@ class CategoryPresenter(
         mainPresenter.requestSwitchView("EditCategory")
     }
 
-    //TODO : retirer uuid
     fun loadPair(categoryUUID: UUID?) {
         GlobalScope.launch(Dispatchers.Main) {
             TuPreferesRepository.getInstance()?.getPairesByCategoryId(categoryUUID)

@@ -36,7 +36,7 @@ class PersonnelPresenter(private val personnel: PersonnalFragment, private val m
             TuPreferesRepository.getInstance()?.getCategoriesWithPairesList()
                 ?.collect { categoriesWithPaires ->
                     val categories = categoriesWithPaires.map { it.category }
-                    this@PersonnelPresenter.gameManager.categoriesList = categories.toMutableList()
+                    this@PersonnelPresenter.gameManager.categoriesMap = categories.associateBy { it.categoryName }.toMutableMap()
                     personnel.loadView()
                 }
         }
@@ -47,17 +47,17 @@ class PersonnelPresenter(private val personnel: PersonnalFragment, private val m
 
 
     fun getItemCount(): Int {
-        if(gameManager.categoriesList == null){
+        if(gameManager.categoriesMap == null){
             return 0
         }
-        return gameManager.categoriesList.size
+        return gameManager.categoriesMap.size
     }
 
     fun showCategoryOn(
         holder: ICategoryItemScreen,
         position: Int
     ) {
-        val p: Category = gameManager.categoriesList[position]
+        val p: Category = gameManager.categoriesMap.values.toList()[position]
         holder.showCategory(p.idCategory, p.categoryName, p.pathImage)
     }
 }

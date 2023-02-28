@@ -4,7 +4,7 @@ class GameManager(var statistics: Statistics) {
 
     private var _currentCategoryWithPaires : CategoryWithPaires = CategoryWithPaires(Category(categoryName = "", pathImage = ""), listOf<Paire>())
 
-    private var _categoriesList: MutableList<Category> = mutableListOf()
+    private var _categoriesMap: MutableMap<String, Category> = mutableMapOf()
 
     var categoryWithPaires: CategoryWithPaires
         get() = _currentCategoryWithPaires
@@ -13,10 +13,10 @@ class GameManager(var statistics: Statistics) {
         }
 
 
-    var categoriesList: MutableList<Category>
-        get() = _categoriesList
+    var categoriesMap: MutableMap<String, Category>
+        get() = _categoriesMap
         set(value) {
-            _categoriesList = value
+            _categoriesMap = value
         }
 
 
