@@ -36,8 +36,10 @@ class CreateCategoryPresenter(private val createCategoryFragment: CreateCategory
     }
 
     fun checkIfCategoryAlreadyExist(categoryName : String) : Boolean{
-        //TODO CHECK SI LE NOM DE LA CATEGORIE N'EST PAS DEJA UTILISE
-        //TuPreferesRepository.getInstance()?.checkIfCategoryAlreadyExiste(categoryName)
+        if (gameManager.categoriesMap.containsKey(categoryName)){
+            createCategoryFragment.showErrorMessage("Une catégorie avec ce nom existe déjà")
+            return true
+        }
         return false
     }
 
