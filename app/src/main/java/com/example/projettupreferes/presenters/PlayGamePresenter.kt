@@ -1,6 +1,7 @@
 package com.example.projettupreferes.presenters
 
 
+import android.util.Log
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.PlayGameFragment
 import com.example.projettupreferes.models.GameManager
@@ -16,6 +17,7 @@ class PlayGamePresenter(private val playGameFragment: PlayGameFragment, private 
 
     fun onChoiceSelected() {
         val max = gameManager.currentCategoryWithPaires.paires.size -1
+        Log.d("TAILLE onChoiceSelected ", gameManager.currentCategoryWithPaires.paires.size.toString())
         val currentPair = gameManager.currentCategoryWithPaires.paires[generateRandomNumber(max)]
 
         loadChoice(currentPair.choiceOneId, true)
