@@ -3,11 +3,10 @@ package com.example.projettupreferes.presenters
 import android.util.Log
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CategoryFragment
+import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.models.GameManager
-import com.example.projettupreferes.models.Paire
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -49,38 +48,19 @@ class CategoryPresenter(
     }
 
     fun editCategory() {
-        mainPresenter.requestSwitchView("EditCategory")
+        mainPresenter.requestSwitchView(FragmentsName.EditCategory)
     }
 
     fun loadPair(categoryUUID: UUID?) {
-        GlobalScope.launch(Dispatchers.Main) {
-            TuPreferesRepository.getInstance()?.getPairesByCategoryId(categoryUUID)
-                ?.collect { paires ->
-                    val updatedPaires = mutableListOf<Paire>()
-
-                    paires.forEach { paire ->
-                        val choiceOneFlow = TuPreferesRepository.getInstance()?.getChoice(paire.choiceOneId)
-                        val choiceTwoFlow = TuPreferesRepository.getInstance()?.getChoice(paire.choiceTwoId)
-
-                        if (choiceOneFlow != null && choiceTwoFlow != null) {
-                            choiceOneFlow.zip(choiceTwoFlow) { choiceOne, choiceTwo ->
-                                Paire(paire.idPaire, choiceOneId = choiceOne?.idChoice!!, choiceTwoId = choiceTwo?.idChoice!!, categoryIdFk = categoryUUID!!)
-                            }?.collect { paireWithChoices ->
-                                updatedPaires.add(paireWithChoices)
-                            }
-                        }
-                    }
-
-                    gameManager.currentCategoryWithPaires.paires = updatedPaires
-                }
-        }
+        //Isolation de la méthode vers le mainPresenter
+        mainPresenter.loadPair(categoryUUID, null)
     }
 
     fun switchToPlayGame(){
         if(gameManager.currentCategoryWithPaires.paires.isEmpty()){
             categoryFragment?.showErrorMessage("Vous n'avez aucune paire liée à cette catégorie")
         }else{
-            mainPresenter.requestSwitchView("NormalGame")
+            mainPresenter.requestSwitchView(FragmentsName.NormalGame)
 
             //Mettre à jour les statistics
             Log.d("STATSPRINTFL", gameManager.statistics.idStatistics.toString())
@@ -93,12 +73,12 @@ class CategoryPresenter(
         if(gameManager.currentCategoryWithPaires.paires.isEmpty()){
             categoryFragment?.showErrorMessage("Vous n'avez aucune paire liée à cette catégorie")
         }else{
-            mainPresenter.requestSwitchView("SeePair")
+            mainPresenter.requestSwitchView(FragmentsName.SeePair)
         }
     }
 
     fun switchToAddPair() {
-        mainPresenter.requestSwitchView("CreatePair")
+        mainPresenter.requestSwitchView(FragmentsName.CreatePair)
     }
 }
 

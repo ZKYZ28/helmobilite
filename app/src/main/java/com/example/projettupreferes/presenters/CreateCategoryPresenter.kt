@@ -3,6 +3,7 @@ package com.example.projettupreferes.presenters
 import android.net.Uri
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CreateCategoryFragment
+import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.models.Category
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.ImageManager
@@ -31,7 +32,7 @@ class CreateCategoryPresenter(private val createCategoryFragment: CreateCategory
             gameManager.statistics.nbrCategories++
             TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
 
-            mainPresenter.requestSwitchView("Personnel")
+            mainPresenter.requestSwitchView(FragmentsName.Personnal)
         }
     }
 

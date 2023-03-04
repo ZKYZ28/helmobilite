@@ -3,6 +3,7 @@ package com.example.projettupreferes.activities
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.*
@@ -20,8 +21,11 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISelectCategory, SeePairFragment.ISelectPair {
 
-    private val mapFragments = mutableMapOf<String, Fragment>()
+    private val mapFragments = mutableMapOf<FragmentsName, Fragment>()
     private lateinit var categoryPresenter : CategoryPresenter
+    lateinit var onFragmentSelectedListener: OnFragmentSelectedListener
+    private var previousFragment : Fragment? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +33,18 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        supportFragmentManager.addOnBackStackChangedListener {
+            previousFragment = supportFragmentManager.fragments.lastOrNull()
+        }
 
-        //Ajout du presenter Activity
-        val mainPresenter = MainActivityPresenter(this)
+        val backButton = findViewById<ImageButton>(R.id.backButton)
+        backButton.setOnClickListener {
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+            onFragmentSelectedListener.onFragmentSelected(currentFragment!!, previousFragment)
+        }
+
+
+
 
         //Gestionnaire d'objets
         val uudiStat = UUID.randomUUID();
@@ -45,37 +58,41 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
                 }
         }
 
+            //Ajout du presenter Activity
+            val mainPresenter = MainActivityPresenter(this, gameManager)
+
+
 
             //Ajout des Fragments
             val fragmentHomeFragment = HomeFragment.newInstance();
-            mapFragments["Main"] = fragmentHomeFragment;
+            mapFragments[FragmentsName.Main] = fragmentHomeFragment;
 
             val statisticsFragment = StatisticsFragment.newInstance();
-            mapFragments["Statistics"] = statisticsFragment;
+            mapFragments[FragmentsName.Statistics] = statisticsFragment;
 
             val helpFragment = HelpFragment.newInstance();
-            mapFragments["Help"] = helpFragment;
+            mapFragments[FragmentsName.Help] = helpFragment;
 
             val fragmentPlayGameFragment = PlayGameFragment.newInstance();
-            mapFragments["NormalGame"] = fragmentPlayGameFragment;
+            mapFragments[FragmentsName.NormalGame] = fragmentPlayGameFragment;
 
             val personnelFragment = PersonnalFragment.newInstance();
-            mapFragments["Personnel"] = personnelFragment;
+            mapFragments[FragmentsName.Personnal] = personnelFragment;
 
             val notCategoryFound = NoCategoryFoundFragment.newInstance();
-            mapFragments["noCategoryFound"] = notCategoryFound;
+            mapFragments[FragmentsName.NoCategoryFound] = notCategoryFound;
 
             val createCategoryFragment = CreateCategoryFragment.newInstance();
-            mapFragments["CreateCategory"] = createCategoryFragment;
+            mapFragments[FragmentsName.CreateCategory] = createCategoryFragment;
 
             val editCategoryFragment = EditCategoryFragment.newInstance();
-            mapFragments["EditCategory"] = editCategoryFragment;
+            mapFragments[FragmentsName.EditCategory] = editCategoryFragment;
 
             val createPairFragment = CreatePairFragment.newInstance()
-            mapFragments["CreatePair"] = createPairFragment
+            mapFragments[FragmentsName.CreatePair] = createPairFragment
 
             val seePairFragment = SeePairFragment.newInstance()
-            mapFragments["SeePair"] = seePairFragment
+            mapFragments[FragmentsName.SeePair] = seePairFragment
 
 
         //Ajout des presenters Fragments
@@ -97,9 +114,11 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
 
             val createPairPresenter = CreatePairPresenter(createPairFragment, mainPresenter, gameManager)
 
+
             //Ajout du fragment de base
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragmentContainer, fragmentHomeFragment)
+                .addToBackStack(null)
                 .commit()
 
             //Réagir au clic sur le menu
@@ -109,26 +128,25 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
                 when (menuItem.itemId) {
                     R.id.home -> {
                         // Appeler la méthode "goTo" de votre présentateur avec le nom du fragment "Main"
-                        mainPresenter.requestSwitchView("Main")
+                        mainPresenter.requestSwitchView(FragmentsName.Main)
                         true
                     }
                     R.id.stats -> {
                         // Appeler la méthode "goTo" de votre présentateur avec le nom du fragment "NormalGame"
-                        mainPresenter.requestSwitchView("Statistics")
+                        mainPresenter.requestSwitchView(FragmentsName.Statistics)
                         true
                     }
                     R.id.aide -> {
-                        mainPresenter.requestSwitchView("Help")
+                        mainPresenter.requestSwitchView(FragmentsName.Help)
                         true
                     }
                     else -> false
                 }
             }
 
-
         }
 
-    fun goTo(desiredFragment: String) {
+    fun goTo(desiredFragment: FragmentsName) {
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         val fragmentToDisplay = mapFragments[desiredFragment]
@@ -136,7 +154,7 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
         if (fragmentToDisplay != null) {
             transaction.replace(R.id.fragmentContainer, fragmentToDisplay)
         }
-
+        transaction.addToBackStack(null)
         transaction.commit()
     }
 
@@ -149,7 +167,7 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, newFragment, "categoryFragment")
                 .addToBackStack("categoryFragment").commit()
-            mapFragments["categoryFragment"] = newFragment;
+            mapFragments[FragmentsName.CategoryFragment] = newFragment;
     }
 
     override fun onSelectedPair(pairId: UUID?) {
@@ -159,4 +177,5 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             TuPreferesRepository.getInstance()?.deletePaire(pairId)
         }
     }
+
 }

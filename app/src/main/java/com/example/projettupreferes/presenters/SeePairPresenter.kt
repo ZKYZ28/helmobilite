@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import com.example.projettupreferes.adaptater.PairsAdapter
 import com.example.projettupreferes.database.repository.TuPreferesRepository
+import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.fragments.SeePairFragment
 import com.example.projettupreferes.models.Choice
 import com.example.projettupreferes.models.GameManager
@@ -70,6 +71,17 @@ class SeePairPresenter(private val seePairFragment: SeePairFragment, private val
 
     fun displayTitle(){
         seePairFragment.changeTitle(gameManager.currentCategoryWithPaires.category.categoryName)
+    }
+
+    fun goToCategoryFragment() {
+        mainActivityPresenter.requestSwitchView(FragmentsName.CategoryFragment)
+    }
+
+    fun switchWhenListIsEmpty() {
+        if(gameManager.currentCategoryWithPaires.paires.isEmpty()) {
+            seePairFragment.showErrorMessage("Vous n'avez plus aucune paire ! Il est temps d'en céer...")
+            goToCategoryFragment()
+        }
     }
 
 }

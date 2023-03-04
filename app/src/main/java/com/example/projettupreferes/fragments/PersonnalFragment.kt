@@ -43,8 +43,10 @@ class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen {
         recycler.adapter = CategoriesAdapter(presenter, callback)
 
         createCategory.setOnClickListener {
-            presenter.goToCreateCategory("CreateCategory")
+            presenter.goToCreateCategory(FragmentsName.CreateCategory)
         }
+
+
 
         return view
     }

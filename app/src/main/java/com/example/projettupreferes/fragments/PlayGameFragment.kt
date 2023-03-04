@@ -25,6 +25,7 @@ class PlayGameFragment : Fragment() {
     private lateinit var choiceTwo: ConstraintLayout
     private lateinit var textChoiceTwo : TextView
     private lateinit var imageChoiceTwo : ImageView
+    private var isLaunchByHome : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,14 +51,19 @@ class PlayGameFragment : Fragment() {
 
         //Ajout des listeners
         choiceOne.setOnClickListener {
-            presenter.onChoiceSelected();
+            clickOnButton()
         }
 
         choiceTwo.setOnClickListener {
-            presenter.onChoiceSelected();
+            clickOnButton()
         }
 
         return view
+    }
+
+    private fun clickOnButton() {
+        presenter.onChoiceSelected()
+        presenter.updateStatistics()
     }
 
     fun displayChoiceOne(choiceInformation : String, isText : Boolean){

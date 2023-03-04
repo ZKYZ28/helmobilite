@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.core.net.toUri
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.EditCategoryFragment
+import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.ImageManager
 import com.example.projettupreferes.models.exceptions.SaveImageStorageException
@@ -42,8 +43,12 @@ class EditCategoryPresenter(private val editCategoryFragment: EditCategoryFragme
         gameManager.currentCategoryWithPaires.category.categoryName = categoryName
         gameManager.currentCategoryWithPaires.category.pathImage = imagePath.toString()
         TuPreferesRepository.getInstance()?.updateCategory(gameManager.currentCategoryWithPaires.category)
-        mainPresenter.requestSwitchView("categoryFragment")
+        goToCategoryFragment()
         editCategoryFragment.close()
+    }
+
+    fun goToCategoryFragment() {
+        mainPresenter.requestSwitchView(FragmentsName.CategoryFragment)
     }
 
     fun temporarySelectedImageUri(uri: Uri) {
@@ -52,6 +57,7 @@ class EditCategoryPresenter(private val editCategoryFragment: EditCategoryFragme
 
     fun getCurrentCategory() {
         val currentCategory = gameManager.currentCategoryWithPaires.category;
+        Log.d("NOM CATEGORIE COURANTE", currentCategory.categoryName)
         editCategoryFragment.displayInformationInFields(currentCategory.categoryName, Uri.parse(currentCategory.pathImage))
     }
 

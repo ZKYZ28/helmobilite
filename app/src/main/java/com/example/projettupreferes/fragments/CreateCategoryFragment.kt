@@ -1,31 +1,22 @@
 package com.example.projettupreferes.fragments
 
-import android.app.Activity
-import android.app.AlertDialog
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
+import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.presenters.CreateCategoryPresenter
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategory
-import java.io.File
 
 
-class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategory {
+class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategory, OnFragmentSelectedListener {
 
     lateinit var createCategoryPresenter: CreateCategoryPresenter
     private lateinit var confirmCreationButton: Button
@@ -71,6 +62,14 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategory {
             createCategoryPresenter.onPickImageClicked()
         }
 
+        /* Bouton retour du téléphone */
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        /* Bouton retour application */
+        (activity as MainActivity).onFragmentSelectedListener = this
+
 
         return view
     }
@@ -104,6 +103,12 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategory {
     override fun close() {
         nameCategory.setText("");
         requireActivity().supportFragmentManager.popBackStack()
+    }
+
+    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+        if(fragment is CreateCategoryFragment) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 
 }

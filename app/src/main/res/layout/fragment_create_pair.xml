@@ -10,6 +10,7 @@
     tools:layout_editor_absoluteY="-22dp">
 
 
+
     <TextView
         android:id="@+id/TitleAddPair"
         android:layout_width="196dp"

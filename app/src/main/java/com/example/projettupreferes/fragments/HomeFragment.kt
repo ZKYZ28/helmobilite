@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
 
         // Ajouter un écouteur de clic au bouton
         normalGameButton.setOnClickListener {
-            presenter.goToNormalGame("NormalGame");
+            presenter.goToNormalGame(FragmentsName.NormalGame);
         }
 
         // Trouver le bouton dans la vue
@@ -39,7 +39,7 @@ class HomeFragment : Fragment() {
 
         // Ajouter un écouteur de clic au bouton
         personnelButton.setOnClickListener {
-            presenter.goToPersonnal("Personnel");
+            presenter.goToPersonnal(FragmentsName.Personnal);
         }
 
         return view

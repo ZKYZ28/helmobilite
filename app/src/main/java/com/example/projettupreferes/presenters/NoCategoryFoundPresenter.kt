@@ -1,5 +1,6 @@
 package com.example.projettupreferes.presenters
 
+import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.fragments.NoCategoryFoundFragment
 
 class NoCategoryFoundPresenter(private val noCategoryFoundFragment: NoCategoryFoundFragment, private val mainPresenter : MainActivityPresenter) {
@@ -8,6 +9,6 @@ class NoCategoryFoundPresenter(private val noCategoryFoundFragment: NoCategoryFo
     }
 
     fun switchToCreateCategory(){
-        mainPresenter.requestSwitchView("CreateCategory")
+        mainPresenter.requestSwitchView(FragmentsName.CategoryFragment)
     }
 }

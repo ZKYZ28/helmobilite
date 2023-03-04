@@ -9,15 +9,17 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
+import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.presenters.CategoryPresenter
 import java.util.*
 
 
-class CategoryFragment : Fragment() {
+class CategoryFragment : Fragment(), OnFragmentSelectedListener {
     private var categoryId: UUID? = null
     lateinit var categoryPresenter: CategoryPresenter
 
@@ -78,6 +80,14 @@ class CategoryFragment : Fragment() {
             categoryPresenter.switchToPlayGame()
         }
 
+        /* Bouton retour du téléphone */
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        /* Bouton retour application */
+        (activity as MainActivity).onFragmentSelectedListener = this
+
         categoryPresenter.loadCategory(categoryId)
 
         return view
@@ -113,5 +123,11 @@ class CategoryFragment : Fragment() {
                     }
                 }
             }
+    }
+
+    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+        if(fragment is CategoryFragment) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 }

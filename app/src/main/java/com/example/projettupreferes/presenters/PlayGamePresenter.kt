@@ -22,10 +22,6 @@ class PlayGamePresenter(private val playGameFragment: PlayGameFragment, private 
 
         loadChoice(currentPair.choiceOneId, true)
         loadChoice(currentPair.choiceTwoId, false)
-
-        //Mettre à jour les statistics
-        gameManager.statistics.nbrSwipes++
-        TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
     }
 
     private fun loadChoice(uuidChoice : UUID?, isFirst : Boolean){
@@ -48,5 +44,10 @@ class PlayGamePresenter(private val playGameFragment: PlayGameFragment, private 
 
     private fun generateRandomNumber(max : Int) : Int{
         return Random().nextInt(max - 0 + 1) + 0
+    }
+
+    fun updateStatistics() {
+        gameManager.statistics.nbrSwipes++
+        TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
     }
 }
