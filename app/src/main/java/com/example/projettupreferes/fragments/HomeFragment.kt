@@ -4,13 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
+import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.presenters.MainFragmentPresenter
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnFragmentSelectedListener {
 
     lateinit var presenter: MainFragmentPresenter;
 
@@ -42,6 +44,14 @@ class HomeFragment : Fragment() {
             presenter.goToPersonnal(FragmentsName.Personnal);
         }
 
+        /* Bouton retour du téléphone */
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        // Enregistrement de l'instance dans le MainActivity
+        (activity as MainActivity).onFragmentSelectedListener = this
+
         return view
     }
 
@@ -51,5 +61,11 @@ class HomeFragment : Fragment() {
                 arguments = Bundle().apply {
                 }
             }
+    }
+
+    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+        if(fragment is HomeFragment) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 }

@@ -49,7 +49,8 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, OnFragment
 
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            presenter.goToCategoryFragment()
+            requireActivity().supportFragmentManager.popBackStack()
+          //  presenter.goToCategoryFragment()
         }
 
         return view;
@@ -63,7 +64,8 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, OnFragment
      */
     override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
         if(fragment is SeePairFragment) {
-            presenter.goToCategoryFragment()
+           // presenter.goToCategoryFragment()
+            requireActivity().supportFragmentManager.popBackStack()
             //Todo : destroy ?
         }
     }

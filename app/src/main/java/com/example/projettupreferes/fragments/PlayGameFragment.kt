@@ -7,13 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
+import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.presenters.PlayGamePresenter
 
-class PlayGameFragment : Fragment() {
+class PlayGameFragment : Fragment(), OnFragmentSelectedListener {
 
     lateinit var presenter: PlayGamePresenter;
 
@@ -25,7 +27,6 @@ class PlayGameFragment : Fragment() {
     private lateinit var choiceTwo: ConstraintLayout
     private lateinit var textChoiceTwo : TextView
     private lateinit var imageChoiceTwo : ImageView
-    private var isLaunchByHome : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +58,15 @@ class PlayGameFragment : Fragment() {
         choiceTwo.setOnClickListener {
             clickOnButton()
         }
+
+        /* Bouton retour du téléphone */
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        // Enregistrement de l'instance dans le MainActivity
+        (activity as MainActivity).onFragmentSelectedListener = this
+
 
         return view
     }
@@ -99,5 +109,11 @@ class PlayGameFragment : Fragment() {
                 }
             }
 
+    }
+
+    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+        if(fragment is PlayGameFragment) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 }

@@ -81,9 +81,9 @@ class CategoryFragment : Fragment(), OnFragmentSelectedListener {
         }
 
         /* Bouton retour du téléphone */
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            requireActivity().supportFragmentManager.popBackStack()
-        }
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+//            requireActivity().supportFragmentManager.popBackStack()
+//        }
 
         /* Bouton retour application */
         (activity as MainActivity).onFragmentSelectedListener = this

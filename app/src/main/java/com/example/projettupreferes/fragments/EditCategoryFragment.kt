@@ -60,8 +60,8 @@ class EditCategoryFragment : FragmentWithImagePicker(), OnFragmentSelectedListen
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            //requireActivity().supportFragmentManager.popBackStack()
-            presenter.goToCategoryFragment()
+            requireActivity().supportFragmentManager.popBackStack()
+          //  presenter.goToCategoryFragment()
             //Forcer la destruction de la vue //TODO : demander si besoin de détruire vu que onDestroyView est automatiquement appelé
             //requireActivity().supportFragmentManager.beginTransaction().remove(this@EditCategoryFragment).commit()
         }
@@ -111,7 +111,8 @@ class EditCategoryFragment : FragmentWithImagePicker(), OnFragmentSelectedListen
     }
 
     fun close() {
-        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+        requireActivity().supportFragmentManager.popBackStack()
+       // requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
        // requireActivity().supportFragmentManager.popBackStack("categoryFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
         //TODO : plus besoin ceci ?
         //presenter.goToCategoryFragment()
@@ -187,6 +188,7 @@ class EditCategoryFragment : FragmentWithImagePicker(), OnFragmentSelectedListen
 
     override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
         if(fragment is EditCategoryFragment) {
+            /* Ancienne version */
 //            presenter.goToCategoryFragment()
             requireActivity().supportFragmentManager.popBackStack()
         }

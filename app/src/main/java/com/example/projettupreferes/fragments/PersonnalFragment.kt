@@ -6,15 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projettupreferes.R
+import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.adaptater.CategoriesAdapter
 import com.example.projettupreferes.presenters.PersonnelPresenter
 import java.util.*
 
-class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen {
+class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen, OnFragmentSelectedListener {
 
     lateinit var callback : ISelectCategory
     lateinit var presenter: PersonnelPresenter
@@ -46,6 +48,13 @@ class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen {
             presenter.goToCreateCategory(FragmentsName.CreateCategory)
         }
 
+        /* Bouton retour du téléphone */
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+//            requireActivity().supportFragmentManager.popBackStack()
+//        }
+
+        // Enregistrement de l'instance dans le MainActivity
+        (activity as MainActivity).onFragmentSelectedListener = this
 
 
         return view
@@ -68,6 +77,12 @@ class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen {
     override fun loadView() {
         if (view != null) {
             recycler.adapter = CategoriesAdapter(presenter, callback)
+        }
+    }
+
+    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+        if(fragment is PersonnalFragment) {
+            requireActivity().supportFragmentManager.popBackStack()
         }
     }
 }

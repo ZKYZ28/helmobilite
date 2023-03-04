@@ -120,7 +120,8 @@ class CreatePairFragment : FragmentWithImagePicker(), OnFragmentSelectedListener
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             //requireActivity().supportFragmentManager.popBackStack()
-            presenter.goToCategoryFragment()
+        //    presenter.goToCategoryFragment()
+            requireActivity().supportFragmentManager.popBackStack()
             //Forcer la destruction de la vue //TODO : demander si besoin de détruire vu que onDestroyView est automatiquement appelé
             //requireActivity().supportFragmentManager.beginTransaction().remove(this@EditCategoryFragment).commit()
         }
@@ -178,7 +179,8 @@ class CreatePairFragment : FragmentWithImagePicker(), OnFragmentSelectedListener
     }
 
     fun close() {
-        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+        requireActivity().supportFragmentManager.popBackStack()
+        //requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
     }
 
     fun showImagePicker(choiceNumber: Int) {
@@ -198,7 +200,8 @@ class CreatePairFragment : FragmentWithImagePicker(), OnFragmentSelectedListener
 
     override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
         if(fragment is CreatePairFragment) {
-            presenter.goToCategoryFragment()
+            //presenter.goToCategoryFragment()
+            requireActivity().supportFragmentManager.popBackStack()
         }
     }
 }

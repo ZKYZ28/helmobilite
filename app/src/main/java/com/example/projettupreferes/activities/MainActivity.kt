@@ -33,14 +33,21 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.addOnBackStackChangedListener {
-            previousFragment = supportFragmentManager.fragments.lastOrNull()
-        }
+//        supportFragmentManager.addOnBackStackChangedListener {
+//            previousFragment = supportFragmentManager.fragments.lastOrNull()
+//        }
+
+        Log.d("Nombre de backStack", supportFragmentManager.backStackEntryCount.toString())
 
         val backButton = findViewById<ImageButton>(R.id.backButton)
         backButton.setOnClickListener {
             val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
             onFragmentSelectedListener.onFragmentSelected(currentFragment!!, previousFragment)
+            //TODO peut-être mettre ici le supportFragmentManager.popBackStack au lieu de l'appeler dans chaque vue
+            Log.d("Nombre de backStack dans le bouton", supportFragmentManager.backStackEntryCount.toString())
+            if(supportFragmentManager.backStackEntryCount == 1) {
+                finish()
+            }
         }
 
 
@@ -115,11 +122,21 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             val createPairPresenter = CreatePairPresenter(createPairFragment, mainPresenter, gameManager)
 
 
+
+             /* Ne pas ajouter le premmier fragment à la stack car
+              * il est ajouté dans la méthode onCreate() de l'activité.
+              * Cette méthode est appelée lorsque l'activité est créée, avant
+              * que la méthode onCreate() du premier fragment ne soit appelée.
+              * Par conséquent, le premier fragment est automatiquement ajouté
+              * à la stack par la méthode onCreate() de l'activité
+              */
             //Ajout du fragment de base
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragmentContainer, fragmentHomeFragment)
                 .addToBackStack(null)
                 .commit()
+
+        Log.d("Nombre de backStack Apres ajout du fragmentHomeManager", supportFragmentManager.backStackEntryCount.toString())
 
             //Réagir au clic sur le menu
             val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
@@ -144,7 +161,22 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
                 }
             }
 
+        /*
+         * Synchronisation du menu avec le bouton retour du téléphone
+         * et de l'application
+         */
+        supportFragmentManager.addOnBackStackChangedListener {
+            when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
+                is HomeFragment -> bottomNavigationView.menu.findItem(R.id.home).isChecked = true
+                is StatisticsFragment -> bottomNavigationView.menu.findItem(R.id.stats).isChecked = true
+                is HelpFragment -> bottomNavigationView.menu.findItem(R.id.aide).isChecked = true
+                /* Tous les autres cas, c'est le bouton home qui sera sélectionné */
+                else -> bottomNavigationView.menu.findItem(R.id.home).isChecked = true
+            }
         }
+
+        }
+
 
     fun goTo(desiredFragment: FragmentsName) {
         val fragmentManager = supportFragmentManager
@@ -177,5 +209,15 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             TuPreferesRepository.getInstance()?.deletePaire(pairId)
         }
     }
+
+    override fun onBackPressed() {
+        if(supportFragmentManager.backStackEntryCount > 1) {
+            supportFragmentManager.popBackStack()
+        } else {
+            finish()
+        }
+    }
+
+
 
 }
