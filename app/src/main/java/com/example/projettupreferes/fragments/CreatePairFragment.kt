@@ -2,6 +2,7 @@ package com.example.projettupreferes.fragments
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -101,7 +102,7 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
 
 
         textChoiceOne.setOnKeyListener { view, keyCode, keyEvent ->
-            presenter.manageDisplayImageChiceOne(textChoiceOne.length())
+            presenter.manageDisplayImageChoiceOne(textChoiceOne.length())
             false
         }
 
@@ -195,6 +196,12 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
         super.showImagePickerDialog(choiceNumber)
     }
 
+    override fun onResume(){
+        //TODO CHANGER POUR NE PAS LE FAIRE QUAND ON CHANGE LA PHOTO
+        super.onResume()
+        textChoiceOne.setText("")
+        textChoiceTwo.setText("")
+    }
 
     companion object {
         @JvmStatic

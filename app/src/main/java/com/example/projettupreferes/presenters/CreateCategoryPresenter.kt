@@ -37,7 +37,7 @@ class CreateCategoryPresenter(private val createCategoryFragment: ICreateCategor
         }
     }
 
-    fun checkIfCategoryAlreadyExist(categoryName : String) : Boolean{
+    private fun checkIfCategoryAlreadyExist(categoryName : String) : Boolean{
         if (gameManager.categoriesMap.containsKey(categoryName)){
             createCategoryFragment.showErrorMessage("Une catégorie avec ce nom existe déjà")
             return true
