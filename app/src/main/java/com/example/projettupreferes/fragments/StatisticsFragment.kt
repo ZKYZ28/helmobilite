@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.addCallback
 import com.example.projettupreferes.R
+import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.presenters.StatisticsPresenter
 import com.example.projettupreferes.presenters.viewsInterface.fragments.IStatisticsFragment
 
-class StatisticsFragment : Fragment(), IStatisticsFragment {
+class StatisticsFragment : Fragment(), IStatisticsFragment, OnFragmentSelectedListener{
 
     lateinit var presenter : StatisticsPresenter
 
@@ -41,6 +43,15 @@ class StatisticsFragment : Fragment(), IStatisticsFragment {
 
         presenter.udpateStatisticsInformation()
 
+        /* Bouton retour du téléphone */
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        // Enregistrement de l'instance dans le MainActivity
+        (activity as MainActivity).onFragmentSelectedListener = this
+
+
         return view;
     }
 
@@ -58,5 +69,11 @@ class StatisticsFragment : Fragment(), IStatisticsFragment {
                 arguments = Bundle().apply {
                 }
             }
+    }
+
+    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+        if(fragment is StatisticsFragment) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 }

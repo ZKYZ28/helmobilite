@@ -7,14 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
+import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.presenters.PlayGamePresenter
 import com.example.projettupreferes.presenters.viewsInterface.fragments.IPlayGameFragment
 
-class PlayGameFragment : Fragment(), IPlayGameFragment{
+class PlayGameFragment : Fragment(), IPlayGameFragment, OnFragmentSelectedListener{
 
     lateinit var presenter: PlayGamePresenter;
 
@@ -55,14 +57,28 @@ class PlayGameFragment : Fragment(), IPlayGameFragment{
 
         //Ajout des listeners
         choiceOne.setOnClickListener {
-            presenter.onChoiceSelected();
+            clickOnButton()
         }
 
         choiceTwo.setOnClickListener {
-            presenter.onChoiceSelected();
+            clickOnButton()
         }
 
+        /* Bouton retour du téléphone */
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        // Enregistrement de l'instance dans le MainActivity
+        (activity as MainActivity).onFragmentSelectedListener = this
+
+
         return view
+    }
+
+    private fun clickOnButton() {
+        presenter.onChoiceSelected()
+        presenter.updateStatistics()
     }
 
     override fun displayChoiceOne(choiceInformation : String, isText : Boolean){
@@ -98,5 +114,11 @@ class PlayGameFragment : Fragment(), IPlayGameFragment{
                 }
             }
 
+    }
+
+    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+        if(fragment is PlayGameFragment) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 }

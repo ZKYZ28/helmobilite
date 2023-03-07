@@ -21,6 +21,7 @@
         app:layout_constraintWidth_percent="1"
         android:clickable="true">
 
+
         <TextView
             android:id="@+id/textChoiceOne"
             android:layout_width="364dp"

@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.HomeFragmentPresenter
 import com.example.projettupreferes.presenters.viewsInterface.fragments.IHomeFragment
+import com.example.projettupreferes.activities.MainActivity
+import com.example.projettupreferes.presenters.MainFragmentPresenter
 
 
-class HomeFragment : Fragment(), IHomeFragment {
+class HomeFragment : Fragment(), IHomeFragment, OnFragmentSelectedListener {
 
     lateinit var presenter: HomeFragmentPresenter;
 
@@ -36,7 +39,7 @@ class HomeFragment : Fragment(), IHomeFragment {
 
         // Ajouter un écouteur de clic au bouton
         normalGameButton.setOnClickListener {
-            presenter.goToNormalGame("NormalGame");
+            presenter.goToNormalGame(FragmentsName.NormalGame);
         }
 
         // Trouver le bouton dans la vue
@@ -44,8 +47,16 @@ class HomeFragment : Fragment(), IHomeFragment {
 
         // Ajouter un écouteur de clic au bouton
         personnelButton.setOnClickListener {
-            presenter.goToPersonnal("Personnel");
+            presenter.goToPersonnal(FragmentsName.Personnal);
         }
+
+        /* Bouton retour du téléphone */
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        // Enregistrement de l'instance dans le MainActivity
+        (activity as MainActivity).onFragmentSelectedListener = this
 
         return view
     }
@@ -56,5 +67,11 @@ class HomeFragment : Fragment(), IHomeFragment {
                 arguments = Bundle().apply {
                 }
             }
+    }
+
+    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+        if(fragment is HomeFragment) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 }

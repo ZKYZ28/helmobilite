@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CreatePairFragment
+import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.models.*
 import com.example.projettupreferes.models.exceptions.SaveImageStorageException
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreatePairFragment
@@ -62,8 +63,7 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
             gameManager.statistics.nbrPairs++
             TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
 
-            mainActivityPresenter.requestSwitchView("categoryFragment")
-
+            goToCategoryFragment()
             createPairFragment.close()
         }
     }
@@ -95,5 +95,8 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
         createPairFragment.showImagePicker(choiceNumber)
     }
 
+    fun goToCategoryFragment() {
+        mainActivityPresenter.requestSwitchView(FragmentsName.CategoryFragment)
+    }
 
 }

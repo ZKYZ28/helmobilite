@@ -9,16 +9,18 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.addCallback
++import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
+import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.presenters.CategoryPresenter
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICategoryFragment
 import java.util.*
 
 
-class CategoryFragment : Fragment(), ICategoryFragment {
+class CategoryFragment : Fragment(), ICategoryFragment, OnFragmentSelectedListener {
     private var categoryId: UUID? = null
     lateinit var categoryPresenter: CategoryPresenter
 
@@ -88,6 +90,22 @@ class CategoryFragment : Fragment(), ICategoryFragment {
         dialog.show()
     }
 
+        playGameCl.setOnClickListener {
+            categoryPresenter.switchToPlayGame()
+        }
+
+        /* Bouton retour du téléphone */
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+//            requireActivity().supportFragmentManager.popBackStack()
+//        }
+
+        /* Bouton retour application */
+        (activity as MainActivity).onFragmentSelectedListener = this
+
+        categoryPresenter.loadCategory(categoryId)
+
+        return view
+    }
     override fun displayCategoryInformation(categoryName : String, categoryImagePath : String){
         imageCategoryIv.setImageURI(Uri.parse(categoryImagePath))
         categoryNameEt.text = categoryName
@@ -118,5 +136,11 @@ class CategoryFragment : Fragment(), ICategoryFragment {
                     }
                 }
             }
+    }
+
+    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+        if(fragment is CategoryFragment) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 }

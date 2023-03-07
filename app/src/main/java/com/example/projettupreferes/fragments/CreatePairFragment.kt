@@ -1,27 +1,22 @@
 package com.example.projettupreferes.fragments
 
-import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
+import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.presenters.CreatePairPresenter
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategoryFragment
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreatePairFragment
 
 
-class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment {
+class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFragmentSelectedListener {
    lateinit var presenter : CreatePairPresenter
     lateinit var textChoiceOne : EditText
     lateinit var selecteImageChoiceOne : Button
@@ -130,6 +125,17 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment {
         textChoiceOne.setText("")
         textChoiceTwo.setText("")
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            //requireActivity().supportFragmentManager.popBackStack()
+        //    presenter.goToCategoryFragment()
+            requireActivity().supportFragmentManager.popBackStack()
+            //Forcer la destruction de la vue //TODO : demander si besoin de détruire vu que onDestroyView est automatiquement appelé
+            //requireActivity().supportFragmentManager.beginTransaction().remove(this@EditCategoryFragment).commit()
+        }
+
+        // Enregistrement de l'instance dans le MainActivity
+        (activity as MainActivity).onFragmentSelectedListener = this
+
         return view
     }
 
@@ -179,8 +185,9 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment {
         super.displayErrorMessage(errorMessage)
     }
 
-    override fun close() {
-        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+    ovveride fun close() {
+        requireActivity().supportFragmentManager.popBackStack()
+        //requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
     }
 
     override fun showImagePicker(choiceNumber: Int) {
@@ -196,5 +203,12 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment {
 
                 }
             }
+    }
+
+    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+        if(fragment is CreatePairFragment) {
+            //presenter.goToCategoryFragment()
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 }

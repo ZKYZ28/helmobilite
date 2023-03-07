@@ -1,6 +1,7 @@
 package com.example.projettupreferes.presenters
 
 import com.example.projettupreferes.database.repository.TuPreferesRepository
+import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.fragments.PersonnalFragment
 import com.example.projettupreferes.models.Category
 import com.example.projettupreferes.models.GameManager
@@ -27,7 +28,7 @@ class PersonnelPresenter(private val personnel: IPersonnalFragment, private val 
 
     //**************************************\\
 
-    fun goToCreateCategory(desiredFragment: String) {
+    fun goToCreateCategory(desiredFragment: FragmentsName) {
         mainPresenter.requestSwitchView(desiredFragment);
     }
 

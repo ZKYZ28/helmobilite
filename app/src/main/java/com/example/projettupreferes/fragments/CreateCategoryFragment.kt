@@ -9,12 +9,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.activity.addCallback
+import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
+import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.presenters.CreateCategoryPresenter
+import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategory
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategoryFragment
 
 
-class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragment {
+class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragment, OnFragmentSelectedListener {
 
     lateinit var presenter: CreateCategoryPresenter
     private lateinit var confirmCreationButton: Button
@@ -63,6 +67,14 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
             presenter.onPickImageClicked()
         }
 
+        /* Bouton retour du téléphone */
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        /* Bouton retour application */
+        (activity as MainActivity).onFragmentSelectedListener = this
+
 
         return view
     }
@@ -96,6 +108,12 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
     override fun close() {
         nameCategory.setText("");
         requireActivity().supportFragmentManager.popBackStack()
+    }
+
+    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+        if(fragment is CreateCategoryFragment) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 
 }
