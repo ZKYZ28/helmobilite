@@ -9,8 +9,9 @@ import android.widget.EditText
 import android.widget.TextView
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.StatisticsPresenter
+import com.example.projettupreferes.presenters.viewsInterface.fragments.IStatisticsFragment
 
-class StatisticsFragment : Fragment() {
+class StatisticsFragment : Fragment(), IStatisticsFragment {
 
     lateinit var presenter : StatisticsPresenter
 
@@ -18,6 +19,10 @@ class StatisticsFragment : Fragment() {
     lateinit var nbrSwipes : TextView
     lateinit var nbrCategories : TextView
     lateinit var nbrGamePlayed : TextView
+
+    override fun setStatisticsPresenter(statisticsPresenter : StatisticsPresenter){
+        this.presenter = statisticsPresenter
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +44,7 @@ class StatisticsFragment : Fragment() {
         return view;
     }
 
-    fun udpateDisplayStatistics(nbrPairs : Int, nbrSwipes : Int, nbrCategories : Int, nbrGamePlayed : Int){
+    override fun udpateDisplayStatistics(nbrPairs : Int, nbrSwipes : Int, nbrCategories : Int, nbrGamePlayed : Int){
         this.nbrPairs.text = nbrPairs.toString()
         this.nbrSwipes.text = nbrSwipes.toString()
         this.nbrCategories.text = nbrCategories.toString()

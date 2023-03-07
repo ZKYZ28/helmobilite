@@ -2,10 +2,11 @@ package com.example.projettupreferes.presenters
 
 import com.example.projettupreferes.fragments.StatisticsFragment
 import com.example.projettupreferes.models.GameManager
+import com.example.projettupreferes.presenters.viewsInterface.fragments.IStatisticsFragment
 
-class StatisticsPresenter(val statisticsFragment: StatisticsFragment, val mainActivityPresenter: MainActivityPresenter, val gameManager: GameManager) {
+class StatisticsPresenter(val statisticsFragment: IStatisticsFragment, val mainActivityPresenter: MainActivityPresenter, val gameManager: GameManager) {
     init {
-        statisticsFragment.presenter = this;
+        statisticsFragment.setStatisticsPresenter(this);
     }
 
     fun udpateStatisticsInformation(){

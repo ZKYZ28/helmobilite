@@ -13,15 +13,20 @@ import com.example.projettupreferes.R
 import com.example.projettupreferes.adaptater.CategoriesAdapter
 import com.example.projettupreferes.adaptater.PairsAdapter
 import com.example.projettupreferes.presenters.SeePairPresenter
+import com.example.projettupreferes.presenters.viewsInterface.fragments.ISeePairFragment
 import java.util.*
 
-class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen {
+class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFragment {
 
     lateinit var callback : ISelectPair
     lateinit var presenter: SeePairPresenter
 
     private lateinit var recycler : RecyclerView
     lateinit var titleSeePair: TextView
+
+    override fun setSeePairPresenter(seePairPresenter: SeePairPresenter){
+        this.presenter = seePairPresenter
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +52,7 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen {
         return view;
     }
 
-    fun changeTitle(titleSeePair : String){
+    override fun changeTitle(titleSeePair : String){
         this.titleSeePair.text = titleSeePair
     }
 

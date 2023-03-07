@@ -3,6 +3,9 @@ package com.example.projettupreferes.database.repository
 import androidx.room.Transaction
 import com.example.projettupreferes.database.TuPreferesDataBase
 import com.example.projettupreferes.database.dao.CategoryDao
+import com.example.projettupreferes.database.dao.ChoiceDao
+import com.example.projettupreferes.database.dao.PaireDao
+import com.example.projettupreferes.database.dao.StatisticsDao
 import com.example.projettupreferes.models.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,77 +18,62 @@ import java.util.concurrent.Executors
 
 class TuPreferesRepository {
     val categoryDao : CategoryDao? = TuPreferesDataBase.getInstance()?.categoryDao()
+    val choiceDao : ChoiceDao? = TuPreferesDataBase.getInstance()?.choiceDao()
+    val paireDao : PaireDao? = TuPreferesDataBase.getInstance()?.paireDao()
+    val statisticsDao : StatisticsDao? = TuPreferesDataBase.getInstance()?.statisticsDao()
+
     val executor: ExecutorService = Executors.newSingleThreadExecutor()
 
-//    fun insertCategory(category: Category) {
-//        executor.execute { categoryDao?.insertCategory(category) }
-//    }
 
+    //CATEGORY
     fun insertCategory(category: Category) {
         executor.execute { categoryDao?.insertCategory(category) }
     }
-
-    fun checkIfCategoryAlreadyExiste(categoryName: String){
-        executor.execute { categoryDao?.getCategoryName(categoryName) }
-    }
-
-    fun insertPaire(paire: Paire) {
-        executor.execute { categoryDao?.insertPaire(paire)}
-    }
-
-    fun updatePaire(paire : Paire) {
-        executor.execute {categoryDao?.updatePaire(paire)}
-    }
-
     fun updateCategory(category: Category) {
         executor.execute { categoryDao?.updateCategory(category) }
     }
-
-    fun updateStatics(statistics: Statistics) {
-        executor.execute { categoryDao?.updateStatistics(statistics) }
-    }
-
-    fun getStatistics(statisticsId: UUID?) : Flow<Statistics?>{
-        return flow {
-            emit(categoryDao?.getStatistics(statisticsId))
-        }.flowOn(Dispatchers.IO)
-    }
-
     fun deleteCategory(category: Category) {
         executor.execute { categoryDao?.deleteCategory(category)}
     }
-
-    fun deletePaire(idPair: UUID) {
-        executor.execute { categoryDao?.deletePaire(idPair)}
-    }
-
-
-
     fun getCategoriesWithPairesList(): Flow<List<CategoryWithPaires>> = categoryDao?.getCategoriesWithPaires() ?: flowOf(emptyList())
-
-    // Dans votre classe de référentiel
-    fun getPairesByCategoryId(categoryId: UUID?): Flow<List<Paire>> {
-        return categoryDao?.getPairesByCategoryId(categoryId) ?: flowOf(emptyList())
-    }
-
-    fun getChoice(choiceId: UUID?): Flow<Choice?> {
-        return flow {
-            emit(categoryDao?.getChoice(choiceId))
-        }.flowOn(Dispatchers.IO)
-    }
-
-
 
     fun getCategory(uuid: UUID?): Flow<Category?>? {
         return categoryDao?.getCategory(uuid)
     }
 
-    fun insertChoice(choice: Choice) {
-        executor.execute { categoryDao?.insertChoice(choice) }
+    //PAIRE
+    fun insertPaire(paire: Paire) {
+        executor.execute {paireDao?.insertPaire(paire)}
+    }
+    fun deletePaire(idPair: UUID) {
+        executor.execute { paireDao?.deletePaire(idPair)}
+    }
+    fun getPairesByCategoryId(categoryId: UUID?): Flow<List<Paire>> {
+        return paireDao?.getPairesByCategoryId(categoryId) ?: flowOf(emptyList())
     }
 
-    fun updateChoice(choice: Choice) {
-        executor.execute{categoryDao?.updateChoice(choice)}
+
+    //CHOICE
+    fun getChoice(choiceId: UUID?): Flow<Choice?> {
+        return flow {
+            emit(choiceDao?.getChoice(choiceId))
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun insertChoice(choice: Choice) {
+        executor.execute { choiceDao?.insertChoice(choice) }
+    }
+
+
+    //STATISTICS
+    fun updateStatics(statistics: Statistics) {
+        executor.execute { statisticsDao?.updateStatistics(statistics) }
+    }
+
+    fun getStatistics(statisticsId: UUID?) : Flow<Statistics?>{
+        return flow {
+            emit(statisticsDao?.getStatistics(statisticsId))
+        }.flowOn(Dispatchers.IO)
     }
 
 

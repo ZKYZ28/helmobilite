@@ -4,6 +4,7 @@ import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.PersonnalFragment
 import com.example.projettupreferes.models.Category
 import com.example.projettupreferes.models.GameManager
+import com.example.projettupreferes.presenters.viewsInterface.fragments.IPersonnalFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
@@ -11,9 +12,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
-class PersonnelPresenter(private val personnel: PersonnalFragment, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
+class PersonnelPresenter(private val personnel: IPersonnalFragment, private val CategoryListScreen: ICategoryListScreen, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
     init {
-        personnel.presenter = this;
+        personnel.setPersonnelPresenter(this);
     }
 
     interface ICategoryItemScreen {
@@ -37,7 +38,7 @@ class PersonnelPresenter(private val personnel: PersonnalFragment, private val m
                 ?.collect { categoriesWithPaires ->
                     val categories = categoriesWithPaires.map { it.category }
                     this@PersonnelPresenter.gameManager.categoriesMap = categories.associateBy { it.categoryName }.toMutableMap()
-                    personnel.loadView()
+                    CategoryListScreen.loadView()
                 }
         }
     }

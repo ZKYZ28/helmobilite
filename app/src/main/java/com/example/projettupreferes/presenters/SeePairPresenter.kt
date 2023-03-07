@@ -8,16 +8,17 @@ import com.example.projettupreferes.fragments.SeePairFragment
 import com.example.projettupreferes.models.Choice
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.Paire
+import com.example.projettupreferes.presenters.viewsInterface.fragments.ISeePairFragment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.util.*
 import java.net.URI
 
-class SeePairPresenter(private val seePairFragment: SeePairFragment, private val mainActivityPresenter: MainActivityPresenter, private val gameManager: GameManager) {
+class SeePairPresenter(private var seePairFragment: ISeePairFragment, private val PairListScreen: IPairListScreen, private val mainActivityPresenter: MainActivityPresenter, private val gameManager: GameManager) {
 
     init {
-        seePairFragment.presenter = this
+        seePairFragment.setSeePairPresenter(this)
     }
 
     interface IPairItemScreen {
@@ -28,10 +29,17 @@ class SeePairPresenter(private val seePairFragment: SeePairFragment, private val
         fun loadView()
     }
 
+    fun setFragment(seePairFragment: ISeePairFragment){
+        this.seePairFragment = seePairFragment
+        this.seePairFragment.setSeePairPresenter(this)
+    }
+
     fun getItemCount(): Int {
         if(gameManager.currentCategoryWithPaires.paires.isEmpty()){
+            Log.d("SIZEPAIRES", gameManager.currentCategoryWithPaires.paires.size.toString())
             return 0
         }
+        Log.d("SIZEPAIRES", gameManager.currentCategoryWithPaires.paires.size.toString())
         return gameManager.currentCategoryWithPaires.paires.size
     }
 
@@ -65,7 +73,7 @@ class SeePairPresenter(private val seePairFragment: SeePairFragment, private val
     }
 
     fun loadpairs() {
-        seePairFragment.loadView()
+        PairListScreen.loadView()
     }
 
     fun displayTitle(){

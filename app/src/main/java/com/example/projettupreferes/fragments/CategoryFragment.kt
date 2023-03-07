@@ -14,10 +14,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.CategoryPresenter
+import com.example.projettupreferes.presenters.viewsInterface.fragments.ICategoryFragment
 import java.util.*
 
 
-class CategoryFragment : Fragment() {
+class CategoryFragment : Fragment(), ICategoryFragment {
     private var categoryId: UUID? = null
     lateinit var categoryPresenter: CategoryPresenter
 
@@ -63,15 +64,7 @@ class CategoryFragment : Fragment() {
         }
 
         deleteCategoryButton.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Confirmation")
-            builder.setMessage("Voulez-vous vraiment supprimer la catégorie ?")
-            builder.setPositiveButton("OK") { dialog, which ->
-                categoryPresenter.deleteCategory()
-            }
-            builder.setNegativeButton("Annuler", null)
-            val dialog = builder.create()
-            dialog.show()
+                categoryPresenter.requestToDeleteCategory()
         }
 
         playGameCl.setOnClickListener {
@@ -83,12 +76,24 @@ class CategoryFragment : Fragment() {
         return view
     }
 
-    fun displayCategoryInformation(categoryName : String, categoryImagePath : String){
+    override fun displayPopUpConfirmation(){
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirmation")
+        builder.setMessage("Voulez-vous vraiment supprimer la catégorie ?")
+        builder.setPositiveButton("OK") { dialog, which ->
+            categoryPresenter.deleteCategory()
+        }
+        builder.setNegativeButton("Annuler", null)
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    override fun displayCategoryInformation(categoryName : String, categoryImagePath : String){
         imageCategoryIv.setImageURI(Uri.parse(categoryImagePath))
         categoryNameEt.text = categoryName
     }
 
-    fun close() {
+    override fun close() {
         requireActivity().supportFragmentManager.popBackStack()
     }
 
@@ -96,7 +101,7 @@ class CategoryFragment : Fragment() {
      * Méthode qui permet d'afficher un message d'erreur
      * indiquant que tous les champs sont obligatoires
      */
-    fun showErrorMessage(errorMessage: String) {
+    override fun showErrorMessage(errorMessage: String) {
         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
     }
 

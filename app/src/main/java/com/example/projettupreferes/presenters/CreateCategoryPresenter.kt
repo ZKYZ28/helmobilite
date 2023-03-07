@@ -1,30 +1,31 @@
 package com.example.projettupreferes.presenters
 
+import android.content.Context
 import android.net.Uri
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CreateCategoryFragment
 import com.example.projettupreferes.models.Category
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.ImageManager
-import com.example.projettupreferes.models.Paire
 import com.example.projettupreferes.models.exceptions.SaveImageStorageException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategoryFragment
 
-class CreateCategoryPresenter(private val createCategoryFragment: CreateCategoryFragment, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
+class CreateCategoryPresenter(private val createCategoryFragment: ICreateCategoryFragment, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
     init {
-        createCategoryFragment.createCategoryPresenter = this
+        createCategoryFragment.setCreateCategoryPresenter(this)
     }
 
 
-    fun validateCreation(categoryName: String, selectedImageUri: Uri?) {
+    fun validateCreation(categoryName: String, selectedImageUri: Uri?, context: Context) {
         if (categoryName.isEmpty()) {
             createCategoryFragment.showErrorMessage("Le nom de la catégorie ne peut pas être vide")
-        } else if (selectedImageUri == null) {
-            createCategoryFragment.showErrorMessage("Vous devez sélectionner une image")
-        } else if(!checkIfCategoryAlreadyExist(categoryName)){
-            val category = createCategory(categoryName, selectedImageUri)
+        }  else if(!checkIfCategoryAlreadyExist(categoryName)){
+            var uri = selectedImageUri
+            if (uri == null){
+                uri =  Uri.parse("file:///data/user/0/com.example.projettupreferes/files/defaut_image.jpg")
+            }
+
+            val category = createCategory(categoryName.uppercase(), uri!!, context)
             gameManager.categoriesMap[categoryName] = category
 
             //Mettre à jour les statistics
@@ -43,10 +44,10 @@ class CreateCategoryPresenter(private val createCategoryFragment: CreateCategory
         return false
     }
 
-    private fun createCategory(categoryName: String, selectedImageUri: Uri): Category {
+    private fun createCategory(categoryName: String, selectedImageUri: Uri, context : Context): Category {
         var imagePath: Uri? = null
         try {
-            imagePath = ImageManager.saveImage(createCategoryFragment.requireContext(), selectedImageUri)
+            imagePath = ImageManager.saveImage(context, selectedImageUri)
         } catch (e: SaveImageStorageException) {
             createCategoryFragment.showErrorMessage(e.message!!)
         }

@@ -16,8 +16,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.EditCategoryPresenter
+import com.example.projettupreferes.presenters.viewsInterface.fragments.IEditCategoryFragment
 
-class EditCategoryFragment : FragmentWithImagePicker() {
+class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment {
 
     lateinit var presenter : EditCategoryPresenter
     private lateinit var confirmModification: Button
@@ -27,11 +28,9 @@ class EditCategoryFragment : FragmentWithImagePicker() {
     private var selectedImageUri: Uri? = null
 
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun setEditCategoryPresenter(editCategoryPresenter : EditCategoryPresenter){
+        this.presenter = editCategoryPresenter
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +53,7 @@ class EditCategoryFragment : FragmentWithImagePicker() {
 
 
         confirmModification.setOnClickListener {
-            presenter.validateModification(nameCategoryEdit.text.toString(), selectedImageUri)
+            presenter.validateModification(nameCategoryEdit.text.toString(), selectedImageUri, requireContext())
         }
 
         imageCategoryEdit.setOnClickListener{
@@ -69,7 +68,7 @@ class EditCategoryFragment : FragmentWithImagePicker() {
         presenter.getCurrentCategory()
     }
 
-    fun displayInformationInFields(categoryName: String, imagePath: Uri) {
+    override fun displayInformationInFields(categoryName: String, imagePath: Uri) {
         nameCategoryEdit.setText(categoryName)
         imageSelectedCategoryEdit.setImageURI(imagePath)
         selectedImageUri = imagePath;
@@ -79,26 +78,26 @@ class EditCategoryFragment : FragmentWithImagePicker() {
      * Méthode qui permet d'afficher un message d'erreur
      * indiquant que tous les champs sont obligatoires
      */
-    fun showErrorMessage(errorMessage: String) {
-        super.displayErrorMessage(errorMessage)
+    override fun showErrorMessage(errorMessage: String) {
+        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
     }
 
     /**
      * Affichage de la boite de dialogue comprenant
      * la galerie et l'appareil photo
      */
-    fun showImagePicker() {
+    override fun showImagePicker() {
         super.showImagePickerDialog(0)
     }
 
-    fun close() {
+    override fun close() {
         requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
         //TODO : tendre vers cette ligne à l'avenir
-       // requireActivity().supportFragmentManager.popBackStack("categoryFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+       //requireActivity().supportFragmentManager.popBackStack("categoryFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
 
-    fun showSelectedImage(selectedImageUri: Uri) {
+    override fun showSelectedImage(selectedImageUri: Uri) {
         imageSelectedCategoryEdit.setImageURI(selectedImageUri)
     }
 

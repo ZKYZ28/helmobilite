@@ -5,6 +5,7 @@ import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CategoryFragment
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.Paire
+import com.example.projettupreferes.presenters.viewsInterface.fragments.ICategoryFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.zip
@@ -16,9 +17,9 @@ class CategoryPresenter(
     private val gameManager: GameManager
 ) {
 
-    private var categoryFragment: CategoryFragment? = null
+    private var categoryFragment: ICategoryFragment? = null
 
-    fun setCategoryFragment(categoyFragmentNew: CategoryFragment) {
+    fun setCategoryFragment(categoyFragmentNew: ICategoryFragment) {
         this.categoryFragment = categoyFragmentNew
     }
 
@@ -44,12 +45,28 @@ class CategoryPresenter(
 
     fun deleteCategory() {
         //SUPPRIMER LA CAT DEPUIS LA BD
+        gameManager.categoriesMap.remove(gameManager.currentCategoryWithPaires.category.categoryName)
+        gameManager.statistics.nbrCategories--
+
+        TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
         TuPreferesRepository.getInstance()?.deleteCategory(gameManager.currentCategoryWithPaires.category)
         categoryFragment?.close()
     }
 
+    fun requestToDeleteCategory(){
+        if(gameManager.currentCategoryWithPaires.category.categoryName == "NORMAL"){
+            categoryFragment?.showErrorMessage("Vous ne pouvez pas supprimer la catégoire Normal")
+        }else{
+            deleteCategory()
+        }
+    }
+
     fun editCategory() {
-        mainPresenter.requestSwitchView("EditCategory")
+        if(gameManager.currentCategoryWithPaires.category.categoryName == "NORMAL"){
+            categoryFragment?.showErrorMessage("Vous ne pouvez pas éditer la catégoire Normal")
+        }else{
+            mainPresenter.requestSwitchView("EditCategory")
+        }
     }
 
     fun loadPair(categoryUUID: UUID?) {

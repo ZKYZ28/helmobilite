@@ -27,7 +27,6 @@ class PairsAdapter(
     var callBacks: SeePairFragment.ISelectPair) :
     RecyclerView.Adapter<PairsAdapter.ViewHolder>(){
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view: View = layoutInflater.inflate(R.layout.pair_item_list, parent, false)

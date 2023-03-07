@@ -7,6 +7,9 @@ import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.projettupreferes.database.dao.CategoryDao
+import com.example.projettupreferes.database.dao.ChoiceDao
+import com.example.projettupreferes.database.dao.PaireDao
+import com.example.projettupreferes.database.dao.StatisticsDao
 import com.example.projettupreferes.models.Category
 import com.example.projettupreferes.models.Choice
 import com.example.projettupreferes.models.Paire
@@ -18,6 +21,9 @@ import com.example.projettupreferes.models.Statistics
 @TypeConverters(TuPreferesTypeConverters::class)
 abstract class TuPreferesDataBase : RoomDatabase() {
     abstract fun categoryDao() : CategoryDao
+    abstract fun choiceDao() : ChoiceDao
+    abstract fun paireDao() : PaireDao
+    abstract fun statisticsDao() : StatisticsDao
 
 
     companion object {

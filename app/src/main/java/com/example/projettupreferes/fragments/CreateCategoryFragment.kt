@@ -1,38 +1,32 @@
 package com.example.projettupreferes.fragments
 
-import android.app.Activity
-import android.app.AlertDialog
-import android.content.pm.PackageManager
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.CreateCategoryPresenter
-import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategory
-import java.io.File
+import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategoryFragment
 
 
-class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategory {
+class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragment {
 
-    lateinit var createCategoryPresenter: CreateCategoryPresenter
+    lateinit var presenter: CreateCategoryPresenter
     private lateinit var confirmCreationButton: Button
     private lateinit var imageCategoryButton: Button
     private lateinit var nameCategory: EditText
     private lateinit var imageSelectedCategory: ImageView
     private var selectedImageUri: Uri? = null
+
+
+    override fun setCreateCategoryPresenter(createCategoryPresenter: CreateCategoryPresenter){
+        this.presenter = createCategoryPresenter
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,8 +35,6 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategory {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,16 +51,16 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategory {
         imagePickerLauncher = registerForActivityResult(imagePickerContract) { uri ->
             if (uri != null) {
                     selectedImageUri = uri
-                    createCategoryPresenter.temporarySelectedImageUri(uri)
+                presenter.temporarySelectedImageUri(uri)
                 }
             }
 
         confirmCreationButton.setOnClickListener {
-            createCategoryPresenter.validateCreation(nameCategory.text.toString(), selectedImageUri)
+            presenter.validateCreation(nameCategory.text.toString(), selectedImageUri, requireContext())
         }
 
         imageCategoryButton.setOnClickListener {
-            createCategoryPresenter.onPickImageClicked()
+            presenter.onPickImageClicked()
         }
 
 
@@ -77,7 +69,7 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategory {
 
 
 
-    fun showImagePicker() {
+    override fun showImagePicker() {
         super.showImagePickerDialog(0)
     }
 

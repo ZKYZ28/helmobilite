@@ -1,13 +1,13 @@
 package com.example.projettupreferes.presenters
 
-import android.util.Log
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.HomeFragment
 import com.example.projettupreferes.models.GameManager
+import com.example.projettupreferes.presenters.viewsInterface.fragments.IHomeFragment
 
-class MainFragmentPresenter(private val homeFragment: HomeFragment, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
+class HomeFragmentPresenter(private val homeFragment: IHomeFragment, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
     init {
-        homeFragment.presenter = this;
+        homeFragment.setHomeFragmentPresenter(this);
     }
 
     fun goToNormalGame(desiredFragment: String) {

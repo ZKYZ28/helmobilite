@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
-import com.example.projettupreferes.presenters.MainFragmentPresenter
+import com.example.projettupreferes.presenters.HomeFragmentPresenter
+import com.example.projettupreferes.presenters.viewsInterface.fragments.IHomeFragment
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), IHomeFragment {
 
-    lateinit var presenter: MainFragmentPresenter;
+    lateinit var presenter: HomeFragmentPresenter;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +21,10 @@ class HomeFragment : Fragment() {
         arguments?.let {
 
         }
+    }
+
+    override fun setHomeFragmentPresenter(homeFragmentPresenter: HomeFragmentPresenter){
+        this.presenter = homeFragmentPresenter;
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

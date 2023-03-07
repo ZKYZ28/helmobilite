@@ -9,28 +9,29 @@ import com.example.projettupreferes.fragments.EditCategoryFragment
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.ImageManager
 import com.example.projettupreferes.models.exceptions.SaveImageStorageException
+import com.example.projettupreferes.presenters.viewsInterface.fragments.IEditCategoryFragment
 import java.io.File
 
-class EditCategoryPresenter(private val editCategoryFragment: EditCategoryFragment, val mainPresenter : MainActivityPresenter, val gameManager: GameManager) {
+class EditCategoryPresenter(private val editCategoryFragment: IEditCategoryFragment, val mainPresenter : MainActivityPresenter, val gameManager: GameManager) {
     init {
-        editCategoryFragment.presenter = this
+        editCategoryFragment.setEditCategoryPresenter(this)
     }
 
 
-    fun validateModification(categoryName : String, selectedImageUri: Uri?){
+    fun validateModification(categoryName : String, selectedImageUri: Uri?, context: Context){
         if (categoryName.isEmpty()) {
             editCategoryFragment.showErrorMessage("Le nom de la catégorie ne peut pas être vide")
         } else if (selectedImageUri == null) {
             editCategoryFragment.showErrorMessage("Vous devez sélectionner une image")
         } else {
-            editCategory(categoryName, selectedImageUri)
+            editCategory(categoryName, selectedImageUri, context)
         }
     }
 
-    private fun editCategory(categoryName: String, selectedImageUri: Uri) {
+    private fun editCategory(categoryName: String, selectedImageUri: Uri, context: Context) {
         var imagePath: Uri? = null
         try {
-            imagePath = ImageManager.saveImage(editCategoryFragment.requireContext(), selectedImageUri)
+           imagePath = ImageManager.saveImage(context, selectedImageUri)
         } catch (e: SaveImageStorageException) {
             editCategoryFragment.showErrorMessage(e.message!!)
         }

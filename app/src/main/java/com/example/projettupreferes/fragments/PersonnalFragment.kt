@@ -12,15 +12,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.projettupreferes.R
 import com.example.projettupreferes.adaptater.CategoriesAdapter
 import com.example.projettupreferes.presenters.PersonnelPresenter
+import com.example.projettupreferes.presenters.viewsInterface.fragments.IPersonnalFragment
 import java.util.*
 
-class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen {
+class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen, IPersonnalFragment {
 
     lateinit var callback : ISelectCategory
     lateinit var presenter: PersonnelPresenter
 
     private lateinit var recycler : RecyclerView
     private lateinit var createCategory: Button
+
+    override fun setPersonnelPresenter(personnelPresenter: PersonnelPresenter){
+        this.presenter = personnelPresenter
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

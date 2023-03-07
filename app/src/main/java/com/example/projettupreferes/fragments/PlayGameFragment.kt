@@ -12,8 +12,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.PlayGamePresenter
+import com.example.projettupreferes.presenters.viewsInterface.fragments.IPlayGameFragment
 
-class PlayGameFragment : Fragment() {
+class PlayGameFragment : Fragment(), IPlayGameFragment{
 
     lateinit var presenter: PlayGamePresenter;
 
@@ -25,6 +26,10 @@ class PlayGameFragment : Fragment() {
     private lateinit var choiceTwo: ConstraintLayout
     private lateinit var textChoiceTwo : TextView
     private lateinit var imageChoiceTwo : ImageView
+
+    override fun setPlayGamePresenter(playGamePresenter: PlayGamePresenter){
+        this.presenter = playGamePresenter
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +65,7 @@ class PlayGameFragment : Fragment() {
         return view
     }
 
-    fun displayChoiceOne(choiceInformation : String, isText : Boolean){
+    override fun displayChoiceOne(choiceInformation : String, isText : Boolean){
         if(isText){
             textChoiceOne.isVisible = true
             textChoiceOne.text = choiceInformation
@@ -72,7 +77,7 @@ class PlayGameFragment : Fragment() {
         }
     }
 
-    fun displayChoiceTwo(choiceInformation : String, isText : Boolean){
+    override fun displayChoiceTwo(choiceInformation : String, isText : Boolean){
         if(isText){
             textChoiceTwo.isVisible = true
             textChoiceTwo.text = choiceInformation

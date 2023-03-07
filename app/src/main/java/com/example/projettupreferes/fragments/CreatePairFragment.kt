@@ -17,9 +17,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.CreatePairPresenter
+import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategoryFragment
+import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreatePairFragment
 
 
-class CreatePairFragment : FragmentWithImagePicker() {
+class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment {
    lateinit var presenter : CreatePairPresenter
     lateinit var textChoiceOne : EditText
     lateinit var selecteImageChoiceOne : Button
@@ -39,6 +41,9 @@ class CreatePairFragment : FragmentWithImagePicker() {
 
 
 
+    override fun setCreatePairPresenter(createPairPresenter : CreatePairPresenter){
+        this.presenter = createPairPresenter
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +73,6 @@ class CreatePairFragment : FragmentWithImagePicker() {
             }
         }
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -120,33 +124,36 @@ class CreatePairFragment : FragmentWithImagePicker() {
         }
 
         validateButton.setOnClickListener {
-            presenter.validateCreation(textChoiceOne.text.toString(), textChoiceTwo.text.toString(), selectedImageUriChoiceOne, selectedImageUriChoiceTwo)
+            presenter.validateCreation(textChoiceOne.text.toString(), textChoiceTwo.text.toString(), selectedImageUriChoiceOne, selectedImageUriChoiceTwo, requireContext())
         }
+
+        textChoiceOne.setText("")
+        textChoiceTwo.setText("")
 
         return view
     }
 
-    fun deactivateSelecteImageChoiceOne(){
+    override fun deactivateSelecteImageChoiceOne(){
         selecteImageChoiceOne.isEnabled = false
         selecteImageChoiceOne.isVisible = false
     }
 
-    fun activateSelecteImageChoiceOne(){
+    override fun activateSelecteImageChoiceOne(){
         selecteImageChoiceOne.isEnabled = true
         selecteImageChoiceOne.isVisible = true
     }
 
-    fun deactivateSelecteImageChoiceTwo(){
+    override fun deactivateSelecteImageChoiceTwo(){
         selecteImageChoiceTwo.isEnabled = false
         selecteImageChoiceTwo.isVisible = false
     }
 
-    fun activateSelecteImageChoiceTwo(){
+    override fun activateSelecteImageChoiceTwo(){
         selecteImageChoiceTwo.isEnabled = true
         selecteImageChoiceTwo.isVisible = true
     }
 
-    fun onDeleteImageChoiceOne(){
+    override fun onDeleteImageChoiceOne(){
         selectedImageUriChoiceOne = null
         deleteImageChoiceOne.isVisible = false
         deleteImageChoiceOne.isEnabled = true
@@ -155,7 +162,7 @@ class CreatePairFragment : FragmentWithImagePicker() {
         textChoiceOne.isEnabled = true
     }
 
-    fun onDeleteImageChoiceTwo(){
+    override fun onDeleteImageChoiceTwo(){
         selectedImageUriChoiceTwo = null
         deleteImageChoiceTwo.isVisible = false
         deleteImageChoiceTwo.isEnabled = true
@@ -168,15 +175,15 @@ class CreatePairFragment : FragmentWithImagePicker() {
      * Méthode qui permet d'afficher un message d'erreur
      * indiquant que tous les champs sont obligatoires
      */
-    fun showErrorMessage(errorMessage: String) {
+    override fun showErrorMessage(errorMessage: String) {
         super.displayErrorMessage(errorMessage)
     }
 
-    fun close() {
+    override fun close() {
         requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
     }
 
-    fun showImagePicker(choiceNumber: Int) {
+    override fun showImagePicker(choiceNumber: Int) {
         super.showImagePickerDialog(choiceNumber)
     }
 

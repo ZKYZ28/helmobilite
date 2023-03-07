@@ -4,14 +4,15 @@ package com.example.projettupreferes.presenters
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.PlayGameFragment
 import com.example.projettupreferes.models.GameManager
+import com.example.projettupreferes.presenters.viewsInterface.fragments.IPlayGameFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 
-class PlayGamePresenter(private val playGameFragment: PlayGameFragment, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
+class PlayGamePresenter(private val playGameFragment: IPlayGameFragment, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
     init {
-        playGameFragment.presenter = this;
+        playGameFragment.setPlayGamePresenter(this);
     }
 
     fun onChoiceSelected() {
