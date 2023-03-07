@@ -58,6 +58,7 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
           //  presenter.goToCategoryFragment()
         }
 
+
         return view;
 
     }
@@ -115,7 +116,7 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
         }
     }
 
-    fun showErrorMessage(errorMessage : String) {
+    override fun showErrorMessage(errorMessage : String) {
         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
     }
 

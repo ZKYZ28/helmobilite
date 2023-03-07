@@ -11,7 +11,6 @@ import com.example.projettupreferes.R
 import com.example.projettupreferes.presenters.HomeFragmentPresenter
 import com.example.projettupreferes.presenters.viewsInterface.fragments.IHomeFragment
 import com.example.projettupreferes.activities.MainActivity
-import com.example.projettupreferes.presenters.MainFragmentPresenter
 
 
 class HomeFragment : Fragment(), IHomeFragment, OnFragmentSelectedListener {

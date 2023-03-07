@@ -239,7 +239,7 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
 
                         gameManager.currentCategoryWithPaires.paires = updatedPaires
                         val newFragment = SeePairFragment.newInstance()
-                        mapFragments["SeePair"] = newFragment;
+                        mapFragments[FragmentsName.SeePair] = newFragment;
                         seePairPresenter.setFragment(newFragment)
 
                         supportFragmentManager.beginTransaction()

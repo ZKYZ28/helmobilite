@@ -57,7 +57,7 @@ class CategoryPresenter(
         if(gameManager.currentCategoryWithPaires.category.categoryName == "NORMAL"){
             categoryFragment?.showErrorMessage("Vous ne pouvez pas supprimer la catégoire Normal")
         }else{
-            deleteCategory()
+            categoryFragment?.displayPopUpConfirmation()
         }
     }
 

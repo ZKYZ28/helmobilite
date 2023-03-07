@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
 import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.presenters.CreateCategoryPresenter
-import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategory
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategoryFragment
 
 

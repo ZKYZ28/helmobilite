@@ -185,9 +185,10 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
         super.displayErrorMessage(errorMessage)
     }
 
-    ovveride fun close() {
-        requireActivity().supportFragmentManager.popBackStack()
-        //requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+    override fun close() {
+        //requireActivity().supportFragmentManager.popBackStack()
+        //TODO : vérifier remove
+        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
     }
 
     override fun showImagePicker(choiceNumber: Int) {

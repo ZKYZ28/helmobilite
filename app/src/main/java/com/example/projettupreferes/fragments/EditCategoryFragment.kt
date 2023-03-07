@@ -111,7 +111,8 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
     }
 
     override fun close() {
-        requireActivity().supportFragmentManager.popBackStack()
+        //requireActivity().supportFragmentManager.popBackStack()
+        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
        // requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
        // requireActivity().supportFragmentManager.popBackStack("categoryFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
         //TODO : plus besoin ceci ?

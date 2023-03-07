@@ -10,7 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.addCallback
-+import androidx.appcompat.app.AlertDialog
+
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
@@ -24,14 +25,14 @@ class CategoryFragment : Fragment(), ICategoryFragment, OnFragmentSelectedListen
     private var categoryId: UUID? = null
     lateinit var categoryPresenter: CategoryPresenter
 
-    lateinit var imageCategoryIv : ImageView
-    lateinit var edtiCategoryButton : Button
-    lateinit var addPaireButton : Button
-    lateinit var seePairesButton : Button
-    lateinit var deleteCategoryButton : Button
-    lateinit var categoryNameEt : TextView
+    lateinit var imageCategoryIv: ImageView
+    lateinit var edtiCategoryButton: Button
+    lateinit var addPaireButton: Button
+    lateinit var seePairesButton: Button
+    lateinit var deleteCategoryButton: Button
+    lateinit var categoryNameEt: TextView
 
-    lateinit var playGameCl : ConstraintLayout
+    lateinit var playGameCl: ConstraintLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +43,7 @@ class CategoryFragment : Fragment(), ICategoryFragment, OnFragmentSelectedListen
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_category, container, false)
+        val view = inflater.inflate(R.layout.fragment_category, container, false)
         categoryPresenter.setCategoryFragment(this);
 
         imageCategoryIv = view.findViewById(R.id.imageCategory)
@@ -66,7 +67,7 @@ class CategoryFragment : Fragment(), ICategoryFragment, OnFragmentSelectedListen
         }
 
         deleteCategoryButton.setOnClickListener {
-                categoryPresenter.requestToDeleteCategory()
+            categoryPresenter.requestToDeleteCategory()
         }
 
         playGameCl.setOnClickListener {
@@ -74,6 +75,15 @@ class CategoryFragment : Fragment(), ICategoryFragment, OnFragmentSelectedListen
         }
 
         categoryPresenter.loadCategory(categoryId)
+
+
+        /* Bouton retour du téléphone */
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+//            requireActivity().supportFragmentManager.popBackStack()
+//        }
+
+        /* Bouton retour application */
+        (activity as MainActivity).onFragmentSelectedListener = this
 
         return view
     }
@@ -90,23 +100,7 @@ class CategoryFragment : Fragment(), ICategoryFragment, OnFragmentSelectedListen
         dialog.show()
     }
 
-        playGameCl.setOnClickListener {
-            categoryPresenter.switchToPlayGame()
-        }
-
-        /* Bouton retour du téléphone */
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-//            requireActivity().supportFragmentManager.popBackStack()
-//        }
-
-        /* Bouton retour application */
-        (activity as MainActivity).onFragmentSelectedListener = this
-
-        categoryPresenter.loadCategory(categoryId)
-
-        return view
-    }
-    override fun displayCategoryInformation(categoryName : String, categoryImagePath : String){
+    override fun displayCategoryInformation(categoryName: String, categoryImagePath: String) {
         imageCategoryIv.setImageURI(Uri.parse(categoryImagePath))
         categoryNameEt.text = categoryName
     }
@@ -139,7 +133,7 @@ class CategoryFragment : Fragment(), ICategoryFragment, OnFragmentSelectedListen
     }
 
     override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
-        if(fragment is CategoryFragment) {
+        if (fragment is CategoryFragment) {
             requireActivity().supportFragmentManager.popBackStack()
         }
     }
