@@ -103,9 +103,13 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
     }
 
 
+    override fun onResume(){
+        super.onResume()
+        nameCategory.setText("");
+    }
 
     override fun close() {
-        nameCategory.setText("");
+        selectedImageUri = null
         requireActivity().supportFragmentManager.popBackStack()
     }
 

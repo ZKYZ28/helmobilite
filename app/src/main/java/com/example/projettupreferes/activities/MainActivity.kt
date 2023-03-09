@@ -19,7 +19,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 import android.content.Context
-import android.widget.Toast
 import com.example.projettupreferes.models.Paire
 import kotlinx.coroutines.flow.zip
 
@@ -211,42 +210,18 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
     }
 
     override fun onSelectedPair(pairId: UUID?) {
-        //TODO UPDATE LA VUE COMMENT ?
         if (pairId != null) {
-            Log.d("ICI", "DELETE")
             TuPreferesRepository.getInstance()?.deletePaire(pairId)
 
+            seePairPresenter.updatePairs{
+                val newFragment = SeePairFragment.newInstance()
+                mapFragments[FragmentsName.SeePair] = newFragment;
+                seePairPresenter.setFragment(newFragment)
 
-            val categoryUUID = gameManager.currentCategoryWithPaires.category.idCategory
-            // RECHARGE LES CHOIX PUIS CREE LE FRAGMENT POUR REAFFICHER TOUT CORRECTEMENT. PEUT ETRE JUSTE MODIFIER LA LISTE EN INTERNE POUR NE PAS DEVOIR RELOAD DEPUIS LA BD. COMMENT FAIRE ? FOREACH UUID EQUALS OU METTRE UNE MAP ?
-            GlobalScope.launch(Dispatchers.Main) {
-                TuPreferesRepository.getInstance()?.getPairesByCategoryId(categoryUUID)
-                    ?.collect { paires ->
-                        val updatedPaires = mutableListOf<Paire>()
-
-                        paires.forEach { paire ->
-                            val choiceOneFlow = TuPreferesRepository.getInstance()?.getChoice(paire.choiceOneId)
-                            val choiceTwoFlow = TuPreferesRepository.getInstance()?.getChoice(paire.choiceTwoId)
-
-                            if (choiceOneFlow != null && choiceTwoFlow != null) {
-                                choiceOneFlow.zip(choiceTwoFlow) { choiceOne, choiceTwo ->
-                                    Paire(paire.idPaire, choiceOneId = choiceOne?.idChoice!!, choiceTwoId = choiceTwo?.idChoice!!, categoryIdFk = categoryUUID!!)
-                                }?.collect { paireWithChoices ->
-                                    updatedPaires.add(paireWithChoices)
-                                }
-                            }
-                        }
-
-                        gameManager.currentCategoryWithPaires.paires = updatedPaires
-                        val newFragment = SeePairFragment.newInstance()
-                        mapFragments[FragmentsName.SeePair] = newFragment;
-                        seePairPresenter.setFragment(newFragment)
-
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragmentContainer, newFragment, "SeePair")
-                            .addToBackStack("SeePair").commit()
-                    }
-            }
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, newFragment, "SeePair")
+                    .addToBackStack("SeePair").commit()
+            };
         }
     }
 

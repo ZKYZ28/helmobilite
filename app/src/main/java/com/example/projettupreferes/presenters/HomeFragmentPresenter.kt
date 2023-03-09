@@ -21,10 +21,6 @@ class HomeFragmentPresenter(private val homeFragment: IHomeFragment, private val
     }
 
     fun goToPersonnal(desiredFragment: FragmentsName) {
-        if(gameManager.categoriesMap.isEmpty()){
-            mainPresenter.requestSwitchView(FragmentsName.NoCategoryFound);
-        }else{
             mainPresenter.requestSwitchView(desiredFragment);
-        }
     }
 }

@@ -10,8 +10,10 @@ import com.example.projettupreferes.models.Choice
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.Paire
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ISeePairFragment
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import java.util.*
 import java.net.URI
@@ -79,6 +81,35 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
 
     fun displayTitle(){
         seePairFragment.changeTitle(gameManager.currentCategoryWithPaires.category.categoryName)
+    }
+
+    fun updatePairs(onUpdateComplete: () -> Unit){
+        val categoryUUID = gameManager.currentCategoryWithPaires.category.idCategory
+        // RECHARGE LES CHOIX PUIS CREE LE FRAGMENT POUR REAFFICHER TOUT CORRECTEMENT. PEUT ETRE JUSTE MODIFIER LA LISTE EN INTERNE POUR NE PAS DEVOIR RELOAD DEPUIS LA BD. COMMENT FAIRE ? FOREACH UUID EQUALS OU METTRE UNE MAP ?
+        GlobalScope.launch(Dispatchers.Main) {
+            TuPreferesRepository.getInstance()?.getPairesByCategoryId(categoryUUID)
+                ?.collect { paires ->
+                    val updatedPaires = mutableListOf<Paire>()
+
+                    paires.forEach { paire ->
+                        val choiceOneFlow = TuPreferesRepository.getInstance()?.getChoice(paire.choiceOneId)
+                        val choiceTwoFlow = TuPreferesRepository.getInstance()?.getChoice(paire.choiceTwoId)
+
+                        if (choiceOneFlow != null && choiceTwoFlow != null) {
+                            choiceOneFlow.zip(choiceTwoFlow) { choiceOne, choiceTwo ->
+                                Paire(paire.idPaire, choiceOneId = choiceOne?.idChoice!!, choiceTwoId = choiceTwo?.idChoice!!, categoryIdFk = categoryUUID!!)
+                            }?.collect { paireWithChoices ->
+                                updatedPaires.add(paireWithChoices)
+                            }
+                        }
+                    }
+
+                    gameManager.currentCategoryWithPaires.paires = updatedPaires
+
+                    // Appelle le callback pour signaler la fin de l'exécution
+                    onUpdateComplete()
+                }
+        }
     }
 
     fun goToCategoryFragment() {

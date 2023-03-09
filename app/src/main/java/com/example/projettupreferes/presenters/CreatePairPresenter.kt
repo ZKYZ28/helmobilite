@@ -3,6 +3,7 @@ package com.example.projettupreferes.presenters
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.CreatePairFragment
 import com.example.projettupreferes.fragments.FragmentsName
@@ -24,19 +25,20 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
         createPairFragment.onDeleteImageChoiceTwo()
     }
 
+    fun manageDisplayImageChoiceOne(textChoiceOneLenght : Int){
+        Log.d("SIZE", textChoiceOneLenght.toString())
+        if(textChoiceOneLenght > 0){
+            createPairFragment.deactivateSelecteImageChoiceOne()
+        }else{
+            createPairFragment.activateSelecteImageChoiceOne()
+        }
+    }
+
     fun manageDisplayImageChoiceTwo(textChoiceTwoLenght : Int) {
         if(textChoiceTwoLenght > 0){
             createPairFragment.deactivateSelecteImageChoiceTwo()
         }else{
             createPairFragment.activateSelecteImageChoiceTwo()
-        }
-    }
-
-    fun manageDisplayImageChiceOne(textChoiceOneLenght : Int){
-        if(textChoiceOneLenght > 0){
-            createPairFragment.deactivateSelecteImageChoiceOne()
-        }else{
-            createPairFragment.activateSelecteImageChoiceOne()
         }
     }
 
