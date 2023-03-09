@@ -24,7 +24,7 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
     lateinit var presenter: SeePairPresenter
 
     private lateinit var recycler : RecyclerView
-    lateinit var titleSeePair: TextView
+    private var titleSeePair: TextView? = null
 
     override fun setSeePairPresenter(seePairPresenter: SeePairPresenter){
         this.presenter = seePairPresenter
@@ -63,6 +63,7 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
 
     }
 
+
     /**
      * Méthode appelée par la MainActivity lorsque
      * le bouton retour présent dans le header
@@ -77,7 +78,7 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
     }
 
     override fun changeTitle(titleSeePair : String){
-        this.titleSeePair.text = titleSeePair
+        this.titleSeePair?.text = titleSeePair
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -118,6 +119,11 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
 
     override fun showErrorMessage(errorMessage : String) {
         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+//        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+    }
+
+    override fun destroyFragment() {
+        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
     }
 
 

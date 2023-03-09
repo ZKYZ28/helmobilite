@@ -29,6 +29,7 @@ class ImagePickerContract :  ActivityResultContract<Int, Uri?>(){
                     return Intent()
                 }
                 intent.action = MediaStore.ACTION_IMAGE_CAPTURE
+
                 val photoName = "IMG_${System.currentTimeMillis()}.jpg"
                 val photoFile = File(context.applicationContext.filesDir, photoName)
                  photoUri = FileProvider.getUriForFile(
@@ -36,6 +37,7 @@ class ImagePickerContract :  ActivityResultContract<Int, Uri?>(){
                     "com.example.projettupreferes.categoriesandchoicesintent.fileprovider",
                     photoFile
                 )
+
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                 return intent
             }

@@ -30,11 +30,13 @@ class EditCategoryPresenter(private val editCategoryFragment: IEditCategoryFragm
     }
 
     private fun editCategory(categoryName: String, selectedImageUri: Uri, context: Context) {
-        var imagePath: Uri? = null
+        Log.d("URI DEPUIS L'APPAREIL PHOTO", selectedImageUri.toString())
+        var imagePath: Uri?
         try {
            imagePath = ImageManager.saveImage(context, selectedImageUri)
         } catch (e: SaveImageStorageException) {
             editCategoryFragment.showErrorMessage(e.message!!)
+            return
         }
 
         if (imagePath == null) {

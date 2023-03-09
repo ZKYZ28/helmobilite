@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.util.Log
 import com.example.projettupreferes.models.exceptions.SaveImageStorageException
 import java.io.File
 import java.io.FileNotFoundException
@@ -21,6 +22,7 @@ class ImageManager {
                 file.mkdir()
             }
 
+            Log.d("URI RECU", uri.toString())
             val newFile = File(file, "category_image_${System.currentTimeMillis()}.jpg")
             val inputStream = context.contentResolver.openInputStream(uri)
             val outputStream = FileOutputStream(newFile)

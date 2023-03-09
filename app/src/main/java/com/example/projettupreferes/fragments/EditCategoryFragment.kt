@@ -99,7 +99,8 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
      */
     override fun showErrorMessage(errorMessage: String) {
         //TODO : regarder si on ne peut pas appeler super Android
-        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        super.displayErrorMessage(errorMessage)
     }
 
     /**
