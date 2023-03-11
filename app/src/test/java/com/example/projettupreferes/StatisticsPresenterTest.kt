@@ -1,12 +1,10 @@
 package com.example.projettupreferes
 
-import com.example.projettupreferes.fragments.StatisticsFragment
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.Statistics
 import com.example.projettupreferes.presenters.MainActivityPresenter
 import com.example.projettupreferes.presenters.StatisticsPresenter
 import com.example.projettupreferes.presenters.viewsInterface.fragments.IStatisticsFragment
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -40,7 +38,7 @@ class StatisticsPresenterTest {
         `when`(gameManagerMock.statistics).thenReturn(Statistics(UUID.randomUUID(), 10, 20, 5, 3))
 
         // When
-        statisticsPresenter.udpateStatisticsInformation()
+        statisticsPresenter.updateStatisticsInformation()
 
         // Then
         verify(statisticsFragmentMock).udpateDisplayStatistics(3, 5, 20, 10)

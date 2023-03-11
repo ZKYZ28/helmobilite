@@ -23,7 +23,7 @@ class EditCategoryPresenter(private val editCategoryFragment: IEditCategoryFragm
         if (categoryName.isEmpty()) {
             editCategoryFragment.showErrorMessage("Le nom de la catégorie ne peut pas être vide")
         } else if (selectedImageUri == null) {
-            editCategoryFragment.showErrorMessage("Vous devez sélectionner une image")
+            editCategoryFragment.showErrorMessage("Veuillez sélectionner une image")
         } else {
             editCategory(categoryName, selectedImageUri, context)
         }
@@ -40,10 +40,12 @@ class EditCategoryPresenter(private val editCategoryFragment: IEditCategoryFragm
         if (imagePath == null) {
             editCategoryFragment.showErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'image.")
         }
+
         //TODO : refactor appels
         gameManager.currentCategoryWithPaires.category.categoryName = categoryName
         gameManager.currentCategoryWithPaires.category.pathImage = imagePath.toString()
         TuPreferesRepository.getInstance()?.updateCategory(gameManager.currentCategoryWithPaires.category)
+
         goToCategoryFragment()
         editCategoryFragment.close()
     }
@@ -58,7 +60,6 @@ class EditCategoryPresenter(private val editCategoryFragment: IEditCategoryFragm
 
     fun getCurrentCategory() {
         val currentCategory = gameManager.currentCategoryWithPaires.category;
-        Log.d("NOM CATEGORIE COURANTE", currentCategory.categoryName)
         editCategoryFragment.displayInformationInFields(currentCategory.categoryName, Uri.parse(currentCategory.pathImage))
     }
 

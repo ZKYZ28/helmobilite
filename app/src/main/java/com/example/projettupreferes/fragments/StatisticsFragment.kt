@@ -41,7 +41,7 @@ class StatisticsFragment : Fragment(), IStatisticsFragment, OnFragmentSelectedLi
         nbrCategories = view.findViewById(R.id.nbrCategories)
         nbrGamePlayed = view.findViewById(R.id.nbrGamePlayed)
 
-        presenter.udpateStatisticsInformation()
+        presenter.updateStatisticsInformation()
 
         /* Bouton retour du téléphone */
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {

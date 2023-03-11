@@ -12,10 +12,12 @@ class HomeFragmentPresenter(private val homeFragment: IHomeFragment, private val
     }
 
     fun goToNormalGame(desiredFragment: FragmentsName) {
-        //Mettre à jour les statistics
-        //Récupération des paires s'il clique instantanément sur le mode normal
         val normalCategory = gameManager.categoriesMap["NORMAL"]
         mainPresenter.loadPair(normalCategory?.idCategory!!, desiredFragment)
+        updatePlayedGame()
+    }
+
+    private fun updatePlayedGame(){
         gameManager.statistics.gamesPlayed++
         TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
     }

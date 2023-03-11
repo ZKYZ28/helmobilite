@@ -26,7 +26,6 @@ class PersonnelPresenter(private val personnel: IPersonnalFragment, private val 
         fun loadView()
     }
 
-    //**************************************\\
 
     fun goToCreateCategory(desiredFragment: FragmentsName) {
         mainPresenter.requestSwitchView(desiredFragment);
@@ -43,10 +42,6 @@ class PersonnelPresenter(private val personnel: IPersonnalFragment, private val 
                 }
         }
     }
-
-
-
-
 
     fun getItemCount(): Int {
         if(gameManager.categoriesMap == null){

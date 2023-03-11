@@ -112,26 +112,23 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
         }
 
         deleteImageChoiceOne.setOnClickListener{
-            presenter.deleteImageChoiceOneTraitment()
+            presenter.deleteImageChoiceOneTraitement()
         }
 
         deleteImageChoiceTwo.setOnClickListener{
-            presenter.deleteImageChoiceTwoTraitment()
+            presenter.deleteImageChoiceTwoTraitement()
         }
 
         validateButton.setOnClickListener {
             presenter.validateCreation(textChoiceOne.text.toString(), textChoiceTwo.text.toString(), selectedImageUriChoiceOne, selectedImageUriChoiceTwo, requireContext())
         }
 
-        textChoiceOne.setText("")
-        textChoiceTwo.setText("")
 
+        /*Bouton retour du tel*/
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            //requireActivity().supportFragmentManager.popBackStack()
-        //    presenter.goToCategoryFragment()
+            textChoiceOne.setText("")
+            textChoiceTwo.setText("")
             requireActivity().supportFragmentManager.popBackStack()
-            //Forcer la destruction de la vue //TODO : demander si besoin de détruire vu que onDestroyView est automatiquement appelé
-            //requireActivity().supportFragmentManager.beginTransaction().remove(this@EditCategoryFragment).commit()
         }
 
         // Enregistrement de l'instance dans le MainActivity
@@ -196,12 +193,6 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
         super.showImagePickerDialog(choiceNumber)
     }
 
-    override fun onResume(){
-        //TODO CHANGER POUR NE PAS LE FAIRE QUAND ON CHANGE LA PHOTO
-        super.onResume()
-        textChoiceOne.setText("")
-        textChoiceTwo.setText("")
-    }
 
     companion object {
         @JvmStatic
@@ -214,6 +205,8 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
     }
 
     override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+        textChoiceOne.setText("")
+        textChoiceTwo.setText("")
         if(fragment is CreatePairFragment) {
             //presenter.goToCategoryFragment()
             requireActivity().supportFragmentManager.popBackStack()

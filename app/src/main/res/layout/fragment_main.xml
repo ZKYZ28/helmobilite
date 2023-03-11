@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/titleNormal"
             android:layout_width="162dp"
             android:layout_height="34dp"
             android:layout_marginStart="31dp"
@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textNormal"
             android:layout_width="364dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="23dp"
@@ -72,7 +72,7 @@
 
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/titleCreation"
             android:layout_width="219dp"
             android:layout_height="32dp"
             android:layout_marginStart="23dp"
@@ -89,7 +89,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/textCreation"
             android:layout_width="364dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="23dp"

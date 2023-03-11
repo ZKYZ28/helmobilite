@@ -7,6 +7,7 @@ plugins {
 android {
     namespace 'com.example.projettupreferes'
     compileSdk 33
+    compileSdkPreview 'UpsideDownCake'
 
     defaultConfig {
         applicationId "com.example.projettupreferes"
@@ -67,6 +68,8 @@ dependencies {
 
     testImplementation "junit:junit:$rootProject.junitVersion"
     testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
+    androidTestImplementation "androidx.fragment:fragment-testing:1.5.5"
+
     androidTestImplementation "androidx.test.ext:junit:$rootProject.androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
 }

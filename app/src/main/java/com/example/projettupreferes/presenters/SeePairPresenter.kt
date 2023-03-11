@@ -39,10 +39,8 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
 
     fun getItemCount(): Int {
         if(gameManager.currentCategoryWithPaires.paires.isEmpty()){
-            Log.d("SIZEPAIRES", gameManager.currentCategoryWithPaires.paires.size.toString())
             return 0
         }
-        Log.d("SIZEPAIRES", gameManager.currentCategoryWithPaires.paires.size.toString())
         return gameManager.currentCategoryWithPaires.paires.size
     }
 
@@ -83,7 +81,10 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
         seePairFragment.changeTitle(gameManager.currentCategoryWithPaires.category.categoryName)
     }
 
-    fun updatePairs(onUpdateComplete: () -> Unit){
+    fun updatePairs(onUpdateComplete: () -> Unit, pairId : UUID?){
+        TuPreferesRepository.getInstance()?.deletePaire(pairId!!)
+        updateStats()
+
         val categoryUUID = gameManager.currentCategoryWithPaires.category.idCategory
         // RECHARGE LES CHOIX PUIS CREE LE FRAGMENT POUR REAFFICHER TOUT CORRECTEMENT. PEUT ETRE JUSTE MODIFIER LA LISTE EN INTERNE POUR NE PAS DEVOIR RELOAD DEPUIS LA BD. COMMENT FAIRE ? FOREACH UUID EQUALS OU METTRE UNE MAP ?
         GlobalScope.launch(Dispatchers.Main) {
@@ -110,6 +111,11 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
                     onUpdateComplete()
                 }
         }
+    }
+
+    private fun updateStats(){
+        gameManager.statistics.nbrPairs--
+        TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
     }
 
     fun goToCategoryFragment() {

@@ -9,7 +9,7 @@ class StatisticsPresenter(val statisticsFragment: IStatisticsFragment, val mainA
         statisticsFragment.setStatisticsPresenter(this);
     }
 
-    fun udpateStatisticsInformation(){
+    fun updateStatisticsInformation(){
         statisticsFragment.udpateDisplayStatistics(gameManager.statistics.nbrPairs,
                                                     gameManager.statistics.nbrSwipes,
                                                     gameManager.statistics.nbrCategories,

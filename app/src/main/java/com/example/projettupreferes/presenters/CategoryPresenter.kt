@@ -19,8 +19,8 @@ class CategoryPresenter(
 
     private var categoryFragment: ICategoryFragment? = null
 
-    fun setCategoryFragment(categoyFragmentNew: ICategoryFragment) {
-        this.categoryFragment = categoyFragmentNew
+    fun setCategoryFragment(categoryFragmentNew: ICategoryFragment) {
+        this.categoryFragment = categoryFragmentNew
     }
 
     fun loadCategory(categoryUUID: UUID?) {
@@ -44,13 +44,16 @@ class CategoryPresenter(
 
 
     fun deleteCategory() {
-        //SUPPRIMER LA CAT DEPUIS LA BD
-        gameManager.categoriesMap.remove(gameManager.currentCategoryWithPaires.category.categoryName)
-        gameManager.statistics.nbrCategories--
+        removeCategory()
 
         TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
         TuPreferesRepository.getInstance()?.deleteCategory(gameManager.currentCategoryWithPaires.category)
         categoryFragment?.close()
+    }
+
+    private fun removeCategory(){
+        gameManager.categoriesMap.remove(gameManager.currentCategoryWithPaires.category.categoryName)
+        gameManager.statistics.nbrCategories--
     }
 
     fun requestToDeleteCategory(){
@@ -70,7 +73,6 @@ class CategoryPresenter(
     }
 
     fun loadPair(categoryUUID: UUID?) {
-        //Isolation de la méthode vers le mainPresenter
         mainPresenter.loadPair(categoryUUID, null)
     }
 
@@ -80,8 +82,6 @@ class CategoryPresenter(
         }else{
             mainPresenter.requestSwitchView(FragmentsName.NormalGame)
 
-            //Mettre à jour les statistics
-            Log.d("STATSPRINTFL", gameManager.statistics.idStatistics.toString())
             gameManager.statistics.gamesPlayed++
             TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
         }

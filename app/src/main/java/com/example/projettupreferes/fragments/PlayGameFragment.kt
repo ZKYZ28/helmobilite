@@ -35,7 +35,6 @@ class PlayGameFragment : Fragment(), IPlayGameFragment, OnFragmentSelectedListen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter.onChoiceSelected()
     }
 
 
@@ -72,6 +71,7 @@ class PlayGameFragment : Fragment(), IPlayGameFragment, OnFragmentSelectedListen
         // Enregistrement de l'instance dans le MainActivity
         (activity as MainActivity).onFragmentSelectedListener = this
 
+        presenter.onChoiceSelected()
 
         return view
     }

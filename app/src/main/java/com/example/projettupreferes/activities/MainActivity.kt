@@ -32,53 +32,32 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
     private lateinit var gameManager : GameManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //SETUP IMAGE
-        val defaultImageUri = Uri.parse("android.resource://${packageName}/${R.raw.defaut_image}")
-        val outputStream = this.openFileOutput("defaut_image.jpg", Context.MODE_PRIVATE)
-        val inputStream = this.contentResolver.openInputStream(defaultImageUri)
-        inputStream?.copyTo(outputStream)
-        outputStream.close()
+            //Démarrage + initlialisation de la première vue
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
+
+    //        supportFragmentManager.addOnBackStackChangedListener {
+    //            previousFragment = supportFragmentManager.fragments.lastOrNull()
+    //        }
 
 
-        //Démarrage + initlialisation de la première vue
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-//        supportFragmentManager.addOnBackStackChangedListener {
-//            previousFragment = supportFragmentManager.fragments.lastOrNull()
-//        }
-
-        Log.d("Nombre de backStack", supportFragmentManager.backStackEntryCount.toString())
-
-        val backButton = findViewById<ImageButton>(R.id.backButton)
-        backButton.setOnClickListener {
-            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
-            onFragmentSelectedListener.onFragmentSelected(currentFragment!!, previousFragment)
-            //TODO peut-être mettre ici le supportFragmentManager.popBackStack au lieu de l'appeler dans chaque vue
-            Log.d("Nombre de backStack dans le bouton", supportFragmentManager.backStackEntryCount.toString())
-            if(supportFragmentManager.backStackEntryCount == 1) {
-                finish()
-            }
-        }
-
-
-
-
-        //Gestionnaire d'objets
-        val uudiStat = UUID.randomUUID();
-        val statistics = Statistics(uudiStat, 0, 0, 0, 0) // BOUGER CA
-        gameManager = GameManager(statistics)
-
-        GlobalScope.launch(Dispatchers.Main) {
-            TuPreferesRepository.getInstance()?.getStatistics(UUID.fromString("b0a51d0e-20b7-4c84-8f84-2cf96eeb9a8a"))
-                ?.collect { statisticsLoad ->
-                    gameManager.statistics = statisticsLoad!!
+            val backButton = findViewById<ImageButton>(R.id.backButton)
+            backButton.setOnClickListener {
+                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+                onFragmentSelectedListener.onFragmentSelected(currentFragment!!, previousFragment)
+                //TODO peut-être mettre ici le supportFragmentManager.popBackStack au lieu de l'appeler dans chaque vue
+                Log.d("Nombre de backStack dans le bouton", supportFragmentManager.backStackEntryCount.toString())
+                if(supportFragmentManager.backStackEntryCount == 1) {
+                    finish()
                 }
-        }
+            }
 
-            //Ajout du presenter Activity
-            val mainPresenter = MainActivityPresenter(this, gameManager)
-
+            //SETUP image par défaut
+            val defaultImageUri = Uri.parse("android.resource://${packageName}/${R.raw.defaut_image}")
+            val outputStream = this.openFileOutput("defaut_image.jpg", Context.MODE_PRIVATE)
+            val inputStream = this.contentResolver.openInputStream(defaultImageUri)
+            inputStream?.copyTo(outputStream)
+            outputStream.close()
 
 
             //Ajout des Fragments
@@ -110,7 +89,13 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             mapFragments[FragmentsName.SeePair] = seePairFragment
 
 
-        //Ajout des presenters Fragments
+            //Ajout des presenters
+            //Gestionnaire app
+            gameManager = GameManager()
+
+            //Ajout du presenter Activity
+            val mainPresenter = MainActivityPresenter(this, gameManager)
+
             val homeFragmentPresenter =
                 HomeFragmentPresenter(fragmentHomeFragment, mainPresenter, gameManager)
             val playGamePresenter =
@@ -168,24 +153,24 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
                 }
             }
 
-        /*
-         * Synchronisation du menu avec le bouton retour du téléphone
-         * et de l'application
-         */
-        supportFragmentManager.addOnBackStackChangedListener {
-            when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
-                is HomeFragment -> bottomNavigationView.menu.findItem(R.id.home).isChecked = true
-                is StatisticsFragment -> bottomNavigationView.menu.findItem(R.id.stats).isChecked = true
-                is HelpFragment -> bottomNavigationView.menu.findItem(R.id.aide).isChecked = true
-                /* Tous les autres cas, c'est le bouton home qui sera sélectionné */
-                else -> bottomNavigationView.menu.findItem(R.id.home).isChecked = true
+            /*
+             * Synchronisation du menu avec le bouton retour du téléphone
+             * et de l'application
+             */
+            supportFragmentManager.addOnBackStackChangedListener {
+                when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
+                    is HomeFragment -> bottomNavigationView.menu.findItem(R.id.home).isChecked = true
+                    is StatisticsFragment -> bottomNavigationView.menu.findItem(R.id.stats).isChecked = true
+                    is HelpFragment -> bottomNavigationView.menu.findItem(R.id.aide).isChecked = true
+                    /* Tous les autres cas, c'est le bouton home qui sera sélectionné */
+                    else -> bottomNavigationView.menu.findItem(R.id.home).isChecked = true
+                }
             }
-        }
 
         }
 
 
-    fun goTo(desiredFragment: FragmentsName) {
+    override fun goTo(desiredFragment: FragmentsName) {
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         val fragmentToDisplay = mapFragments[desiredFragment]
@@ -195,10 +180,6 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
         }
         transaction.addToBackStack(null)
         transaction.commit()
-    }
-
-    override fun getContext() : Context {
-        return this.applicationContext
     }
 
     override fun onSelectedCategory(categoryId: UUID?) {
@@ -211,9 +192,7 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
 
     override fun onSelectedPair(pairId: UUID?) {
         if (pairId != null) {
-            TuPreferesRepository.getInstance()?.deletePaire(pairId)
-
-            seePairPresenter.updatePairs{
+            seePairPresenter.updatePairs({
                 val newFragment = SeePairFragment.newInstance()
                 mapFragments[FragmentsName.SeePair] = newFragment;
                 seePairPresenter.setFragment(newFragment)
@@ -221,7 +200,7 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, newFragment, "SeePair")
                     .addToBackStack("SeePair").commit()
-            };
+            }, pairId)
         }
     }
 

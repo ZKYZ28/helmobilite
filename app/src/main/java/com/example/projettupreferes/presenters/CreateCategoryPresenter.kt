@@ -20,7 +20,7 @@ class CreateCategoryPresenter(private val createCategoryFragment: ICreateCategor
     fun validateCreation(categoryName: String, selectedImageUri: Uri?, context: Context) {
         if (categoryName.isEmpty()) {
             createCategoryFragment.showErrorMessage("Le nom de la catégorie ne peut pas être vide")
-        }  else if(!checkIfCategoryAlreadyExist(categoryName)){
+        } else if(!checkIfCategoryAlreadyExist(categoryName)){
             var uri = selectedImageUri
             if (uri == null){
                 uri =  Uri.parse("file:///data/user/0/com.example.projettupreferes/files/defaut_image.jpg")
@@ -29,12 +29,15 @@ class CreateCategoryPresenter(private val createCategoryFragment: ICreateCategor
             val category = createCategory(categoryName.uppercase(), uri!!, context)
             gameManager.categoriesMap[categoryName] = category
 
-            //Mettre à jour les statistics
-            gameManager.statistics.nbrCategories++
-            TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
+            addCategory()
 
             mainPresenter.requestSwitchView(FragmentsName.Personnal)
         }
+    }
+
+    private fun addCategory(){
+        gameManager.statistics.nbrCategories++
+        TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
     }
 
     private fun checkIfCategoryAlreadyExist(categoryName : String) : Boolean{

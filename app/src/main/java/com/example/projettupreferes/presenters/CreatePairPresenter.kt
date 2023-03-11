@@ -17,16 +17,15 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
         createPairFragment.setCreatePairPresenter(this)
     }
 
-    fun deleteImageChoiceOneTraitment() {
+    fun deleteImageChoiceOneTraitement() {
         createPairFragment.onDeleteImageChoiceOne()
     }
 
-    fun deleteImageChoiceTwoTraitment() {
+    fun deleteImageChoiceTwoTraitement() {
         createPairFragment.onDeleteImageChoiceTwo()
     }
 
     fun manageDisplayImageChoiceOne(textChoiceOneLenght : Int){
-        Log.d("SIZE", textChoiceOneLenght.toString())
         if(textChoiceOneLenght > 0){
             createPairFragment.deactivateSelecteImageChoiceOne()
         }else{
@@ -62,14 +61,17 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
             gameManager.currentCategoryWithPaires.paires = updatedPaires
 
             //Mettre à jour les statistics
-            gameManager.statistics.nbrPairs++
-            TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
+            updateNbrPairs()
 
             goToCategoryFragment()
             createPairFragment.close()
         }
     }
 
+    private fun updateNbrPairs(){
+        gameManager.statistics.nbrPairs++
+        TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
+    }
 
     private fun createChoice(textChoice: String, selectedImageUriChoice: Uri?, idPair : UUID, context : Context): Choice {
         return if(textChoice.isNotEmpty()){
