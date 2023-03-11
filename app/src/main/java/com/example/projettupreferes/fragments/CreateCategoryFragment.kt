@@ -3,12 +3,14 @@ package com.example.projettupreferes.fragments
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
@@ -67,7 +69,7 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
         }
 
         /* Bouton retour du téléphone */
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, true, ) {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
@@ -77,8 +79,6 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
 
         return view
     }
-
-
 
     override fun showImagePicker() {
         super.showImagePickerDialog(0)
@@ -102,18 +102,16 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
         super.displayErrorMessage(errorMessage)
     }
 
-
-    override fun onResume(){
-        super.onResume()
-        nameCategory.setText("");
-    }
-
     override fun close() {
         selectedImageUri = null
         requireActivity().supportFragmentManager.popBackStack()
     }
 
+    /**
+     * Méthode appelée lorsqu'on utilise le bouton retour de l'app
+     */
     override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+        nameCategory.setText("");
         if(fragment is CreateCategoryFragment) {
             requireActivity().supportFragmentManager.popBackStack()
         }
