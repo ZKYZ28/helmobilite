@@ -16,6 +16,9 @@ class CreateCategoryPresenter(private val createCategoryFragment: ICreateCategor
         createCategoryFragment.setCreateCategoryPresenter(this)
     }
 
+    fun resetCategoryName(){
+        createCategoryFragment.resetCategoryName()
+    }
 
     fun validateCreation(categoryName: String, selectedImageUri: Uri?, context: Context) {
         if (categoryName.isEmpty()) {

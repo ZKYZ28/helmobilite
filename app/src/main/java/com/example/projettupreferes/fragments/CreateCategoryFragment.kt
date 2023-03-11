@@ -1,6 +1,5 @@
 package com.example.projettupreferes.fragments
 
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
@@ -68,11 +66,6 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
             presenter.onPickImageClicked()
         }
 
-        /* Bouton retour du téléphone */
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, true, ) {
-            requireActivity().supportFragmentManager.popBackStack()
-        }
-
         /* Bouton retour application */
         (activity as MainActivity).onFragmentSelectedListener = this
 
@@ -84,7 +77,9 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
         super.showImagePickerDialog(0)
     }
 
-
+    override fun resetCategoryName() {
+        nameCategory.setText("")
+    }
 
     override fun showSelectedImage(selectedImageUri: Uri) {
         imageSelectedCategory.setImageURI(selectedImageUri)

@@ -63,11 +63,6 @@ class PlayGameFragment : Fragment(), IPlayGameFragment, OnFragmentSelectedListen
             clickOnButton()
         }
 
-        /* Bouton retour du téléphone */
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            requireActivity().supportFragmentManager.popBackStack()
-        }
-
         // Enregistrement de l'instance dans le MainActivity
         (activity as MainActivity).onFragmentSelectedListener = this
 

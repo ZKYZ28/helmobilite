@@ -52,13 +52,6 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
         // Enregistrement de l'instance dans le MainActivity
         (activity as MainActivity).onFragmentSelectedListener = this
 
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            requireActivity().supportFragmentManager.popBackStack()
-          //  presenter.goToCategoryFragment()
-        }
-
-
         return view;
 
     }

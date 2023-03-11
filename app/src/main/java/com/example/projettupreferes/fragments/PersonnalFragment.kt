@@ -53,11 +53,6 @@ class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen, IP
             presenter.goToCreateCategory(FragmentsName.CreateCategory)
         }
 
-        /* Bouton retour du téléphone */
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-//            requireActivity().supportFragmentManager.popBackStack()
-//        }
-
         // Enregistrement de l'instance dans le MainActivity
         (activity as MainActivity).onFragmentSelectedListener = this
 

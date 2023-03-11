@@ -58,13 +58,6 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
             presenter.onPickImageClicked()
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            requireActivity().supportFragmentManager.popBackStack()
-          //  presenter.goToCategoryFragment()
-            //Forcer la destruction de la vue //TODO : demander si besoin de détruire vu que onDestroyView est automatiquement appelé
-            //requireActivity().supportFragmentManager.beginTransaction().remove(this@EditCategoryFragment).commit()
-        }
-
         // Enregistrement de l'instance dans le MainActivity
         (activity as MainActivity).onFragmentSelectedListener = this
 

@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
     private var previousFragment : Fragment? = null
     private lateinit var seePairPresenter : SeePairPresenter
     private lateinit var gameManager : GameManager
+    private lateinit var createCategoryPresenter : CreateCategoryPresenter
+    private lateinit var createPairPresenter : CreatePairPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
             //Démarrage + initlialisation de la première vue
@@ -106,7 +108,7 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
 
             val statisticsPresenter = StatisticsPresenter(statisticsFragment, mainPresenter, gameManager)
 
-            val createCategoryPresenter = CreateCategoryPresenter(createCategoryFragment, mainPresenter, gameManager)
+            createCategoryPresenter = CreateCategoryPresenter(createCategoryFragment, mainPresenter, gameManager)
 
             categoryPresenter = CategoryPresenter(mainPresenter, gameManager)
             val editCategoryPresenter = EditCategoryPresenter(editCategoryFragment, mainPresenter, gameManager)
@@ -114,7 +116,7 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             seePairPresenter = SeePairPresenter(seePairFragment, seePairFragment,mainPresenter, gameManager)
 
 
-            val createPairPresenter = CreatePairPresenter(createPairFragment, mainPresenter, gameManager)
+            createPairPresenter = CreatePairPresenter(createPairFragment, mainPresenter, gameManager)
 
 
 
@@ -199,7 +201,7 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             seePairPresenter.updatePairs({
                 val newFragment = SeePairFragment.newInstance()
                 mapFragments[FragmentsName.SeePair] = newFragment;
-                seePairPresenter.setFragment(newFragment)
+               seePairPresenter.setFragment(newFragment)
 
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, newFragment, "SeePair")
@@ -210,12 +212,10 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
 
     override fun onBackPressed() {
         if(supportFragmentManager.backStackEntryCount > 1) {
+            createCategoryPresenter.resetCategoryName()
             supportFragmentManager.popBackStack()
         } else {
             finish()
         }
     }
-
-
-
 }

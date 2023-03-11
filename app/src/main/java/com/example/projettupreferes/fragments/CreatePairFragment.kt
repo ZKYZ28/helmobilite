@@ -19,7 +19,9 @@ import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateP
 
 class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFragmentSelectedListener {
    lateinit var presenter : CreatePairPresenter
-    lateinit var textChoiceOne : EditText
+
+
+   lateinit var textChoiceOne : EditText
     lateinit var selecteImageChoiceOne : Button
     lateinit var deleteImageChoiceOne : ImageButton
 
@@ -91,12 +93,10 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
 
 
         selecteImageChoiceOne.setOnClickListener {
-           // imagePickerSource = 1
             presenter.onPickImageClicked(1)
         }
 
         selecteImageChoiceTwo.setOnClickListener {
-          //  imagePickerSource = 2
             presenter.onPickImageClicked(2)
         }
 
@@ -124,16 +124,8 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
         }
 
 
-        /*Bouton retour du tel*/
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            textChoiceOne.setText("")
-            textChoiceTwo.setText("")
-            requireActivity().supportFragmentManager.popBackStack()
-        }
-
         // Enregistrement de l'instance dans le MainActivity
         (activity as MainActivity).onFragmentSelectedListener = this
-
         return view
     }
 
@@ -199,7 +191,6 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
         fun newInstance() =
             CreatePairFragment().apply {
                 arguments = Bundle().apply {
-
                 }
             }
     }
