@@ -126,6 +126,7 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
         if(gameManager.currentCategoryWithPaires.paires.isEmpty()) {
             seePairFragment.showErrorMessage("Vous n'avez plus aucune paire ! Il est temps d'en céer...")
             goToCategoryFragment()
+            seePairFragment.destroyFragment()
         }
     }
 

@@ -7,4 +7,5 @@ interface ISeePairFragment {
     fun changeTitle(titleSeePair : String)
 
      fun showErrorMessage(s: String)
+    fun destroyFragment()
 }

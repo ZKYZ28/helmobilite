@@ -49,8 +49,10 @@ class MainActivityPresenter(private val mainActivity: IMainActivity, private val
                             }
                         }
                     }
-                    if(desiredFragment != null) {
-                        requestSwitchView(desiredFragment)
+                    if (!mainActivity.supportFragmentManager.isStateSaved) {
+                        if (desiredFragment != null) {
+                            requestSwitchView(desiredFragment)
+                        }
                     }
                     gameManager.currentCategoryWithPaires.paires = updatedPaires
                 }

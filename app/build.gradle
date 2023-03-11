@@ -7,7 +7,7 @@ plugins {
 android {
     namespace 'com.example.projettupreferes'
     compileSdk 33
-    compileSdkPreview 'UpsideDownCake'
+    compileSdkPreview "UpsideDownCake"
 
     defaultConfig {
         applicationId "com.example.projettupreferes"
