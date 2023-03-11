@@ -19,6 +19,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 import android.content.Context
+import androidx.fragment.app.FragmentManager
 import com.example.projettupreferes.models.Paire
 import kotlinx.coroutines.flow.zip
 
@@ -169,7 +170,6 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
 
         }
 
-
     override fun goTo(desiredFragment: FragmentsName) {
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
@@ -180,6 +180,10 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
         }
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+     override fun giveSupportFragmentManager(): FragmentManager {
+        return supportFragmentManager;
     }
 
     override fun onSelectedCategory(categoryId: UUID?) {

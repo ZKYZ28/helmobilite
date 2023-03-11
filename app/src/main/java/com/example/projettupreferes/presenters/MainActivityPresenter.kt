@@ -1,5 +1,6 @@
 package com.example.projettupreferes.presenters
 
+import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.models.GameManager
@@ -49,11 +50,13 @@ class MainActivityPresenter(private val mainActivity: IMainActivity, private val
                             }
                         }
                     }
-                    if (!mainActivity.supportFragmentManager.isStateSaved) {
+
+                    if (!mainActivity.giveSupportFragmentManager().isStateSaved) {
                         if (desiredFragment != null) {
                             requestSwitchView(desiredFragment)
                         }
                     }
+
                     gameManager.currentCategoryWithPaires.paires = updatedPaires
                 }
         }
