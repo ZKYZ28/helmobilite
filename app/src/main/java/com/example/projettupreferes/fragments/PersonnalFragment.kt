@@ -47,7 +47,7 @@ class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen, IP
 
         recycler = view.findViewById(R.id.listCategoriesRv)
         recycler.layoutManager = LinearLayoutManager(requireContext())
-        recycler.adapter = CategoriesAdapter(presenter, callback)
+
 
         createCategory.setOnClickListener {
             presenter.goToCreateCategory(FragmentsName.CreateCategory)

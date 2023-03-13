@@ -22,22 +22,13 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
     lateinit var presenter: CreateCategoryPresenter
     private lateinit var confirmCreationButton: Button
     private lateinit var imageCategoryButton: Button
-    private lateinit var nameCategory: EditText
+    private  var nameCategory: EditText? = null
     private lateinit var imageSelectedCategory: ImageView
     private var selectedImageUri: Uri? = null
 
 
     override fun setCreateCategoryPresenter(createCategoryPresenter: CreateCategoryPresenter){
         this.presenter = createCategoryPresenter
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,7 +50,7 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
             }
 
         confirmCreationButton.setOnClickListener {
-            presenter.validateCreation(nameCategory.text.toString(), selectedImageUri, requireContext())
+            presenter.validateCreation(nameCategory?.text.toString(), selectedImageUri, requireContext())
         }
 
         imageCategoryButton.setOnClickListener {
@@ -78,7 +69,7 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
     }
 
     override fun resetCategoryName() {
-        nameCategory.setText("")
+        nameCategory?.setText("")
     }
 
     override fun showSelectedImage(selectedImageUri: Uri) {
@@ -106,7 +97,7 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
      * Méthode appelée lorsqu'on utilise le bouton retour de l'app
      */
     override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
-        nameCategory.setText("");
+        nameCategory?.setText("");
         if(fragment is CreateCategoryFragment) {
             requireActivity().supportFragmentManager.popBackStack()
         }

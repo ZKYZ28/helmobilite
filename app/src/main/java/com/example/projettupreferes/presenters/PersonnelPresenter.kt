@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
-class PersonnelPresenter(private val personnel: IPersonnalFragment, private val CategoryListScreen: ICategoryListScreen, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
+class PersonnelPresenter(private val personnel: IPersonnalFragment, private val categoryListScreen: ICategoryListScreen, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
     init {
         personnel.setPersonnelPresenter(this);
     }
@@ -37,8 +37,8 @@ class PersonnelPresenter(private val personnel: IPersonnalFragment, private val 
             TuPreferesRepository.getInstance()?.getCategoriesWithPairesList()
                 ?.collect { categoriesWithPaires ->
                     val categories = categoriesWithPaires.map { it.category }
-                    this@PersonnelPresenter.gameManager.categoriesMap = categories.associateBy { it.categoryName }.toMutableMap()
-                    CategoryListScreen.loadView()
+                    gameManager.categoriesMap = categories.associateBy { it.categoryName }.toMutableMap()
+                    categoryListScreen.loadView()
                 }
         }
     }

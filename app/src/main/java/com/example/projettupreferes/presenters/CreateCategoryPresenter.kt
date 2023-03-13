@@ -34,6 +34,7 @@ class CreateCategoryPresenter(private val createCategoryFragment: ICreateCategor
 
             addCategory()
 
+            createCategoryFragment.resetCategoryName()
             mainPresenter.requestSwitchView(FragmentsName.Personnal)
         }
     }

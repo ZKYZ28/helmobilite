@@ -213,6 +213,7 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
     override fun onBackPressed() {
         if(supportFragmentManager.backStackEntryCount > 1) {
             createCategoryPresenter.resetCategoryName()
+            createPairPresenter.clearChoiceText()
             supportFragmentManager.popBackStack()
         } else {
             finish()

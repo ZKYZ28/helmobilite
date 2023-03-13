@@ -17,6 +17,10 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
         createPairFragment.setCreatePairPresenter(this)
     }
 
+    fun clearChoiceText(){
+        createPairFragment.clearTextChoice()
+    }
+
     fun deleteImageChoiceOneTraitement() {
         createPairFragment.onDeleteImageChoiceOne()
     }
@@ -64,6 +68,7 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
             updateNbrPairs()
 
             goToCategoryFragment()
+            clearChoiceText()
             createPairFragment.close()
         }
     }
