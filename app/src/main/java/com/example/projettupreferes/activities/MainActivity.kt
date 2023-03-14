@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
     private val mapFragments = mutableMapOf<FragmentsName, Fragment>()
     private lateinit var categoryPresenter : CategoryPresenter
     lateinit var onFragmentSelectedListener: OnFragmentSelectedListener
-    private var previousFragment : Fragment? = null
     private lateinit var seePairPresenter : SeePairPresenter
     private lateinit var gameManager : GameManager
 
@@ -42,16 +41,15 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
     //        }
 
 
-            val backButton = findViewById<ImageButton>(R.id.backButton)
-            backButton.setOnClickListener {
-                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
-                onFragmentSelectedListener.onFragmentSelected(currentFragment!!, previousFragment)
-                //TODO peut-être mettre ici le supportFragmentManager.popBackStack au lieu de l'appeler dans chaque vue
-                Log.d("Nombre de backStack dans le bouton", supportFragmentManager.backStackEntryCount.toString())
-                if(supportFragmentManager.backStackEntryCount == 1) {
-                    finish()
-                }
+        val backButton = findViewById<ImageButton>(R.id.backButton)
+        backButton.setOnClickListener {
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+            onFragmentSelectedListener.onFragmentSelected(currentFragment!!)
+            //TODO peut-être mettre ici le supportFragmentManager.popBackStack au lieu de l'appeler dans chaque vue
+            if(supportFragmentManager.backStackEntryCount == 1) {
+                finish()
             }
+        }
 
             //SETUP image par défaut
             val defaultImageUri = Uri.parse("android.resource://${packageName}/${R.raw.defaut_image}")
@@ -170,6 +168,8 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
 
         }
 
+
+
     override fun goTo(desiredFragment: FragmentsName) {
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
@@ -181,6 +181,8 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
         transaction.addToBackStack(null)
         transaction.commit()
     }
+
+
 
      override fun giveSupportFragmentManager(): FragmentManager {
         return supportFragmentManager;
@@ -196,15 +198,28 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
 
     override fun onSelectedPair(pairId: UUID?) {
         if (pairId != null) {
-            seePairPresenter.updatePairs({
-                val newFragment = SeePairFragment.newInstance()
-                mapFragments[FragmentsName.SeePair] = newFragment;
-                seePairPresenter.setFragment(newFragment)
+            val existingFragment = mapFragments[FragmentsName.SeePair]
+            if (existingFragment != null) {
+                //Supprimer l'instance déjà existante
+                supportFragmentManager.beginTransaction().remove(existingFragment).commit()
+                supportFragmentManager.beginTransaction().remove(existingFragment).commit()
+            }
 
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, newFragment, "SeePair")
-                    .addToBackStack("SeePair").commit()
-            }, pairId)
+            Log.d("Suppression dans la backstack onSelectedPair", supportFragmentManager.backStackEntryCount.toString())
+            //seePairPresenter.switchWhenListIsEmpty();
+            supportFragmentManager.popBackStack()
+            return
+            // Créer une nouvelle instance de SeePairFragment
+            val newFragment = SeePairFragment.newInstance()
+            mapFragments[FragmentsName.SeePair] = newFragment
+            seePairPresenter.setFragment(newFragment)
+            supportFragmentManager.beginTransaction()
+                .addToBackStack("SeePair")
+                .commit()
+
+            Log.d("Création dans la backstack onSelectedPair", supportFragmentManager.backStackEntryCount.toString())
+
+            seePairPresenter.updatePairs({}, pairId)
         }
     }
 

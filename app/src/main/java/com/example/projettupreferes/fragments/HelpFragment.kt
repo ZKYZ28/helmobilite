@@ -54,10 +54,11 @@ class HelpFragment : Fragment(), OnFragmentSelectedListener {
             }
     }
 
-    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+    override fun onFragmentSelected(fragment: Fragment) {
         if(fragment is HelpFragment) {
             requireActivity().supportFragmentManager.popBackStack()
         }
     }
+
 
 }

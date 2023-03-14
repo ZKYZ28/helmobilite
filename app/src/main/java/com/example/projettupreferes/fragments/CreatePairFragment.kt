@@ -134,6 +134,8 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
         // Enregistrement de l'instance dans le MainActivity
         (activity as MainActivity).onFragmentSelectedListener = this
 
+        Log.d("NOMBRE D'ELEMENT dans la stack createPairFragment", requireActivity().supportFragmentManager.backStackEntryCount.toString())
+
         return view
     }
 
@@ -184,9 +186,9 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
     }
 
     override fun close() {
-        //requireActivity().supportFragmentManager.popBackStack()
+        requireActivity().supportFragmentManager.popBackStack()
         //TODO : vérifier remove
-        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+      //  requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
     }
 
     override fun showImagePicker(choiceNumber: Int) {
@@ -204,7 +206,7 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
             }
     }
 
-    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+    override fun onFragmentSelected(fragment: Fragment) {
         textChoiceOne.setText("")
         textChoiceTwo.setText("")
         if(fragment is CreatePairFragment) {

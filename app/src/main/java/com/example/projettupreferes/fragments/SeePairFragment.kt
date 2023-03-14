@@ -2,12 +2,14 @@ package com.example.projettupreferes.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -43,6 +45,8 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_see_pair, container, false)
 
+        Log.d("SEEPAIREFRAMGNET", "SEEPAIRFRAGMENT CREE")
+
         recycler = view.findViewById(R.id.listPairsRv)
         recycler.layoutManager = LinearLayoutManager(requireContext())
         recycler.adapter = PairsAdapter(presenter, callback)
@@ -55,8 +59,11 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             requireActivity().supportFragmentManager.popBackStack()
-          //  presenter.goToCategoryFragment()
         }
+
+        presenter.displayTitle()
+
+        Log.d("NOMBRE D'ELEMENT dans la stack onCreateViewSeePairFragment", requireActivity().supportFragmentManager.backStackEntryCount.toString())
 
 
         return view;
@@ -69,11 +76,10 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
      * le bouton retour présent dans le header
      * est pressé alors que le fragment actif est "SeePairFragment
      */
-    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+    override fun onFragmentSelected(fragment: Fragment) {
         if(fragment is SeePairFragment) {
            // presenter.goToCategoryFragment()
             requireActivity().supportFragmentManager.popBackStack()
-            //Todo : destroy ?
         }
     }
 
@@ -85,21 +91,6 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
         super.onViewCreated(view, savedInstanceState)
         presenter.loadpairs()
     }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.displayTitle()
-        presenter.switchWhenListIsEmpty()
-    }
-
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//
-//        if(context is MainActivity) {
-//            context.onFragmentSelectedListener = this
-//        }
-//    }
-
 
     companion object {
         @JvmStatic
@@ -119,12 +110,16 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
 
     override fun showErrorMessage(errorMessage : String) {
         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-//        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
     }
 
     override fun destroyFragment() {
-        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+        if(isAdded) {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
+
+
+
 
 
 }

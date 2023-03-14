@@ -88,7 +88,10 @@ class CategoryPresenter(
     }
 
     fun switchToSeePairs() {
+        gameManager.currentCategoryWithPaires.paires.size
+        Log.d("Taille de la liste des paires", gameManager.currentCategoryWithPaires.paires.size.toString())
         if(gameManager.currentCategoryWithPaires.paires.isEmpty()){
+            Log.d("CategoryPresenter", "ici")
             categoryFragment?.showErrorMessage("Vous n'avez aucune paire liée à cette catégorie")
         }else{
             mainPresenter.requestSwitchView(FragmentsName.SeePair)

@@ -31,12 +31,12 @@ class EditCategoryPresenter(private val editCategoryFragment: IEditCategoryFragm
 
     private fun editCategory(categoryName: String, selectedImageUri: Uri, context: Context) {
         Log.d("URI DEPUIS L'APPAREIL PHOTO", selectedImageUri.toString())
-        var imagePath: Uri?
+        var imagePath: Uri? = null
         try {
            imagePath = ImageManager.saveImage(context, selectedImageUri)
+            Log.d("URI ENREGISTRE", imagePath.toString())
         } catch (e: SaveImageStorageException) {
             editCategoryFragment.showErrorMessage(e.message!!)
-            return
         }
 
         if (imagePath == null) {
@@ -48,12 +48,8 @@ class EditCategoryPresenter(private val editCategoryFragment: IEditCategoryFragm
         gameManager.currentCategoryWithPaires.category.pathImage = imagePath.toString()
         TuPreferesRepository.getInstance()?.updateCategory(gameManager.currentCategoryWithPaires.category)
 
-        goToCategoryFragment()
+       // goToCategoryFragment()
         editCategoryFragment.close()
-    }
-
-    fun goToCategoryFragment() {
-        mainPresenter.requestSwitchView(FragmentsName.CategoryFragment)
     }
 
     fun temporarySelectedImageUri(uri: Uri) {

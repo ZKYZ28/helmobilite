@@ -63,7 +63,8 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
             //Mettre à jour les statistics
             updateNbrPairs()
 
-            goToCategoryFragment()
+            //TODO : à supprimer je pense
+            //goToCategoryFragment()
             createPairFragment.close()
         }
     }

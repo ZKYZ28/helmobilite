@@ -85,7 +85,7 @@ class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen, IP
         }
     }
 
-    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+    override fun onFragmentSelected(fragment: Fragment) {
         if(fragment is PersonnalFragment) {
             requireActivity().supportFragmentManager.popBackStack()
         }

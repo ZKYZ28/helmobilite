@@ -116,7 +116,7 @@ class PlayGameFragment : Fragment(), IPlayGameFragment, OnFragmentSelectedListen
 
     }
 
-    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+    override fun onFragmentSelected(fragment: Fragment) {
         if(fragment is PlayGameFragment) {
             requireActivity().supportFragmentManager.popBackStack()
         }

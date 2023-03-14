@@ -69,7 +69,7 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
         }
 
         /* Bouton retour du téléphone */
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, true, ) {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
@@ -102,6 +102,12 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
         super.displayErrorMessage(errorMessage)
     }
 
+
+    override fun onResume(){
+        super.onResume()
+        nameCategory.setText("");
+    }
+
     override fun close() {
         selectedImageUri = null
         requireActivity().supportFragmentManager.popBackStack()
@@ -110,7 +116,7 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
     /**
      * Méthode appelée lorsqu'on utilise le bouton retour de l'app
      */
-    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+    override fun onFragmentSelected(fragment: Fragment) {
         nameCategory.setText("");
         if(fragment is CreateCategoryFragment) {
             requireActivity().supportFragmentManager.popBackStack()

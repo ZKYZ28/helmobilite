@@ -71,7 +71,7 @@ class StatisticsFragment : Fragment(), IStatisticsFragment, OnFragmentSelectedLi
             }
     }
 
-    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+    override fun onFragmentSelected(fragment: Fragment) {
         if(fragment is StatisticsFragment) {
             requireActivity().supportFragmentManager.popBackStack()
         }

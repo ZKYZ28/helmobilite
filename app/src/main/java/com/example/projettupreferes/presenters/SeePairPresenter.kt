@@ -1,11 +1,10 @@
 package com.example.projettupreferes.presenters
 
 import android.net.Uri
-import android.util.Log
+import androidx.fragment.app.Fragment
 import com.example.projettupreferes.adaptater.PairsAdapter
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.FragmentsName
-import com.example.projettupreferes.fragments.SeePairFragment
 import com.example.projettupreferes.models.Choice
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.Paire
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import java.util.*
-import java.net.URI
 
 class SeePairPresenter(private var seePairFragment: ISeePairFragment, private val PairListScreen: IPairListScreen, private val mainActivityPresenter: MainActivityPresenter, private val gameManager: GameManager) {
 
@@ -107,6 +105,10 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
 
                     gameManager.currentCategoryWithPaires.paires = updatedPaires
 
+                    if(gameManager.currentCategoryWithPaires.paires.isEmpty()) {
+                        seePairFragment.destroyFragment()
+                    }
+
                     // Appelle le callback pour signaler la fin de l'exécution
                     onUpdateComplete()
                 }
@@ -124,8 +126,6 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
 
     fun switchWhenListIsEmpty() {
         if(gameManager.currentCategoryWithPaires.paires.isEmpty()) {
-            seePairFragment.showErrorMessage("Vous n'avez plus aucune paire ! Il est temps d'en céer...")
-            goToCategoryFragment()
             seePairFragment.destroyFragment()
         }
     }

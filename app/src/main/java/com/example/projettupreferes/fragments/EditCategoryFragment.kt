@@ -45,6 +45,7 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
         imagePickerLauncher = registerForActivityResult(imagePickerContract) { uri ->
             if (uri != null) {
                 selectedImageUri = uri
+                Log.d("TAG URI", selectedImageUri.toString())
                 presenter.temporarySelectedImageUri(uri)
             }
         }
@@ -58,26 +59,15 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
             presenter.onPickImageClicked()
         }
 
+        presenter.getCurrentCategory()
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             requireActivity().supportFragmentManager.popBackStack()
-          //  presenter.goToCategoryFragment()
-            //Forcer la destruction de la vue //TODO : demander si besoin de détruire vu que onDestroyView est automatiquement appelé
-            //requireActivity().supportFragmentManager.beginTransaction().remove(this@EditCategoryFragment).commit()
         }
 
         // Enregistrement de l'instance dans le MainActivity
         (activity as MainActivity).onFragmentSelectedListener = this
 
-
-//        val callback = object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                // Gérer le retour arrière ici
-//                //requireActivity().supportFragmentManager.popBackStack()
-//                requireActivity().supportFragmentManager.beginTransaction().remove(this@EditCategoryFragment).commit()
-//                presenter.goToCategoryFragment()
-//            }
-//        }
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
 
         return view
@@ -99,8 +89,8 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
      */
     override fun showErrorMessage(errorMessage: String) {
         //TODO : regarder si on ne peut pas appeler super Android
-        //Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-        super.displayErrorMessage(errorMessage)
+        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+       // super.displayErrorMessage(errorMessage)
     }
 
     /**
@@ -112,12 +102,7 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
     }
 
     override fun close() {
-        //requireActivity().supportFragmentManager.popBackStack()
-        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-       // requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-       // requireActivity().supportFragmentManager.popBackStack("categoryFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        //TODO : plus besoin ceci ?
-        //presenter.goToCategoryFragment()
+        requireActivity().supportFragmentManager.popBackStack()
     }
 
     /**
@@ -128,47 +113,10 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
      */
     override fun onResume() {
         super.onResume()
-        presenter.getCurrentCategory()
     }
 
-//    override fun onStop() {
-//        super.onStop()
-//        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-//        presenter.goToCategoryFragment()
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-//            // L'utilisateur a appuyé sur le bouton retour
-//            // Supprime le fragment actuel et revient au fragment précédent
-//           requireActivity().supportFragmentManager.popBackStack("categoryFragment", 0)
-//            presenter.goToCategoryFragment()
-//        }
-//    }
-
-//    override fun onStop() {
-//        super.onStop()
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-//            requireActivity().supportFragmentManager.popBackStack()
-//            presenter.goToCategoryFragment()
-//        }
-//    }
-
-
-
-
-
-//    fun onBackPressed() {
-//        // Retour au fragment parent
-//        parentFragmentManager.popBackStack()
-//
-//        // Suppression du fragment actuel
-//        parentFragmentManager.beginTransaction().remove(this).commit()
-//    }
-
-
     override fun showSelectedImage(selectedImageUri: Uri) {
+        Log.d("URI AFFICHE", selectedImageUri.toString())
         imageSelectedCategoryEdit.setImageURI(selectedImageUri)
     }
 
@@ -188,10 +136,9 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
         Log.d("EditCategoryFragment", "onDestroyView()")
     }
 
-    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+    override fun onFragmentSelected(fragment: Fragment) {
         if(fragment is EditCategoryFragment) {
             /* Ancienne version */
-//            presenter.goToCategoryFragment()
             requireActivity().supportFragmentManager.popBackStack()
         }
     }

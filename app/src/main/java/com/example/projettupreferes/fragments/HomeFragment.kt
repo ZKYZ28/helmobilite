@@ -68,7 +68,7 @@ class HomeFragment : Fragment(), IHomeFragment, OnFragmentSelectedListener {
             }
     }
 
-    override fun onFragmentSelected(fragment: Fragment, previousFragment: Fragment?) {
+    override fun onFragmentSelected(fragment: Fragment) {
         if(fragment is HomeFragment) {
             requireActivity().supportFragmentManager.popBackStack()
         }
