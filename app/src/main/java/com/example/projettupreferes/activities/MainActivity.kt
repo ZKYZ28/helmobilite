@@ -1,5 +1,6 @@
 package com.example.projettupreferes.activities
 
+import android.app.AlertDialog
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -168,9 +169,6 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
 
     }
 
-    override fun showErrorMessage(errorMessage: String) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-    }
 
 
     override fun goTo(desiredFragment: FragmentsName) {
