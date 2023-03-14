@@ -74,15 +74,14 @@ class CategoryPresenter(
         mainPresenter.loadPair(categoryUUID, null)
     }
 
-    fun switchToPlayGame(){
-        if(gameManager.currentCategoryWithPaires.paires.isEmpty()){
+    fun switchToPlayGame() {
+        if (gameManager.currentCategoryWithPaires.paires.isEmpty()) {
             categoryFragment?.showErrorMessage("Vous n'avez aucune paire liée à cette catégorie")
-        }else{
-            mainPresenter.requestSwitchView(FragmentsName.NormalGame)
-
-            gameManager.statistics.gamesPlayed++
-            TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
+            return
         }
+        mainPresenter.requestSwitchView(FragmentsName.NormalGame)
+        gameManager.statistics.gamesPlayed++
+        TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
     }
 
     fun switchToSeePairs() {
