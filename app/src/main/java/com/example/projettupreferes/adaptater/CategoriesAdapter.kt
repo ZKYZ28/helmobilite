@@ -21,7 +21,6 @@ class CategoriesAdapter(
         return personnelPresenter.getItemCount()
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view: View = layoutInflater.inflate(R.layout.category_item_list, parent, false)
