@@ -28,7 +28,7 @@ class CreateCategoryPresenter(private val createCategoryFragment: ICreateCategor
                 uri =  Uri.parse("file:///data/user/0/com.example.projettupreferes/files/defaut_image.jpg")
             }
 
-            val category = createCategory(categoryName.uppercase(), uri!!, context)
+            val category = createCategory(categoryName.uppercase(), uri!!, context) ?: return
             gameManager.categoriesMap[categoryName] = category
 
             addCategory()
@@ -51,17 +51,15 @@ class CreateCategoryPresenter(private val createCategoryFragment: ICreateCategor
         return false
     }
 
-    private fun createCategory(categoryName: String, selectedImageUri: Uri, context : Context): Category {
-        var imagePath: Uri? = null
+    private fun createCategory(categoryName: String, selectedImageUri: Uri, context : Context): Category? {
+        var imagePath: Uri
         try {
             imagePath = ImageManager.saveImage(context, selectedImageUri)
         } catch (e: SaveImageStorageException) {
             createCategoryFragment.showErrorMessage(e.message!!)
+            return null
         }
 
-        if (imagePath == null) {
-            createCategoryFragment.showErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'image.")
-        }
 
         val category = Category(categoryName = categoryName, pathImage = imagePath.toString())
 

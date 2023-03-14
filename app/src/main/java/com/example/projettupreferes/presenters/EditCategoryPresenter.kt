@@ -30,20 +30,14 @@ class EditCategoryPresenter(private val editCategoryFragment: IEditCategoryFragm
     }
 
     private fun editCategory(categoryName: String, selectedImageUri: Uri, context: Context) {
-        Log.d("URI DEPUIS L'APPAREIL PHOTO", selectedImageUri.toString())
-        var imagePath: Uri? = null
+        var imagePath: Uri
         try {
            imagePath = ImageManager.saveImage(context, selectedImageUri)
-            Log.d("URI ENREGISTRE", imagePath.toString())
         } catch (e: SaveImageStorageException) {
             editCategoryFragment.showErrorMessage(e.message!!)
+            return
         }
 
-        if (imagePath == null) {
-            editCategoryFragment.showErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'image.")
-        }
-
-        //TODO : refactor appels
         gameManager.currentCategoryWithPaires.category.categoryName = categoryName
         gameManager.currentCategoryWithPaires.category.pathImage = imagePath.toString()
         TuPreferesRepository.getInstance()?.updateCategory(gameManager.currentCategoryWithPaires.category)

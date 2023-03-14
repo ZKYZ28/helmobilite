@@ -4,7 +4,6 @@ package com.example.projettupreferes.presenters
 import android.content.Context
 import android.net.Uri
 import com.example.projettupreferes.database.repository.TuPreferesRepository
-import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.models.*
 import com.example.projettupreferes.models.exceptions.SaveImageStorageException
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreatePairFragment
@@ -47,6 +46,9 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
         val idPair = UUID.randomUUID();
         val choiceOne = createChoice(textChoiceOne, selectedImageUriChoiceOne, idPair, context)
         val choiceTwo = createChoice(textChoiceTwo, selectedImageUriChoiceTwo, idPair, context)
+        if(choiceOne == null || choiceTwo == null) {
+            return
+        }
 
         if(!choiceOne.textChoice.isEmpty() && !choiceTwo.textChoice.isEmpty()){
             val currentCategoryWithListPairs = gameManager.currentCategoryWithPaires
@@ -75,23 +77,19 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
         TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
     }
 
-    private fun createChoice(textChoice: String, selectedImageUriChoice: Uri?, idPair : UUID, context : Context): Choice {
+    private fun createChoice(textChoice: String, selectedImageUriChoice: Uri?, idPair : UUID, context : Context): Choice? {
         return if(textChoice.isNotEmpty()){
             Choice(textChoice = textChoice.uppercase(), isText = true, pairIdFk = idPair)
         }else if(selectedImageUriChoice == null){
             createPairFragment.showErrorMessage("Vous devez choisir un texte ou une image par choix")
             Choice(textChoice = "", isText = true, pairIdFk = idPair)
         }else{
-            var imagePath: Uri? = null
+            var imagePath: Uri?
             try {
                 imagePath = ImageManager.saveImage(context, selectedImageUriChoice)
             } catch (e: SaveImageStorageException) {
                 createPairFragment.showErrorMessage(e.message!!)
-            }
-
-            if (imagePath == null) {
-                createPairFragment.showErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'image.")
-                //TODO : throw pour éviter imagePath null dans le choix (même chose dans CreateCategoryPresenter et EditCategoryPresenter")
+                return null
             }
             Choice(textChoice = imagePath.toString(), isText = false, pairIdFk = idPair)
         }
