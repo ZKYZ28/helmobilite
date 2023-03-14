@@ -30,15 +30,13 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
     lateinit var onFragmentSelectedListener: OnFragmentSelectedListener
     private lateinit var seePairPresenter : SeePairPresenter
     private lateinit var gameManager : GameManager
+    private lateinit var createCategoryPresenter : CreateCategoryPresenter
+    private lateinit var createPairPresenter : CreatePairPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
             //Démarrage + initlialisation de la première vue
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)
-
-    //        supportFragmentManager.addOnBackStackChangedListener {
-    //            previousFragment = supportFragmentManager.fragments.lastOrNull()
-    //        }
 
 
         val backButton = findViewById<ImageButton>(R.id.backButton)
@@ -104,7 +102,7 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
 
             val statisticsPresenter = StatisticsPresenter(statisticsFragment, mainPresenter, gameManager)
 
-            val createCategoryPresenter = CreateCategoryPresenter(createCategoryFragment, mainPresenter, gameManager)
+            createCategoryPresenter = CreateCategoryPresenter(createCategoryFragment, mainPresenter, gameManager)
 
             categoryPresenter = CategoryPresenter(mainPresenter, gameManager)
             val editCategoryPresenter = EditCategoryPresenter(editCategoryFragment, mainPresenter, gameManager)
@@ -112,7 +110,7 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             seePairPresenter = SeePairPresenter(seePairFragment, seePairFragment,mainPresenter, gameManager)
 
 
-            val createPairPresenter = CreatePairPresenter(createPairFragment, mainPresenter, gameManager)
+            createPairPresenter = CreatePairPresenter(createPairFragment, mainPresenter, gameManager)
 
 
 
@@ -196,41 +194,20 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             mapFragments[FragmentsName.CategoryFragment] = newFragment;
     }
 
-    override fun onSelectedPair(pairId: UUID?) {
+    override fun onSelectedPair(pairId: UUID?, position : Int) {
         if (pairId != null) {
-            val existingFragment = mapFragments[FragmentsName.SeePair]
-            if (existingFragment != null) {
-                //Supprimer l'instance déjà existante
-                supportFragmentManager.beginTransaction().remove(existingFragment).commit()
-                supportFragmentManager.beginTransaction().remove(existingFragment).commit()
-            }
-
-            Log.d("Suppression dans la backstack onSelectedPair", supportFragmentManager.backStackEntryCount.toString())
-            //seePairPresenter.switchWhenListIsEmpty();
-            supportFragmentManager.popBackStack()
-            return
-            // Créer une nouvelle instance de SeePairFragment
-            val newFragment = SeePairFragment.newInstance()
-            mapFragments[FragmentsName.SeePair] = newFragment
-            seePairPresenter.setFragment(newFragment)
-            supportFragmentManager.beginTransaction()
-                .addToBackStack("SeePair")
-                .commit()
-
-            Log.d("Création dans la backstack onSelectedPair", supportFragmentManager.backStackEntryCount.toString())
-
-            seePairPresenter.updatePairs({}, pairId)
+            seePairPresenter.updatePairs(pairId, position)
+            seePairPresenter.updateRecyclerPairs()
         }
     }
 
     override fun onBackPressed() {
         if(supportFragmentManager.backStackEntryCount > 1) {
+            createCategoryPresenter.resetCategoryName()
+            createPairPresenter.clearChoiceText()
             supportFragmentManager.popBackStack()
         } else {
             finish()
         }
     }
-
-
-
 }

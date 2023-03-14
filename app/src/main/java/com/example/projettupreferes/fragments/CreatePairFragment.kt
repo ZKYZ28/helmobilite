@@ -19,12 +19,14 @@ import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateP
 
 class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFragmentSelectedListener {
    lateinit var presenter : CreatePairPresenter
-    lateinit var textChoiceOne : EditText
+
+
+    var textChoiceOne : EditText? = null
     lateinit var selecteImageChoiceOne : Button
     lateinit var deleteImageChoiceOne : ImageButton
 
 
-    lateinit var textChoiceTwo : EditText
+    var textChoiceTwo : EditText? = null
     lateinit var selecteImageChoiceTwo : Button
     lateinit var deleteImageChoiceTwo : ImageButton
 
@@ -33,10 +35,10 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
     private var selectedImageUriChoiceOne: Uri? = null
     private var selectedImageUriChoiceTwo: Uri? = null
 
-    private val imagePickerContractTwo = ImagePickerContract()
-
-
-
+    override fun clearTextChoice(){
+        textChoiceOne?.setText("")
+        textChoiceTwo?.setText("")
+    }
     override fun setCreatePairPresenter(createPairPresenter : CreatePairPresenter){
         this.presenter = createPairPresenter
     }
@@ -54,8 +56,8 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
                     deleteImageChoiceOne.isVisible = true
                     deleteImageChoiceOne.isEnabled = true
 
-                    textChoiceOne.isVisible = false
-                    textChoiceOne.isEnabled = false
+                    textChoiceOne?.isVisible = false
+                    textChoiceOne?.isEnabled = false
                 }
             } else {
                 selectedImageUriChoiceTwo = uri
@@ -63,8 +65,8 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
                     deleteImageChoiceTwo.isVisible = true
                     deleteImageChoiceTwo.isEnabled = true
 
-                    textChoiceTwo.isVisible = false
-                    textChoiceTwo.isEnabled = false
+                    textChoiceTwo?.isVisible = false
+                    textChoiceTwo?.isEnabled = false
                 }
             }
         }
@@ -91,23 +93,21 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
 
 
         selecteImageChoiceOne.setOnClickListener {
-           // imagePickerSource = 1
             presenter.onPickImageClicked(1)
         }
 
         selecteImageChoiceTwo.setOnClickListener {
-          //  imagePickerSource = 2
             presenter.onPickImageClicked(2)
         }
 
 
-        textChoiceOne.setOnKeyListener { view, keyCode, keyEvent ->
-            presenter.manageDisplayImageChoiceOne(textChoiceOne.length())
+        textChoiceOne?.setOnKeyListener { view, keyCode, keyEvent ->
+            presenter.manageDisplayImageChoiceOne(textChoiceOne!!.length())
             false
         }
 
-        textChoiceTwo.setOnKeyListener { view, keyCode, keyEvent ->
-            presenter.manageDisplayImageChoiceTwo(textChoiceTwo.length())
+        textChoiceTwo?.setOnKeyListener { view, keyCode, keyEvent ->
+            presenter.manageDisplayImageChoiceTwo(textChoiceTwo!!.length())
             false
         }
 
@@ -120,22 +120,12 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
         }
 
         validateButton.setOnClickListener {
-            presenter.validateCreation(textChoiceOne.text.toString(), textChoiceTwo.text.toString(), selectedImageUriChoiceOne, selectedImageUriChoiceTwo, requireContext())
+            presenter.validateCreation(textChoiceOne!!.text.toString(), textChoiceTwo!!.text.toString(), selectedImageUriChoiceOne, selectedImageUriChoiceTwo, requireContext())
         }
 
-
-        /*Bouton retour du tel*/
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            textChoiceOne.setText("")
-            textChoiceTwo.setText("")
-            requireActivity().supportFragmentManager.popBackStack()
-        }
 
         // Enregistrement de l'instance dans le MainActivity
         (activity as MainActivity).onFragmentSelectedListener = this
-
-        Log.d("NOMBRE D'ELEMENT dans la stack createPairFragment", requireActivity().supportFragmentManager.backStackEntryCount.toString())
-
         return view
     }
 
@@ -164,8 +154,8 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
         deleteImageChoiceOne.isVisible = false
         deleteImageChoiceOne.isEnabled = true
 
-        textChoiceOne.isVisible = true
-        textChoiceOne.isEnabled = true
+        textChoiceOne?.isVisible = true
+        textChoiceOne?.isEnabled = true
     }
 
     override fun onDeleteImageChoiceTwo(){
@@ -173,8 +163,8 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
         deleteImageChoiceTwo.isVisible = false
         deleteImageChoiceTwo.isEnabled = true
 
-        textChoiceTwo.isVisible = true
-        textChoiceTwo.isEnabled = true
+        textChoiceTwo?.isVisible = true
+        textChoiceTwo?.isEnabled = true
     }
 
     /**
@@ -186,9 +176,9 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
     }
 
     override fun close() {
-        requireActivity().supportFragmentManager.popBackStack()
         //TODO : vérifier remove
-      //  requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+        requireActivity().supportFragmentManager.popBackStack()
+        //requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
     }
 
     override fun showImagePicker(choiceNumber: Int) {
@@ -201,16 +191,13 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
         fun newInstance() =
             CreatePairFragment().apply {
                 arguments = Bundle().apply {
-
                 }
             }
     }
 
     override fun onFragmentSelected(fragment: Fragment) {
-        textChoiceOne.setText("")
-        textChoiceTwo.setText("")
         if(fragment is CreatePairFragment) {
-            //presenter.goToCategoryFragment()
+            clearTextChoice()
             requireActivity().supportFragmentManager.popBackStack()
         }
     }

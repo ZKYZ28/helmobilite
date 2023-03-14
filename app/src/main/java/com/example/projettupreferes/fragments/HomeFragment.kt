@@ -49,11 +49,6 @@ class HomeFragment : Fragment(), IHomeFragment, OnFragmentSelectedListener {
             presenter.goToPersonnal(FragmentsName.Personnal);
         }
 
-        /* Bouton retour du téléphone */
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            requireActivity().supportFragmentManager.popBackStack()
-        }
-
         // Enregistrement de l'instance dans le MainActivity
         (activity as MainActivity).onFragmentSelectedListener = this
 

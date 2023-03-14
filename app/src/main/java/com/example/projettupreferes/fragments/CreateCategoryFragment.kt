@@ -1,6 +1,5 @@
 package com.example.projettupreferes.fragments
 
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
@@ -24,22 +22,13 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
     lateinit var presenter: CreateCategoryPresenter
     private lateinit var confirmCreationButton: Button
     private lateinit var imageCategoryButton: Button
-    private lateinit var nameCategory: EditText
+    private  var nameCategory: EditText? = null
     private lateinit var imageSelectedCategory: ImageView
     private var selectedImageUri: Uri? = null
 
 
     override fun setCreateCategoryPresenter(createCategoryPresenter: CreateCategoryPresenter){
         this.presenter = createCategoryPresenter
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,16 +50,11 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
             }
 
         confirmCreationButton.setOnClickListener {
-            presenter.validateCreation(nameCategory.text.toString(), selectedImageUri, requireContext())
+            presenter.validateCreation(nameCategory?.text.toString(), selectedImageUri, requireContext())
         }
 
         imageCategoryButton.setOnClickListener {
             presenter.onPickImageClicked()
-        }
-
-        /* Bouton retour du téléphone */
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            requireActivity().supportFragmentManager.popBackStack()
         }
 
         /* Bouton retour application */
@@ -84,7 +68,9 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
         super.showImagePickerDialog(0)
     }
 
-
+    override fun resetCategoryName() {
+        nameCategory?.setText("")
+    }
 
     override fun showSelectedImage(selectedImageUri: Uri) {
         imageSelectedCategory.setImageURI(selectedImageUri)
@@ -102,12 +88,6 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
         super.displayErrorMessage(errorMessage)
     }
 
-
-    override fun onResume(){
-        super.onResume()
-        nameCategory.setText("");
-    }
-
     override fun close() {
         selectedImageUri = null
         requireActivity().supportFragmentManager.popBackStack()
@@ -117,7 +97,7 @@ class CreateCategoryFragment : FragmentWithImagePicker(), ICreateCategoryFragmen
      * Méthode appelée lorsqu'on utilise le bouton retour de l'app
      */
     override fun onFragmentSelected(fragment: Fragment) {
-        nameCategory.setText("");
+        nameCategory?.setText("");
         if(fragment is CreateCategoryFragment) {
             requireActivity().supportFragmentManager.popBackStack()
         }

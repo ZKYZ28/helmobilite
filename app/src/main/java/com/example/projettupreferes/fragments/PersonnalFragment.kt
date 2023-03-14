@@ -47,16 +47,11 @@ class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen, IP
 
         recycler = view.findViewById(R.id.listCategoriesRv)
         recycler.layoutManager = LinearLayoutManager(requireContext())
-        recycler.adapter = CategoriesAdapter(presenter, callback)
+
 
         createCategory.setOnClickListener {
             presenter.goToCreateCategory(FragmentsName.CreateCategory)
         }
-
-        /* Bouton retour du téléphone */
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-//            requireActivity().supportFragmentManager.popBackStack()
-//        }
 
         // Enregistrement de l'instance dans le MainActivity
         (activity as MainActivity).onFragmentSelectedListener = this

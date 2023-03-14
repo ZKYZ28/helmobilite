@@ -55,6 +55,7 @@ class PairsAdapter(
         private val buttonChoiceTwo : Button
 
         var idPair: UUID? = null
+        var currentPosition : Int = 0;
 
         private lateinit var uriChoiceOne : Uri
         lateinit var uriChoiceTwo : Uri
@@ -115,15 +116,16 @@ class PairsAdapter(
             builder.setTitle("Confirmation")
             builder.setMessage("Voulez-vous vraiment supprimer la paire ?")
             builder.setPositiveButton("OK") { dialog, which ->
-                callBacks.onSelectedPair(idPair)
+                callBacks.onSelectedPair(idPair, currentPosition)
             }
             builder.setNegativeButton("Annuler", null)
             val dialog = builder.create()
             dialog.show()
         }
 
-        override fun showPair(idPair : UUID?) {
+        override fun showPair(idPair : UUID?, position: Int) {
             this.idPair = idPair
+            this.currentPosition = position;
             (view.context as Activity).runOnUiThread {
                 buttonChoiceOne.isEnabled = false
                 buttonChoiceTwo.isEnabled = false

@@ -33,11 +33,6 @@ class HelpFragment : Fragment(), OnFragmentSelectedListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        /* Bouton retour du téléphone */
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            requireActivity().supportFragmentManager.popBackStack()
-        }
-
         // Enregistrement de l'instance dans le MainActivity
         (activity as MainActivity).onFragmentSelectedListener = this
         // Inflate the layout for this fragment

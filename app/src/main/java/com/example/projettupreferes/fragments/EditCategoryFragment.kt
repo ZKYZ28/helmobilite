@@ -45,7 +45,6 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
         imagePickerLauncher = registerForActivityResult(imagePickerContract) { uri ->
             if (uri != null) {
                 selectedImageUri = uri
-                Log.d("TAG URI", selectedImageUri.toString())
                 presenter.temporarySelectedImageUri(uri)
             }
         }
@@ -57,12 +56,6 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
 
         imageCategoryEdit.setOnClickListener{
             presenter.onPickImageClicked()
-        }
-
-        presenter.getCurrentCategory()
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            requireActivity().supportFragmentManager.popBackStack()
         }
 
         // Enregistrement de l'instance dans le MainActivity
@@ -116,7 +109,6 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
     }
 
     override fun showSelectedImage(selectedImageUri: Uri) {
-        Log.d("URI AFFICHE", selectedImageUri.toString())
         imageSelectedCategoryEdit.setImageURI(selectedImageUri)
     }
 
