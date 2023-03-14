@@ -16,8 +16,7 @@
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/category_image"
-        tools:text="Category Name" />
+        app:layout_constraintTop_toBottomOf="@+id/category_image"/>
 
     <ImageView
         android:id="@+id/category_image"

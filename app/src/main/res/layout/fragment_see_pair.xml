@@ -25,7 +25,6 @@
         android:id="@+id/TitleSeePair"
         android:layout_width="196dp"
         android:layout_height="34dp"
-        android:text="CategoryName"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="22dp"
