@@ -10,8 +10,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout5"
-        android:layout_width="413sp"
+        android:layout_width="0dp"
         android:layout_height="59sp"
+        app:layout_constraintWidth_percent="1"
         android:layout_marginTop="16dp"
         android:background="@color/main_blue"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,8 +61,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout6"
-        android:layout_width="409dp"
-        android:layout_height="59dp"
+        android:layout_width="0dp"
+        android:layout_height="59sp"
+        app:layout_constraintWidth_percent="1"
         android:layout_marginTop="12sp"
         android:background="@color/main_red"
         app:layout_constraintEnd_toEndOf="parent"
