@@ -9,6 +9,5 @@ interface IMainActivity {
    fun giveSupportFragmentManager(): FragmentManager
    fun goTo(desiredFragment: FragmentsName)
 
-   fun showErrorMessage(errorMessage : String)
 
 }
