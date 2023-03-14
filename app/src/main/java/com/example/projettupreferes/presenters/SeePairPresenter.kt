@@ -24,17 +24,17 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
         seePairFragment.setSeePairPresenter(this)
     }
 
+
     interface IPairItemScreen {
-        fun showPair(idPair: UUID?)
+        fun showPair(idPair : UUID?, position: Int)
     }
 
     interface IPairListScreen {
         fun loadView()
     }
 
-    fun setFragment(seePairFragment: ISeePairFragment){
-        this.seePairFragment = seePairFragment
-        this.seePairFragment.setSeePairPresenter(this)
+    fun updateRecyclerPairs(){
+        seePairFragment.udpateView()
     }
 
     fun getItemCount(): Int {
@@ -53,7 +53,7 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
             val choiceOne = result?.firstOrNull()
             val choiceTwo = result2?.firstOrNull()
             if (choiceOne != null && choiceTwo != null) {
-                holder.showPair(p.idPaire)
+                holder.showPair(p.idPaire, position)
                 displayChoice(choiceOne, choiceTwo, holder)
             }
         }
@@ -81,35 +81,16 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
         seePairFragment.changeTitle(gameManager.currentCategoryWithPaires.category.categoryName)
     }
 
-    fun updatePairs(onUpdateComplete: () -> Unit, pairId : UUID?){
+    fun updatePairs(pairId : UUID?, position : Int){
         TuPreferesRepository.getInstance()?.deletePaire(pairId!!)
         updateStats()
 
-        val categoryUUID = gameManager.currentCategoryWithPaires.category.idCategory
-        // RECHARGE LES CHOIX PUIS CREE LE FRAGMENT POUR REAFFICHER TOUT CORRECTEMENT. PEUT ETRE JUSTE MODIFIER LA LISTE EN INTERNE POUR NE PAS DEVOIR RELOAD DEPUIS LA BD. COMMENT FAIRE ? FOREACH UUID EQUALS OU METTRE UNE MAP ?
-        GlobalScope.launch(Dispatchers.Main) {
-            TuPreferesRepository.getInstance()?.getPairesByCategoryId(categoryUUID)
-                ?.collect { paires ->
-                    val updatedPaires = mutableListOf<Paire>()
+        val pairesList = gameManager.currentCategoryWithPaires.paires.toMutableList()
+        pairesList.removeAt(position);
+        gameManager.currentCategoryWithPaires.paires = pairesList.toList()
 
-                    paires.forEach { paire ->
-                        val choiceOneFlow = TuPreferesRepository.getInstance()?.getChoice(paire.choiceOneId)
-                        val choiceTwoFlow = TuPreferesRepository.getInstance()?.getChoice(paire.choiceTwoId)
-
-                        if (choiceOneFlow != null && choiceTwoFlow != null) {
-                            choiceOneFlow.zip(choiceTwoFlow) { choiceOne, choiceTwo ->
-                                Paire(paire.idPaire, choiceOneId = choiceOne?.idChoice!!, choiceTwoId = choiceTwo?.idChoice!!, categoryIdFk = categoryUUID!!)
-                            }?.collect { paireWithChoices ->
-                                updatedPaires.add(paireWithChoices)
-                            }
-                        }
-                    }
-
-                    gameManager.currentCategoryWithPaires.paires = updatedPaires
-
-                    // Appelle le callback pour signaler la fin de l'exécution
-                    onUpdateComplete()
-                }
+        if(gameManager.currentCategoryWithPaires.paires.isEmpty()){
+            seePairFragment.destroyFragment()
         }
     }
 

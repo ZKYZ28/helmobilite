@@ -37,7 +37,7 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
     }
 
     interface ISelectPair {
-        fun onSelectedPair(pairId: UUID?)
+        fun onSelectedPair(pairId: UUID?, position : Int)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -55,6 +55,8 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
         return view;
 
     }
+
+
 
 
     /**
@@ -79,20 +81,16 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
         presenter.loadpairs()
     }
 
+    override fun udpateView(){
+        presenter.loadpairs()
+        recycler.adapter = PairsAdapter(presenter, callback)
+    }
+
     override fun onResume() {
         super.onResume()
         presenter.displayTitle()
         presenter.switchWhenListIsEmpty()
     }
-
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//
-//        if(context is MainActivity) {
-//            context.onFragmentSelectedListener = this
-//        }
-//    }
-
 
     companion object {
         @JvmStatic
@@ -112,11 +110,12 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
 
     override fun showErrorMessage(errorMessage : String) {
         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-//        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
     }
 
     override fun destroyFragment() {
-        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+        if(isAdded){
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 
 

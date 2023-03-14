@@ -39,17 +39,12 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)
 
-    //        supportFragmentManager.addOnBackStackChangedListener {
-    //            previousFragment = supportFragmentManager.fragments.lastOrNull()
-    //        }
-
 
             val backButton = findViewById<ImageButton>(R.id.backButton)
             backButton.setOnClickListener {
                 val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
                 onFragmentSelectedListener.onFragmentSelected(currentFragment!!, previousFragment)
                 //TODO peut-être mettre ici le supportFragmentManager.popBackStack au lieu de l'appeler dans chaque vue
-                Log.d("Nombre de backStack dans le bouton", supportFragmentManager.backStackEntryCount.toString())
                 if(supportFragmentManager.backStackEntryCount == 1) {
                     finish()
                 }
@@ -196,17 +191,10 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             mapFragments[FragmentsName.CategoryFragment] = newFragment;
     }
 
-    override fun onSelectedPair(pairId: UUID?) {
+    override fun onSelectedPair(pairId: UUID?, position : Int) {
         if (pairId != null) {
-            seePairPresenter.updatePairs({
-                val newFragment = SeePairFragment.newInstance()
-                mapFragments[FragmentsName.SeePair] = newFragment;
-               seePairPresenter.setFragment(newFragment)
-
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, newFragment, "SeePair")
-                    .addToBackStack("SeePair").commit()
-            }, pairId)
+            seePairPresenter.updatePairs(pairId, position)
+            seePairPresenter.updateRecyclerPairs()
         }
     }
 
