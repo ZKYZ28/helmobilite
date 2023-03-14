@@ -2,10 +2,8 @@ package com.example.projettupreferes.presenters
 
 import android.util.Log
 import com.example.projettupreferes.database.repository.TuPreferesRepository
-import com.example.projettupreferes.fragments.CategoryFragment
 import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.models.GameManager
-import com.example.projettupreferes.models.Paire
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICategoryFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

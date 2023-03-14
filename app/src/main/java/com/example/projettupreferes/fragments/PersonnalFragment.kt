@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,9 +28,6 @@ class PersonnalFragment : Fragment(), PersonnelPresenter.ICategoryListScreen, IP
         this.presenter = personnelPresenter
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     interface ISelectCategory {
         fun onSelectedCategory(categoryId: UUID?)

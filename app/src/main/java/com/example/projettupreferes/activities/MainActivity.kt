@@ -96,16 +96,16 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
             val homeFragmentPresenter =
                 HomeFragmentPresenter(fragmentHomeFragment, mainPresenter, gameManager)
             val playGamePresenter =
-                PlayGamePresenter(fragmentPlayGameFragment, mainPresenter, gameManager)
+                PlayGamePresenter(fragmentPlayGameFragment, gameManager)
             val personnelPresenter = PersonnelPresenter(personnelFragment, personnelFragment, mainPresenter, gameManager)
             personnelPresenter.loadCategories()
 
-            val statisticsPresenter = StatisticsPresenter(statisticsFragment, mainPresenter, gameManager)
+            val statisticsPresenter = StatisticsPresenter(statisticsFragment, gameManager)
 
             createCategoryPresenter = CreateCategoryPresenter(createCategoryFragment, mainPresenter, gameManager)
 
             categoryPresenter = CategoryPresenter(mainPresenter, gameManager)
-            val editCategoryPresenter = EditCategoryPresenter(editCategoryFragment, mainPresenter, gameManager)
+            val editCategoryPresenter = EditCategoryPresenter(editCategoryFragment, gameManager)
 
             seePairPresenter = SeePairPresenter(seePairFragment, seePairFragment,mainPresenter, gameManager)
 

@@ -9,7 +9,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 
-class PlayGamePresenter(private val playGameFragment: IPlayGameFragment, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
+class PlayGamePresenter(private val playGameFragment: IPlayGameFragment, private val gameManager: GameManager) {
     init {
         playGameFragment.setPlayGamePresenter(this);
     }

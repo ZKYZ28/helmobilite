@@ -1,19 +1,14 @@
 package com.example.projettupreferes.presenters
 
 import android.net.Uri
-import androidx.fragment.app.Fragment
 import com.example.projettupreferes.adaptater.PairsAdapter
 import com.example.projettupreferes.database.repository.TuPreferesRepository
-import com.example.projettupreferes.fragments.FragmentsName
-import com.example.projettupreferes.fragments.SeePairFragment
 import com.example.projettupreferes.models.Choice
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.Paire
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ISeePairFragment
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -93,19 +88,8 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
         }
     }
 
-    private fun updateStats(){
+    private fun updateStats() {
         gameManager.statistics.nbrPairs--
         TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
     }
-
-    fun goToCategoryFragment() {
-        mainActivityPresenter.requestSwitchView(FragmentsName.CategoryFragment)
-    }
-
-    fun switchWhenListIsEmpty() {
-        if(gameManager.currentCategoryWithPaires.paires.isEmpty()) {
-            seePairFragment.destroyFragment()
-        }
-    }
-
 }

@@ -1,7 +1,6 @@
 package com.example.projettupreferes.database
 
 import androidx.room.TypeConverter
-import androidx.room.TypeConverters
 import java.util.*
 
 class TuPreferesTypeConverters {

@@ -2,25 +2,20 @@ package com.example.projettupreferes.adaptater
 
 import android.app.Activity
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projettupreferes.R
 import com.example.projettupreferes.fragments.SeePairFragment
 import com.example.projettupreferes.presenters.SeePairPresenter
-import java.net.URI
 import java.util.*
-import java.util.logging.Handler
 
 class PairsAdapter(
     private val seePairsPresenter : SeePairPresenter,

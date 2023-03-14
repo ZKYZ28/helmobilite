@@ -10,7 +10,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.addCallback
 
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -35,9 +34,6 @@ class CategoryFragment : Fragment(), ICategoryFragment, OnFragmentSelectedListen
 
     lateinit var playGameCl: ConstraintLayout
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,7 +85,7 @@ class CategoryFragment : Fragment(), ICategoryFragment, OnFragmentSelectedListen
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Confirmation")
         builder.setMessage("Voulez-vous vraiment supprimer la catégorie ?")
-        builder.setPositiveButton("OK") { dialog, which ->
+        builder.setPositiveButton("OK") { _, _ ->
             categoryPresenter.deleteCategory()
         }
         builder.setNegativeButton("Annuler", null)

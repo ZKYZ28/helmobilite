@@ -3,13 +3,10 @@ package com.example.projettupreferes.fragments
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import java.io.File
 
@@ -67,8 +64,6 @@ class ImagePickerContract :  ActivityResultContract<Int, Uri?>(){
     companion object {
         const val REQUEST_IMAGE_CAPTURE = 0
         const val REQUEST_PICK_IMAGE = 1
-        const val REQUEST_CAMERA_PERMISSION = 2
-        const val REQUEST_GALLERY_PERMISSION = 3
     }
 
 }

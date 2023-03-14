@@ -5,9 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
-import androidx.activity.addCallback
 import com.example.projettupreferes.R
 import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.presenters.StatisticsPresenter
@@ -26,9 +24,6 @@ class StatisticsFragment : Fragment(), IStatisticsFragment, OnFragmentSelectedLi
         this.presenter = statisticsPresenter
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

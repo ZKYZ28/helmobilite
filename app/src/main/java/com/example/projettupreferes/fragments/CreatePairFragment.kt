@@ -2,18 +2,15 @@ package com.example.projettupreferes.fragments
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
 import com.example.projettupreferes.activities.MainActivity
 import com.example.projettupreferes.presenters.CreatePairPresenter
-import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategoryFragment
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreatePairFragment
 
 
@@ -176,9 +173,7 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
     }
 
     override fun close() {
-        //TODO : vérifier remove
         requireActivity().supportFragmentManager.popBackStack()
-        //requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
     }
 
     override fun showImagePicker(choiceNumber: Int) {

@@ -4,7 +4,7 @@ import com.example.projettupreferes.fragments.StatisticsFragment
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.presenters.viewsInterface.fragments.IStatisticsFragment
 
-class StatisticsPresenter(val statisticsFragment: IStatisticsFragment, val mainActivityPresenter: MainActivityPresenter, val gameManager: GameManager) {
+class StatisticsPresenter(private val statisticsFragment: IStatisticsFragment, val gameManager: GameManager) {
     init {
         statisticsFragment.setStatisticsPresenter(this);
     }

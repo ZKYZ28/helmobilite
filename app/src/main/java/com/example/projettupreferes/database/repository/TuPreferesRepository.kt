@@ -1,6 +1,5 @@
 package com.example.projettupreferes.database.repository
 
-import androidx.room.Transaction
 import com.example.projettupreferes.database.TuPreferesDataBase
 import com.example.projettupreferes.database.dao.CategoryDao
 import com.example.projettupreferes.database.dao.ChoiceDao

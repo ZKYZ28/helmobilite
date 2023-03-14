@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.R
 import com.example.projettupreferes.activities.MainActivity
@@ -58,6 +57,8 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
             presenter.onPickImageClicked()
         }
 
+        presenter.getCurrentCategory()
+
         // Enregistrement de l'instance dans le MainActivity
         (activity as MainActivity).onFragmentSelectedListener = this
 
@@ -66,9 +67,6 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun displayInformationInFields(categoryName: String, imagePath: Uri) {
         nameCategoryEdit.setText(categoryName)
@@ -81,7 +79,6 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
      * indiquant que tous les champs sont obligatoires
      */
     override fun showErrorMessage(errorMessage: String) {
-        //TODO : regarder si on ne peut pas appeler super Android
         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
        // super.displayErrorMessage(errorMessage)
     }
@@ -98,15 +95,6 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
         requireActivity().supportFragmentManager.popBackStack()
     }
 
-    /**
-     * Cette méthode permet de rafraichir les informations à chaque
-     * fois que le fragment "EditCategoryFragment" est recréé. De cette façon,
-     * chaque fois que le fragment est visible à l'utilisateur, la méthode "getCurrentCategory"
-     * sera appelée et les données sront mises à jour.
-     */
-    override fun onResume() {
-        super.onResume()
-    }
 
     override fun showSelectedImage(selectedImageUri: Uri) {
         imageSelectedCategoryEdit.setImageURI(selectedImageUri)
@@ -130,7 +118,6 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
 
     override fun onFragmentSelected(fragment: Fragment) {
         if(fragment is EditCategoryFragment) {
-            /* Ancienne version */
             requireActivity().supportFragmentManager.popBackStack()
         }
     }

@@ -1,8 +1,6 @@
 package com.example.projettupreferes.database
 
 import android.app.Application
-import android.util.Log
-import com.example.projettupreferes.database.TuPreferesDataBase
 
 class TuPreferesApplication : Application() {
 

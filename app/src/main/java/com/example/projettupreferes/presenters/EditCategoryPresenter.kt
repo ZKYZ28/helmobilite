@@ -13,7 +13,7 @@ import com.example.projettupreferes.models.exceptions.SaveImageStorageException
 import com.example.projettupreferes.presenters.viewsInterface.fragments.IEditCategoryFragment
 import java.io.File
 
-class EditCategoryPresenter(private val editCategoryFragment: IEditCategoryFragment, val mainPresenter : MainActivityPresenter, val gameManager: GameManager) {
+class EditCategoryPresenter(private val editCategoryFragment: IEditCategoryFragment, val gameManager: GameManager) {
     init {
         editCategoryFragment.setEditCategoryPresenter(this)
     }
@@ -48,7 +48,6 @@ class EditCategoryPresenter(private val editCategoryFragment: IEditCategoryFragm
         gameManager.currentCategoryWithPaires.category.pathImage = imagePath.toString()
         TuPreferesRepository.getInstance()?.updateCategory(gameManager.currentCategoryWithPaires.category)
 
-       // goToCategoryFragment()
         editCategoryFragment.close()
     }
 

@@ -2,18 +2,15 @@ package com.example.projettupreferes.presenters
 
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.FragmentsName
-import com.example.projettupreferes.fragments.PersonnalFragment
 import com.example.projettupreferes.models.Category
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.presenters.viewsInterface.fragments.IPersonnalFragment
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 
-class PersonnelPresenter(private val personnel: IPersonnalFragment, private val categoryListScreen: ICategoryListScreen, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
+class PersonnelPresenter(personnel: IPersonnalFragment, private val categoryListScreen: ICategoryListScreen, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
     init {
         personnel.setPersonnelPresenter(this);
     }

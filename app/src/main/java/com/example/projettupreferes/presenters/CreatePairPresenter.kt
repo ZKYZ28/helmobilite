@@ -3,9 +3,7 @@ package com.example.projettupreferes.presenters
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import com.example.projettupreferes.database.repository.TuPreferesRepository
-import com.example.projettupreferes.fragments.CreatePairFragment
 import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.models.*
 import com.example.projettupreferes.models.exceptions.SaveImageStorageException
@@ -101,10 +99,6 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
 
     fun onPickImageClicked(choiceNumber: Int) {
         createPairFragment.showImagePicker(choiceNumber)
-    }
-
-    fun goToCategoryFragment() {
-        mainActivityPresenter.requestSwitchView(FragmentsName.CategoryFragment)
     }
 
 }

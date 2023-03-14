@@ -65,7 +65,6 @@ class SeePairFragment : Fragment(), SeePairPresenter.IPairListScreen, ISeePairFr
      */
     override fun onFragmentSelected(fragment: Fragment) {
         if(fragment is SeePairFragment) {
-           // presenter.goToCategoryFragment()
             requireActivity().supportFragmentManager.popBackStack()
         }
     }
