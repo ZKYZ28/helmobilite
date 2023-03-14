@@ -18,7 +18,7 @@
         android:text="@string/create_category_title"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="22dp"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -26,72 +26,98 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.107" />
 
-
-    <Button
-        android:id="@+id/ImageCategory"
-        android:layout_width="320dp"
-        android:layout_height="36dp"
-        android:background="@drawable/component_input_text"
-        android:drawableLeft="@drawable/icon_help"
-        android:text="@string/picture_input"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHeight_percent="0.12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.483" />
+        app:layout_constraintVertical_bias="0.43"
+        app:layout_constraintWidth_percent="0.9">
 
-    <TextView
-        android:id="@+id/imageCategory"
-        android:layout_width="67dp"
-        android:layout_height="27dp"
-        android:text="@string/picture_input_obligatory"
-        android:textColor="@color/white"
-        android:textSize="18dp"
+        <Button
+            android:id="@+id/ImageCategory"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:background="@drawable/component_input_text"
+            android:drawableLeft="@drawable/icon_help"
+            android:text="@string/picture_input"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintWidth_percent="0.9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.484"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.746" />
+
+        <TextView
+            android:id="@+id/imageCategory"
+            android:layout_width="67dp"
+            android:layout_height="27dp"
+            android:text="@string/picture_input_obligatory"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.055"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.041" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintHeight_percent="0.12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.426" />
+        app:layout_constraintVertical_bias="0.27"
+        app:layout_constraintWidth_percent="0.9">
 
-    <TextView
-        android:id="@+id/imageCategory2"
-        android:layout_width="58dp"
-        android:layout_height="22dp"
-        android:text="@string/name_input_obligatory"
-        android:textColor="@color/white"
-        android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.113"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.28" />
+        <EditText
+            android:id="@+id/NameCategory"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:background="@drawable/component_input_text"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintWidth_percent="0.9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.734" />
 
-    <EditText
-        android:id="@+id/NameCategory"
-        android:layout_width="320dp"
-        android:layout_height="30dp"
-        android:background="@drawable/component_input_text"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.439"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.336" />
+        <TextView
+            android:id="@+id/imageCategory2"
+            android:layout_width="58dp"
+            android:layout_height="22dp"
+            android:text="@string/name_input_obligatory"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.054"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.077" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/ImageSelectedCategory"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.25"
-        app:layout_constraintWidth_percent="0.7"
         app:layout_constraintBottom_toTopOf="@+id/ConfirmCreation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ImageCategory"/>
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout8"
+        app:layout_constraintWidth_percent="0.7" />
 
     <Button
         android:id="@+id/ConfirmCreation"
@@ -106,7 +132,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.815" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
