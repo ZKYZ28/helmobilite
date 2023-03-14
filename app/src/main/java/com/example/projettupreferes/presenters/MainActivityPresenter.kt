@@ -1,5 +1,10 @@
 package com.example.projettupreferes.presenters
 
+import android.content.Context
+import android.net.Uri
+import android.util.Log
+import androidx.core.net.toUri
+import com.example.projettupreferes.R
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.models.GameManager
@@ -10,6 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
+import java.io.FileNotFoundException
+import java.io.IOException
 import java.util.*
 
 class MainActivityPresenter(private val mainActivity: IMainActivity, private val gameManager: GameManager) {
@@ -59,6 +66,27 @@ class MainActivityPresenter(private val mainActivity: IMainActivity, private val
                     gameManager.currentCategoryWithPaires.paires = updatedPaires
                 }
         }
+    }
+
+    fun loadDefaultImage(context : Context){
+        val defaultImageUri = Uri.parse("android.resource://${context.packageName}/${R.raw.defaut_image}")
+        try {
+            val outputStream = context.openFileOutput("defaut_image.jpg", Context.MODE_PRIVATE)
+            val inputStream = context.contentResolver.openInputStream("abc".toUri())
+            if (inputStream == null) {
+                ("Le fichier d'image par défaut n'a pas été trouvé")
+                mainActivity.showErrorMessage("coucou")
+                return
+            }
+            inputStream.copyTo(outputStream)
+            outputStream.close()
+        } catch (e: FileNotFoundException) {
+            Log.d("EXCEPTION LANCCE", "AZFFZFZF")
+        } catch (e: SecurityException) {
+
+        } catch (e: IOException) {
+        }
+
     }
 
 
