@@ -17,9 +17,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/main_blue"
         app:layout_constraintHeight_percent="0.49"
         app:layout_constraintWidth_percent="1"
+        android:background="@drawable/bg_selector_blue"
         android:clickable="true">
 
 
@@ -53,8 +53,8 @@
         android:id="@+id/choiceTwo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/main_red"
         android:clickable="true"
+        android:background="@drawable/bg_selector_red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.49"
