@@ -20,6 +20,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentManager
@@ -41,6 +42,9 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
         //Démarrage + initlialisation de la première vue
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Bloquer la rotation de l'écran en mode portrait
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         //Ajout des presenters
         //Gestionnaire app
