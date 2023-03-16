@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.util.*
 
-class SeePairPresenter(private var seePairFragment: ISeePairFragment, private val PairListScreen: IPairListScreen, private val mainActivityPresenter: MainActivityPresenter, private val gameManager: GameManager) {
+class SeePairPresenter(private var seePairFragment: ISeePairFragment, private val PairListScreen: IPairListScreen, private val gameManager: GameManager) {
 
     init {
         seePairFragment.setSeePairPresenter(this)
@@ -32,10 +32,11 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
     }
 
     fun getItemCount(): Int {
-        if(gameManager.currentCategoryWithPaires.paires.isEmpty()){
+        val currentPairs = gameManager.currentCategoryWithPaires.paires;
+        if(currentPairs.isEmpty()){
             return 0
         }
-        return gameManager.currentCategoryWithPaires.paires.size
+        return currentPairs.size
     }
 
     fun showPairOn(holder: PairsAdapter.ViewHolder, position: Int) {
@@ -72,7 +73,8 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
     }
 
     fun displayTitle(){
-        seePairFragment.changeTitle(gameManager.currentCategoryWithPaires.category.categoryName)
+        val currentCat = gameManager.currentCategoryWithPaires.category;
+        seePairFragment.changeTitle(currentCat.categoryName)
     }
 
     fun updatePairs(pairId : UUID?, position : Int){

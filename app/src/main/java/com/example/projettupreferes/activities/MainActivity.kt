@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
         backButton.setOnClickListener {
             val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
             onFragmentSelectedListener.onFragmentSelected(currentFragment!!)
-            //TODO peut-être mettre ici le supportFragmentManager.popBackStack au lieu de l'appeler dans chaque vue
             if (supportFragmentManager.backStackEntryCount == 1) {
                 finish()
             }
@@ -114,10 +113,10 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
         val editCategoryPresenter = EditCategoryPresenter(editCategoryFragment, gameManager)
 
         seePairPresenter =
-            SeePairPresenter(seePairFragment, seePairFragment, mainPresenter, gameManager)
+            SeePairPresenter(seePairFragment, seePairFragment, gameManager)
 
 
-        createPairPresenter = CreatePairPresenter(createPairFragment, mainPresenter, gameManager)
+        createPairPresenter = CreatePairPresenter(createPairFragment, gameManager)
 
 
         /* Ne pas ajouter le premmier fragment à la stack car

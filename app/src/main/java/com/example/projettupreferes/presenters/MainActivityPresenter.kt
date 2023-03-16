@@ -32,9 +32,8 @@ class MainActivityPresenter(private val mainActivity: IMainActivity, private val
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     fun loadPair(categoryUUID: UUID?, desiredFragment: FragmentsName?) {
-        loadPairJob?.cancel() // annule la tâche précédente si elle est en cours
+        loadPairJob?.cancel()                                                           // annule la tâche précédente si elle est en cours
         loadPairJob = GlobalScope.launch(Dispatchers.Main) {
             TuPreferesRepository.getInstance()?.getPairesByCategoryId(categoryUUID)
                 ?.collect { paires ->

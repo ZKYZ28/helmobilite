@@ -35,6 +35,8 @@ class CreatePairFragment : FragmentWithImagePicker(), ICreatePairFragment, OnFra
     override fun clearTextChoice(){
         textChoiceOne?.setText("")
         textChoiceTwo?.setText("")
+        selectedImageUriChoiceOne = null
+        selectedImageUriChoiceTwo = null
     }
     override fun setCreatePairPresenter(createPairPresenter : CreatePairPresenter){
         this.presenter = createPairPresenter

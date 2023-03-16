@@ -62,9 +62,10 @@ class CreateCategoryPresenter(private val createCategoryFragment: ICreateCategor
 
 
         val category = Category(categoryName = categoryName, pathImage = imagePath.toString())
-
         TuPreferesRepository.getInstance()?.insertCategory(category)
+
         createCategoryFragment.close()
+
         return category
     }
 
