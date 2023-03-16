@@ -67,6 +67,13 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
         return view
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+
+       presenter.getCurrentCategory()
+    }
+
+
 
     override fun displayInformationInFields(categoryName: String, imagePath: Uri) {
         nameCategoryEdit.setText(categoryName)
