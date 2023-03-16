@@ -33,9 +33,10 @@ class EditCategoryPresenter(private val editCategoryFragment: IEditCategoryFragm
             return
         }
 
-        gameManager.currentCategoryWithPaires.category.categoryName = categoryName
-        gameManager.currentCategoryWithPaires.category.pathImage = imagePath.toString()
-        TuPreferesRepository.getInstance()?.updateCategory(gameManager.currentCategoryWithPaires.category)
+        val currentCat = gameManager.currentCategoryWithPaires.category;
+        currentCat.categoryName = categoryName
+        currentCat.pathImage = imagePath.toString()
+        TuPreferesRepository.getInstance()?.updateCategory(currentCat)
 
         editCategoryFragment.close()
     }

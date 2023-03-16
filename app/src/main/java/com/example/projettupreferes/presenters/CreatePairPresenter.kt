@@ -9,7 +9,7 @@ import com.example.projettupreferes.models.exceptions.SaveImageStorageException
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreatePairFragment
 import java.util.*
 
-class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, private val  mainActivityPresenter: MainActivityPresenter, private val gameManager: GameManager) {
+class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, private val gameManager: GameManager) {
     init {
         createPairFragment.setCreatePairPresenter(this)
     }
@@ -26,16 +26,16 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
         createPairFragment.onDeleteImageChoiceTwo()
     }
 
-    fun manageDisplayImageChoiceOne(textChoiceOneLenght : Int){
-        if(textChoiceOneLenght > 0){
+    fun manageDisplayImageChoiceOne(textChoiceOneLength : Int){
+        if(textChoiceOneLength > 0){
             createPairFragment.deactivateSelecteImageChoiceOne()
         }else{
             createPairFragment.activateSelecteImageChoiceOne()
         }
     }
 
-    fun manageDisplayImageChoiceTwo(textChoiceTwoLenght : Int) {
-        if(textChoiceTwoLenght > 0){
+    fun manageDisplayImageChoiceTwo(textChoiceTwoLength : Int) {
+        if(textChoiceTwoLength > 0){
             createPairFragment.deactivateSelecteImageChoiceTwo()
         }else{
             createPairFragment.activateSelecteImageChoiceTwo()
@@ -46,11 +46,8 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
         val idPair = UUID.randomUUID();
         val choiceOne = createChoice(textChoiceOne, selectedImageUriChoiceOne, idPair, context)
         val choiceTwo = createChoice(textChoiceTwo, selectedImageUriChoiceTwo, idPair, context)
-        if(choiceOne == null || choiceTwo == null) {
-            return
-        }
 
-        if(!choiceOne.textChoice.isEmpty() && !choiceTwo.textChoice.isEmpty()){
+        if(choiceOne != null && choiceTwo != null){
             val currentCategoryWithListPairs = gameManager.currentCategoryWithPaires
             //Insertion de la paire
             val pair = Paire(idPair, choiceOneId = choiceOne.idChoice, choiceTwoId = choiceTwo.idChoice, categoryIdFk = currentCategoryWithListPairs.category.idCategory)
@@ -70,6 +67,7 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
             clearChoiceText()
             createPairFragment.close()
         }
+
     }
 
     private fun updateNbrPairs(){
@@ -82,7 +80,7 @@ class CreatePairPresenter(private val createPairFragment: ICreatePairFragment, p
             Choice(textChoice = textChoice.uppercase(), isText = true, pairIdFk = idPair)
         }else if(selectedImageUriChoice == null){
             createPairFragment.showErrorMessage("Vous devez choisir un texte ou une image par choix")
-            Choice(textChoice = "", isText = true, pairIdFk = idPair)
+            null
         }else{
             var imagePath: Uri?
             try {

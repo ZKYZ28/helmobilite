@@ -2,7 +2,9 @@ package com.example.projettupreferes.presenters
 
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.FragmentsName
+import com.example.projettupreferes.models.CategoryWithPaires
 import com.example.projettupreferes.models.GameManager
+import com.example.projettupreferes.models.Paire
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICategoryFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -15,9 +17,11 @@ class CategoryPresenter(
 ) {
 
     private var categoryFragment: ICategoryFragment? = null
+    private var categoryWithPaires: CategoryWithPaires? = null;
 
     fun setCategoryFragment(categoryFragmentNew: ICategoryFragment) {
         this.categoryFragment = categoryFragmentNew
+        categoryWithPaires = gameManager.currentCategoryWithPaires;
     }
 
     fun loadCategory(categoryUUID: UUID?) {
@@ -26,8 +30,7 @@ class CategoryPresenter(
                 TuPreferesRepository.getInstance()?.getCategory(categoryUUID)
                     ?.collect { category ->
                         if (category != null) {
-                            this@CategoryPresenter.gameManager.currentCategoryWithPaires.category =
-                                category
+                            categoryWithPaires?.category = category
                             categoryFragment?.displayCategoryInformation(
                                 category.categoryName,
                                 category.pathImage
@@ -43,17 +46,17 @@ class CategoryPresenter(
         removeCategory()
 
         TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
-        TuPreferesRepository.getInstance()?.deleteCategory(gameManager.currentCategoryWithPaires.category)
+        TuPreferesRepository.getInstance()?.deleteCategory(categoryWithPaires!!.category)
         categoryFragment?.close()
     }
 
     private fun removeCategory(){
-        gameManager.categoriesMap.remove(gameManager.currentCategoryWithPaires.category.categoryName)
+        gameManager.categoriesMap.remove(categoryWithPaires!!.category.categoryName)
         gameManager.statistics.nbrCategories--
     }
 
     fun requestToDeleteCategory(){
-        if(gameManager.currentCategoryWithPaires.category.categoryName == "NORMAL"){
+        if(categoryWithPaires!!.category.categoryName == "NORMAL"){
             categoryFragment?.showErrorMessage("Vous ne pouvez pas supprimer la catégorie Normal")
         }else{
             categoryFragment?.displayPopUpConfirmation()
@@ -61,7 +64,7 @@ class CategoryPresenter(
     }
 
     fun editCategory() {
-        if(gameManager.currentCategoryWithPaires.category.categoryName == "NORMAL"){
+        if(categoryWithPaires!!.category.categoryName == "NORMAL"){
             categoryFragment?.showErrorMessage("Vous ne pouvez pas éditer la catégoire Normal")
         }else{
             mainPresenter.requestSwitchView(FragmentsName.EditCategory)
@@ -73,21 +76,24 @@ class CategoryPresenter(
     }
 
     fun switchToPlayGame() {
-        if (gameManager.currentCategoryWithPaires.paires.isEmpty()) {
-            categoryFragment?.showErrorMessage("Vous n'avez aucune paire liée à cette catégorie")
-            return
-        }
+        if (checkIfPairIsEmpty(categoryWithPaires!!.paires)) return
+
         mainPresenter.requestSwitchView(FragmentsName.NormalGame)
         gameManager.statistics.gamesPlayed++
         TuPreferesRepository.getInstance()?.updateStatics(gameManager.statistics)
     }
 
     fun switchToSeePairs() {
-        if (gameManager.currentCategoryWithPaires.paires.isEmpty()) {
-            categoryFragment?.showErrorMessage("Vous n'avez aucune paire liée à cette catégorie")
-            return
-        }
+        if (checkIfPairIsEmpty(categoryWithPaires!!.paires)) return
         mainPresenter.requestSwitchView(FragmentsName.SeePair)
+    }
+
+    private fun checkIfPairIsEmpty (currentListPair : List<Paire>): Boolean {
+        if (currentListPair.isEmpty()) {
+            categoryFragment?.showErrorMessage("Vous n'avez aucune paire liée à cette catégorie")
+            return true
+        }
+        return false
     }
 
     fun switchToAddPair() {

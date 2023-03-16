@@ -32,10 +32,11 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
     }
 
     fun getItemCount(): Int {
-        if(gameManager.currentCategoryWithPaires.paires.isEmpty()){
+        val currentPairs = gameManager.currentCategoryWithPaires.paires;
+        if(currentPairs.isEmpty()){
             return 0
         }
-        return gameManager.currentCategoryWithPaires.paires.size
+        return currentPairs.size
     }
 
     fun showPairOn(holder: PairsAdapter.ViewHolder, position: Int) {
@@ -72,7 +73,8 @@ class SeePairPresenter(private var seePairFragment: ISeePairFragment, private va
     }
 
     fun displayTitle(){
-        seePairFragment.changeTitle(gameManager.currentCategoryWithPaires.category.categoryName)
+        val currentCat = gameManager.currentCategoryWithPaires.category;
+        seePairFragment.changeTitle(currentCat.categoryName)
     }
 
     fun updatePairs(pairId : UUID?, position : Int){

@@ -28,7 +28,6 @@ class PersonnelPresenter(personnel: IPersonnalFragment, private val categoryList
         mainPresenter.requestSwitchView(desiredFragment);
     }
 
-
     fun loadCategories() {
         GlobalScope.launch(Main) {
             TuPreferesRepository.getInstance()?.getCategoriesWithPairesList()
@@ -51,7 +50,8 @@ class PersonnelPresenter(personnel: IPersonnalFragment, private val categoryList
         holder: ICategoryItemScreen,
         position: Int
     ) {
-        val p: Category = gameManager.categoriesMap.values.toList()[position]
+        val mapCategories = gameManager.categoriesMap.values;
+        val p: Category = mapCategories.toList()[position]
         holder.showCategory(p.idCategory, p.categoryName, p.pathImage)
     }
 }
