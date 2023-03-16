@@ -1,6 +1,5 @@
 package com.example.projettupreferes.presenters
 
-import android.util.Log
 import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.models.GameManager
@@ -27,7 +26,6 @@ class CategoryPresenter(
                 TuPreferesRepository.getInstance()?.getCategory(categoryUUID)
                     ?.collect { category ->
                         if (category != null) {
-                            //TODO changer les 3 appels
                             this@CategoryPresenter.gameManager.currentCategoryWithPaires.category =
                                 category
                             categoryFragment?.displayCategoryInformation(
@@ -56,7 +54,7 @@ class CategoryPresenter(
 
     fun requestToDeleteCategory(){
         if(gameManager.currentCategoryWithPaires.category.categoryName == "NORMAL"){
-            categoryFragment?.showErrorMessage("Vous ne pouvez pas supprimer la catégoire Normal")
+            categoryFragment?.showErrorMessage("Vous ne pouvez pas supprimer la catégorie Normal")
         }else{
             categoryFragment?.displayPopUpConfirmation()
         }

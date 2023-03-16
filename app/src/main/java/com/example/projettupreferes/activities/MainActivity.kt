@@ -1,31 +1,19 @@
 package com.example.projettupreferes.activities
 
-import android.app.AlertDialog
-import android.net.Uri
+
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.projettupreferes.*
-import com.example.projettupreferes.database.repository.TuPreferesRepository
 import com.example.projettupreferes.fragments.*
 import com.example.projettupreferes.models.GameManager
-import com.example.projettupreferes.models.Statistics
 import com.example.projettupreferes.presenters.*
 import com.example.projettupreferes.presenters.viewsInterface.activity.IMainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.*
-import android.content.Context
 import android.content.pm.ActivityInfo
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentManager
-import com.example.projettupreferes.models.Paire
-import kotlinx.coroutines.flow.zip
 
 class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISelectCategory,
     SeePairFragment.ISelectPair {
@@ -114,7 +102,7 @@ class MainActivity : AppCompatActivity(), IMainActivity, PersonnalFragment.ISele
         val editCategoryPresenter = EditCategoryPresenter(editCategoryFragment, gameManager)
 
         seePairPresenter =
-            SeePairPresenter(seePairFragment, seePairFragment, mainPresenter, gameManager)
+            SeePairPresenter(seePairFragment, seePairFragment, gameManager)
 
 
         createPairPresenter = CreatePairPresenter(createPairFragment, mainPresenter, gameManager)

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.content.FileProvider
 import java.io.File
@@ -17,14 +16,6 @@ class ImagePickerContract :  ActivityResultContract<Int, Uri?>(){
         val intent = Intent()
         when (input) {
             REQUEST_IMAGE_CAPTURE -> {
-
-                //Vérification que la caméra ne soit pas utilisée par une autre application
-                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                if (cameraIntent.resolveActivity(context.packageManager) == null) {
-                    // Aucune application disponible pour gérer l'action de prise de photo
-                    Toast.makeText(context, "Aucun appareil photo n'est disponible", Toast.LENGTH_SHORT).show()
-                    return Intent()
-                }
                 intent.action = MediaStore.ACTION_IMAGE_CAPTURE
 
                 val photoName = "IMG_${System.currentTimeMillis()}.jpg"

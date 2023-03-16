@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Log
 import com.example.projettupreferes.models.exceptions.SaveImageStorageException
 import java.io.File
 import java.io.FileNotFoundException

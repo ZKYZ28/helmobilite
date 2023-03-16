@@ -1,6 +1,5 @@
 package com.example.projettupreferes.presenters
 
-import com.example.projettupreferes.fragments.StatisticsFragment
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.presenters.viewsInterface.fragments.IStatisticsFragment
 

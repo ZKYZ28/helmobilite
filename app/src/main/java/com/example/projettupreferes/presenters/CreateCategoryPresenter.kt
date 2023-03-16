@@ -11,6 +11,11 @@ import com.example.projettupreferes.models.exceptions.SaveImageStorageException
 import com.example.projettupreferes.presenters.viewsInterface.fragments.ICreateCategoryFragment
 
 class CreateCategoryPresenter(private val createCategoryFragment: ICreateCategoryFragment, private val mainPresenter : MainActivityPresenter, private val gameManager: GameManager) {
+
+    companion object {
+        private const val DEFAULT_IMAGE_URI = "file:///data/user/0/com.example.projettupreferes/files/defaut_image.jpg"
+    }
+
     init {
         createCategoryFragment.setCreateCategoryPresenter(this)
     }
@@ -25,7 +30,7 @@ class CreateCategoryPresenter(private val createCategoryFragment: ICreateCategor
         } else if(!checkIfCategoryAlreadyExist(categoryName)){
             var uri = selectedImageUri
             if (uri == null){
-                uri =  Uri.parse("file:///data/user/0/com.example.projettupreferes/files/defaut_image.jpg")
+                uri =  Uri.parse(DEFAULT_IMAGE_URI)
             }
 
             val category = createCategory(categoryName.uppercase(), uri!!, context) ?: return
