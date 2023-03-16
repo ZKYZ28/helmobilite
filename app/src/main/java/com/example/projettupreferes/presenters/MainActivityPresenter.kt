@@ -8,17 +8,16 @@ import com.example.projettupreferes.fragments.FragmentsName
 import com.example.projettupreferes.models.GameManager
 import com.example.projettupreferes.models.Paire
 import com.example.projettupreferes.presenters.viewsInterface.activity.IMainActivity
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.zip
-import kotlinx.coroutines.launch
 import java.util.*
 
 class MainActivityPresenter(private val mainActivity: IMainActivity, private val gameManager: GameManager) {
     init {
         loadStatistics()
     }
+
+    private var loadPairJob: Job? = null
 
     fun requestSwitchView(desiredFragment: FragmentsName) {
         mainActivity.goTo(desiredFragment)
@@ -35,7 +34,8 @@ class MainActivityPresenter(private val mainActivity: IMainActivity, private val
 
     @OptIn(DelicateCoroutinesApi::class)
     fun loadPair(categoryUUID: UUID?, desiredFragment: FragmentsName?) {
-        GlobalScope.launch(Dispatchers.Main) {
+        loadPairJob?.cancel() // annule la tâche précédente si elle est en cours
+        loadPairJob = GlobalScope.launch(Dispatchers.Main) {
             TuPreferesRepository.getInstance()?.getPairesByCategoryId(categoryUUID)
                 ?.collect { paires ->
                     val updatedPaires = mutableListOf<Paire>()
