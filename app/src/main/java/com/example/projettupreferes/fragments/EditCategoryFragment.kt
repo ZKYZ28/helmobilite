@@ -2,7 +2,6 @@ package com.example.projettupreferes.fragments
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -118,10 +117,6 @@ class EditCategoryFragment : FragmentWithImagePicker(), IEditCategoryFragment, O
             }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.d("EditCategoryFragment", "onDestroyView()")
-    }
 
     override fun onFragmentSelected(fragment: Fragment) {
         if(fragment is EditCategoryFragment) {

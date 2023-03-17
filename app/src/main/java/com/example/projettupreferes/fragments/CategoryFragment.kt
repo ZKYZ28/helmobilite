@@ -2,7 +2,6 @@ package com.example.projettupreferes.fragments
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,7 +75,6 @@ class CategoryFragment : Fragment(), ICategoryFragment, OnFragmentSelectedListen
         /* Bouton retour application */
         (activity as MainActivity).onFragmentSelectedListener = this
 
-        Log.d("NOMBRE D'ELEMENT dans la stack", requireActivity().supportFragmentManager.backStackEntryCount.toString())
 
         return view
     }

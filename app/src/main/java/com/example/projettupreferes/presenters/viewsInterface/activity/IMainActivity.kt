@@ -1,6 +1,5 @@
 package com.example.projettupreferes.presenters.viewsInterface.activity
 
-import android.content.Context
 import androidx.fragment.app.FragmentManager
 import com.example.projettupreferes.fragments.FragmentsName
 

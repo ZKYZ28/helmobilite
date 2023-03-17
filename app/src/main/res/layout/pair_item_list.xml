@@ -36,7 +36,7 @@
             android:id="@+id/buttonChoiceOne"
             android:layout_width="103dp"
             android:layout_height="29dp"
-            android:text="Voir image"
+            android:text="@string/see_image_button"
             android:textSize="8sp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"

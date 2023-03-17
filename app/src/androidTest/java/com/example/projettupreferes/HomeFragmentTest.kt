@@ -23,11 +23,11 @@ class HomeFragmentTest {
 
     @Test
     fun testContent() {
-        onView(withId(R.id.titleNormal)).check(matches(withText("Mode normal")))
-        onView(withId(R.id.textNormal)).check(matches(withText("Jouez en faisant votre choix parmis une \nsérie de questions diverses et variées")))
+        onView(withId(R.id.titleNormal)).check(matches(withText(R.string.normal_game)))
+        onView(withId(R.id.textNormal)).check(matches(withText(R.string.description_normal_game_home)))
 
-        onView(withId(R.id.titleCreation)).check(matches(withText("Mode création")))
-        onView(withId(R.id.textCreation)).check(matches(withText("Créez et jouez avec vos propres catégories")))
+        onView(withId(R.id.titleCreation)).check(matches(withText(R.string.creation_game)))
+        onView(withId(R.id.textCreation)).check(matches(withText(R.string.creation_game_description)))
     }
 
     @Test

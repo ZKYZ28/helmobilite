@@ -18,9 +18,6 @@ class StatisticsPresenterTest {
     private lateinit var statisticsFragmentMock: IStatisticsFragment
 
     @Mock
-    private lateinit var mainActivityPresenterMock: MainActivityPresenter
-
-    @Mock
     private lateinit var gameManagerMock: GameManager
 
     private lateinit var statisticsPresenter: StatisticsPresenter
@@ -29,7 +26,7 @@ class StatisticsPresenterTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        statisticsPresenter = StatisticsPresenter(statisticsFragmentMock, mainActivityPresenterMock, gameManagerMock)
+        statisticsPresenter = StatisticsPresenter(statisticsFragmentMock, gameManagerMock)
     }
 
     @Test
@@ -47,7 +44,7 @@ class StatisticsPresenterTest {
     @Test
     fun `StatisticsPresenter constructor should set statistics presenter in fragment`() {
         // When
-        val statisticsPresenter = StatisticsPresenter(statisticsFragmentMock, mainActivityPresenterMock, gameManagerMock)
+        val statisticsPresenter = StatisticsPresenter(statisticsFragmentMock, gameManagerMock)
 
         // Then
         verify(statisticsFragmentMock).setStatisticsPresenter(statisticsPresenter)
