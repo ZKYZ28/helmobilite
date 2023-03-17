@@ -1,6 +1,7 @@
 package com.example.projettupreferes.fragments
 
 import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -52,13 +53,19 @@ abstract class FragmentWithImagePicker : Fragment() {
         imagePickerSource = source
         val items = arrayOf(getString(R.string.take_photo), getString(R.string.choose_from_gallery))
         val builder = AlertDialog.Builder(requireContext())
-        builder.setItems(items) { dialog, which ->
+        builder.setItems(items) { _, which ->
             when (which) {
                 0 -> {
                     cameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
                 }
                 1 -> {
-                    galleryPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                        // For Android 11 (API level 30) and lower
+                        galleryPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    } else {
+                        // For Android 12 (API level 31) and higher
+                        launchImagePicker(ImagePickerContract.REQUEST_PICK_IMAGE)
+                    }
                 }
             }
         }
